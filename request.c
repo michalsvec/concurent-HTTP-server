@@ -16,17 +16,9 @@
 
 
 
-int acceptAndLoadBuffer(int sock, struct sockaddr_in *client_addr, socklen_t *sin_size, char buffer[], int * connected) {
+int acceptAndLoadBuffer(int connected, struct sockaddr_in *client_addr, socklen_t *sin_size, char buffer[]) {
 	
-	
-    // prijmuti pripojeni
-    *connected = accept(sock, (struct sockaddr *) client_addr, sin_size);
-    if (*connected == -1) {
-        fprintf(stderr, "Problem s prijetim spojeni");
-        return -1;
-    }
-
-	int bytes_received = read(*connected, (void *) buffer, BUFSIZE);
+	int bytes_received = read(connected, (void *) buffer, BUFSIZE);
 	
     return bytes_received;
 }

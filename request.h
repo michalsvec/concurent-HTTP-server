@@ -13,4 +13,4 @@
 
 void parseRequest(int);
 
-int acceptAndLoadBuffer(int sock, struct sockaddr_in *client_addr, socklen_t *sin_size, char buffer[], int * connected);
+int acceptAndLoadBuffer(int, struct sockaddr_in *client_addr, socklen_t *sin_size, char buffer[]);

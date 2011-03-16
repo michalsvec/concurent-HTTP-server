@@ -156,11 +156,17 @@ int main (int argc, const char * argv[]) {
 
 	
 	while(1) {
+
+		// prijmuti pripojeni
+		int connected = accept(sock, (struct sockaddr *) &client_addr, &sin_size);
+		if (connected == -1) {
+			fprintf(stderr, "Problem s prijetim spojeni");
+			return -1;
+		}
+
 		// int sock, struct sockaddr_in *client_addr, socklen_t *sin_size)
-		parse_request(sock, client_addr, sin_size);
+		parse_request(connected, client_addr, sin_size);
 	}
-	
-	
 
     return 0;
 }

@@ -1,0 +1,10 @@
+GET / HTTP/1.1
+Host: localhost:5000
+Connection: keep-alive
+Cache-Control: max-age=0
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.133 Safari/534.16
+Accept: application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Accept-Encoding: gzip,deflate,sdch
+Accept-Language: cs-CZ,cs;q=0.8
+Accept-Charset: windows-1250,utf-8;q=0.7,*;q=0.3
+Cookie: kindlerMail=pan.svec; kindlerType=free; kindlerRemember=1; SQLiteManager_currentLangue=2; PHPSESSID=881d1b3f4c3957ef2130ba2599a5b580; nette-browser=0.362801486736

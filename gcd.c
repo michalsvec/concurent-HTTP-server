@@ -15,7 +15,7 @@
 
 
 
-void parse_request_gcd(int sock, struct sockaddr_in *client_addr, socklen_t *sin_size) {
+void parse_request_gcd(int connected, struct sockaddr_in *client_addr, socklen_t *sin_size) {
 	printf("GCD parsing");
 	
 	dispatch_queue_t dqueue;	// fronta zpracovavajici pozadavky serveru
@@ -30,16 +30,14 @@ void parse_request_gcd(int sock, struct sockaddr_in *client_addr, socklen_t *sin
 				   ^{
 					   //int id = ntohs(*client_addr.sin_port);
 					   char buffer[BUFSIZE];
-					   int connected;	// socket na kterem je prijmuto spojeni
 					   
 					   // prijmuti pozadavku a nacteni bufferu
-					   
-					   int bytes_recvd = acceptAndLoadBuffer(sock, client_addr, sin_size, buffer, &connected);
+					   int bytes_recvd = acceptAndLoadBuffer(connected, client_addr, sin_size, buffer);
 					   
 					   // zpracovani
 					   
 					   // odeslani odpovedi
-					   
+					   printf("buffer: %s", buffer);
 //					   int loadBuffer(int sock, struct sockaddr_in *client_addr, socklen_t *sin_size, &connected);
 //					   parseRequest();
 					   
@@ -47,8 +45,6 @@ void parse_request_gcd(int sock, struct sockaddr_in *client_addr, socklen_t *sin
 					   close(connected);
 				   }
 			   );
-	
-	
 	
 	return;
 }
