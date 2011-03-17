@@ -14,3 +14,5 @@
 void parseRequest(int);
 
 int acceptAndLoadBuffer(int, struct sockaddr_in *client_addr, socklen_t *sin_size, char buffer[]);
+
+void parseHttpRequest(int, char []);

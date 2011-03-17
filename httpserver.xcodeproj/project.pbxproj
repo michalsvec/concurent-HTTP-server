@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		45DC085F1312BD5A00515ED9 /* gcd.c in Sources */ = {isa = PBXBuildFile; fileRef = 45DC085E1312BD5A00515ED9 /* gcd.c */; };
-		45DC08711312BE0700515ED9 /* pthreads.c in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08701312BE0700515ED9 /* pthreads.c */; };
-		45DC08891312BEBE00515ED9 /* openmpi.c in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08881312BEBE00515ED9 /* openmpi.c */; };
-		45DC08A51312C1EB00515ED9 /* fork.c in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08A41312C1EB00515ED9 /* fork.c */; };
-		45E853CD13262A3B00D77C4A /* request.c in Sources */ = {isa = PBXBuildFile; fileRef = 45E853CC13262A3B00D77C4A /* request.c */; };
-		8DD76FAC0486AB0100D96B5E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.c */; settings = {ATTRIBUTES = (); }; };
+		45DC085F1312BD5A00515ED9 /* gcd.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC085E1312BD5A00515ED9 /* gcd.cc */; };
+		45DC08711312BE0700515ED9 /* pthreads.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08701312BE0700515ED9 /* pthreads.cc */; };
+		45DC08891312BEBE00515ED9 /* openmpi.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08881312BEBE00515ED9 /* openmpi.cc */; };
+		45DC08A51312C1EB00515ED9 /* fork.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08A41312C1EB00515ED9 /* fork.cc */; };
+		45E853CD13262A3B00D77C4A /* request.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45E853CC13262A3B00D77C4A /* request.cc */; };
+		8DD76FAC0486AB0100D96B5E /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cc */; settings = {ATTRIBUTES = (); }; };
 		8DD76FB00486AB0100D96B5E /* httpserver.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6A0FF2C0290799A04C91782 /* httpserver.1 */; };
 /* End PBXBuildFile section */
 
@@ -30,17 +30,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		08FB7796FE84155DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		45DC085D1312BD5A00515ED9 /* gcd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gcd.h; sourceTree = "<group>"; };
-		45DC085E1312BD5A00515ED9 /* gcd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gcd.c; sourceTree = "<group>"; };
-		45DC086F1312BE0700515ED9 /* pthreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pthreads.h; sourceTree = "<group>"; };
-		45DC08701312BE0700515ED9 /* pthreads.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pthreads.c; sourceTree = "<group>"; };
-		45DC08871312BEBE00515ED9 /* openmpi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = openmpi.h; sourceTree = "<group>"; };
-		45DC08881312BEBE00515ED9 /* openmpi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = openmpi.c; sourceTree = "<group>"; };
-		45DC08A31312C1EB00515ED9 /* fork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fork.h; sourceTree = "<group>"; };
-		45DC08A41312C1EB00515ED9 /* fork.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fork.c; sourceTree = "<group>"; };
-		45E853CB13262A3B00D77C4A /* request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = request.h; sourceTree = "<group>"; };
-		45E853CC13262A3B00D77C4A /* request.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = request.c; sourceTree = "<group>"; };
+		08FB7796FE84155DC02AAC07 /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = main.cc; sourceTree = "<group>"; };
+		45DC085D1312BD5A00515ED9 /* gcd.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = gcd.h; sourceTree = "<group>"; };
+		45DC085E1312BD5A00515ED9 /* gcd.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = gcd.cc; sourceTree = "<group>"; };
+		45DC086F1312BE0700515ED9 /* pthreads.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = pthreads.h; sourceTree = "<group>"; };
+		45DC08701312BE0700515ED9 /* pthreads.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = pthreads.cc; sourceTree = "<group>"; };
+		45DC08871312BEBE00515ED9 /* openmpi.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = openmpi.h; sourceTree = "<group>"; };
+		45DC08881312BEBE00515ED9 /* openmpi.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = openmpi.cc; sourceTree = "<group>"; };
+		45DC08A31312C1EB00515ED9 /* fork.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = fork.h; sourceTree = "<group>"; };
+		45DC08A41312C1EB00515ED9 /* fork.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = fork.cc; sourceTree = "<group>"; };
+		45E853CB13262A3B00D77C4A /* request.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = request.h; sourceTree = "<group>"; };
+		45E853CC13262A3B00D77C4A /* request.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = request.cc; sourceTree = "<group>"; };
 		8DD76FB20486AB0100D96B5E /* httpserver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = httpserver; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6A0FF2C0290799A04C91782 /* httpserver.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = httpserver.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -70,9 +70,9 @@
 			isa = PBXGroup;
 			children = (
 				45DC08721312BE2D00515ED9 /* implementations */,
-				08FB7796FE84155DC02AAC07 /* main.c */,
+				08FB7796FE84155DC02AAC07 /* main.cc */,
 				45E853CB13262A3B00D77C4A /* request.h */,
-				45E853CC13262A3B00D77C4A /* request.c */,
+				45E853CC13262A3B00D77C4A /* request.cc */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -89,13 +89,13 @@
 			isa = PBXGroup;
 			children = (
 				45DC085D1312BD5A00515ED9 /* gcd.h */,
-				45DC085E1312BD5A00515ED9 /* gcd.c */,
+				45DC085E1312BD5A00515ED9 /* gcd.cc */,
 				45DC086F1312BE0700515ED9 /* pthreads.h */,
-				45DC08701312BE0700515ED9 /* pthreads.c */,
+				45DC08701312BE0700515ED9 /* pthreads.cc */,
 				45DC08871312BEBE00515ED9 /* openmpi.h */,
-				45DC08881312BEBE00515ED9 /* openmpi.c */,
+				45DC08881312BEBE00515ED9 /* openmpi.cc */,
 				45DC08A31312C1EB00515ED9 /* fork.h */,
-				45DC08A41312C1EB00515ED9 /* fork.c */,
+				45DC08A41312C1EB00515ED9 /* fork.cc */,
 			);
 			name = implementations;
 			sourceTree = "<group>";
@@ -136,7 +136,11 @@
 			isa = PBXProject;
 			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "httpserver" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* httpserver */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -151,12 +155,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DD76FAC0486AB0100D96B5E /* main.c in Sources */,
-				45DC085F1312BD5A00515ED9 /* gcd.c in Sources */,
-				45DC08711312BE0700515ED9 /* pthreads.c in Sources */,
-				45DC08891312BEBE00515ED9 /* openmpi.c in Sources */,
-				45DC08A51312C1EB00515ED9 /* fork.c in Sources */,
-				45E853CD13262A3B00D77C4A /* request.c in Sources */,
+				8DD76FAC0486AB0100D96B5E /* main.cc in Sources */,
+				45DC085F1312BD5A00515ED9 /* gcd.cc in Sources */,
+				45DC08711312BE0700515ED9 /* pthreads.cc in Sources */,
+				45DC08891312BEBE00515ED9 /* openmpi.cc in Sources */,
+				45DC08A51312C1EB00515ED9 /* fork.cc in Sources */,
+				45E853CD13262A3B00D77C4A /* request.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

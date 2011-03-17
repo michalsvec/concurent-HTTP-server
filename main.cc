@@ -91,18 +91,18 @@ int main (int argc, const char * argv[]) {
 
 	
 	// ukazatel na funkci zpracovavajici pozadavek
-	void (*parse_request)();
+	void (*parse_request)(int, struct sockaddr_in *client_addr, socklen_t *sin_size);
 	
 	// naplneni ukazatele
 	switch (mode) {
 		case OPENMPI:
-			parse_request = parse_request_openmpi;
+//			parse_request = parse_request_openmpi;
 			break;
 		case PTHREADS:
-			parse_request = parse_request_pthreads;
+//			parse_request = parse_request_pthreads;
 			break;
 		case FORK:
-			parse_request = parse_request_fork;
+//			parse_request = parse_request_fork;
 			break;
 		case GCD:
 		default:
@@ -165,7 +165,8 @@ int main (int argc, const char * argv[]) {
 		}
 
 		// int sock, struct sockaddr_in *client_addr, socklen_t *sin_size)
-		parse_request(connected, client_addr, sin_size);
+		parse_request(connected, &client_addr, &sin_size);
+
 	}
 
     return 0;

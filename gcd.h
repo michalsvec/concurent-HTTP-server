@@ -8,6 +8,8 @@
  */
 
 #include <dispatch/dispatch.h>
+#include <netinet/in.h>
+
 
 // zpracovani pozadavku pomoci GCD 
-void parse_request_gcd();
+void parse_request_gcd(int connected, struct sockaddr_in *client_addr, socklen_t *sin_size);
