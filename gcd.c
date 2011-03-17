@@ -34,14 +34,14 @@ void parse_request_gcd(int connected, struct sockaddr_in *client_addr, socklen_t
 					   // prijmuti pozadavku a nacteni bufferu
 					   int bytes_recvd = acceptAndLoadBuffer(connected, client_addr, sin_size, buffer);
 					   
+					   if (bytes_recvd < 0)
+						   fprintf(stderr,("recv() error\n"));
+					   else if (bytes_recvd == 0)
+						   fprintf(stderr,"Client disconnected unexpectedly.\n");
+
 					   // zpracovani
+					   parseHttpRequest(connected, buffer);
 					   
-					   // odeslani odpovedi
-					   printf("buffer: %s", buffer);
-//					   int loadBuffer(int sock, struct sockaddr_in *client_addr, socklen_t *sin_size, &connected);
-//					   parseRequest();
-					   
-//					   bytes_received = write(connected, (void *) buffer, BUFSIZE);
 					   close(connected);
 				   }
 			   );
