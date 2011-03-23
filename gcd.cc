@@ -16,7 +16,7 @@
 
 
 void parse_request_gcd(int connected, struct sockaddr_in *client_addr, socklen_t *sin_size) {
-	printf("GCD parsing");
+	printf("GCD parsing\n");
 	
 	dispatch_queue_t dqueue;	// fronta zpracovavajici pozadavky serveru
 	
@@ -28,19 +28,8 @@ void parse_request_gcd(int connected, struct sockaddr_in *client_addr, socklen_t
 	dispatch_async(
 				   dqueue,
 				   ^{
-					   //int id = ntohs(*client_addr.sin_port);
-					   char buffer[BUFSIZE];
-					   
-					   // prijmuti pozadavku a nacteni bufferu
-					   int bytes_recvd = acceptAndLoadBuffer(connected, client_addr, sin_size, buffer);
-					   
-					   if (bytes_recvd < 0)
-						   fprintf(stderr,("recv() error\n"));
-					   else if (bytes_recvd == 0)
-						   fprintf(stderr,"Client disconnected unexpectedly.\n");
-
 					   // zpracovani
-					   parseHttpRequest(connected, buffer);
+					   processHttpRequest(connected, client_addr, sin_size);
 					   
 					   close(connected);
 				   }
