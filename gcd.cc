@@ -15,7 +15,7 @@
 
 
 
-void parse_request_gcd(int connected, struct sockaddr_in *client_addr, socklen_t *sin_size) {
+void parse_request_gcd(reqInfo request) {
 	printf("GCD parsing\n");
 	
 	dispatch_queue_t dqueue;	// fronta zpracovavajici pozadavky serveru
@@ -26,14 +26,10 @@ void parse_request_gcd(int connected, struct sockaddr_in *client_addr, socklen_t
 
 	
 	dispatch_async(
-				   dqueue,
-				   ^{
-					   // zpracovani
-					   processHttpRequest(connected, client_addr, sin_size);
-					   
-					   close(connected);
+				   dqueue, ^{ 
+					   processHttpRequest((void *) &request);
 				   }
 			   );
-	
+
 	return;
 }

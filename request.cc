@@ -102,7 +102,7 @@ void sendResponse(int connected, std::string response) {
  * Parsovani HTTP pozadavku a navraceni odpovedi
  * @return std::string dokument, ktery se ma nacist
  
- GET /soubor.html HTTP/1.1
+ GET /file.html HTTP/1.1
  Host: localhost:5000
  Connection: keep-alive
  Cache-Control: max-age=0
@@ -119,7 +119,7 @@ void parseHttpRequest(std::string request, std::string *file) {
 	if(*file == "")
 		file->assign("index.html");
 	
-	std::cout << "soubor:" << *file << std::endl;
+	std::cout << "file: " << *file << std::endl;
 }
 
 
@@ -127,20 +127,20 @@ void parseHttpRequest(std::string request, std::string *file) {
 
 /**
  * Nacteni souboru ze slozky webserveru 
- * TODO: definice vlastni slozky pro webserver
+ * @param name of a file
+ * @param buffer for content
  */
 bool loadFile(std::string fileName, std::string *content) {
 	
 	std::string line;
-	
 	std::string filePath = ROOT_DIR+fileName;
 	
 	std::cout << "path:" << filePath << std::endl;
 	
 	std::ifstream file (filePath.c_str());
 	
-	
-//	char path1[1000];  // This is a buffer for the text
+//  cwd detecting	
+//	char path1[1000];
 //	getcwd(path1, 1000);
 	
 	
@@ -148,12 +148,9 @@ bool loadFile(std::string fileName, std::string *content) {
 		while(std::getline(file,line))
 			*content += line;
 		
-//		std::cout << "obsah: " << content << std::endl;
-		
 		return true;
-	} else {
+	} else 
 		return false;
-	}
 }
 
 
@@ -161,35 +158,41 @@ bool loadFile(std::string fileName, std::string *content) {
 /**
  * Celkove spolecne zpracovani HTTP pozadavku pro vsechny metody
  */
-void processHttpRequest(int connected, struct sockaddr_in *client_addr, socklen_t *sin_size) {
+void * processHttpRequest(void * req) {
+	
+	reqInfo * request = (reqInfo *) req;
+
 
 	char buffer[BUFSIZE];
-	
+
 	// prijmuti pozadavku a nacteni bufferu
-	int bytes_recvd = acceptAndLoadBuffer(connected, client_addr, sin_size, buffer);
+	int bytes_recvd = acceptAndLoadBuffer(request->connected, request->client_addr, request->sin_size, buffer);
 	
 	if (bytes_recvd < 0) {
 		fprintf(stderr,("recv() error\n"));
-		return;
+		return 0;
 	} else if (bytes_recvd == 0) {
 		fprintf(stderr,"Client disconnected unexpectedly.\n");
-		return;
+		return 0;
 	}
 
 	// String z bufferu
-	std::string request ((char *)buffer);
+	std::string requestBuffer ((char *)buffer);
 	// String - dokument, ktery nacist ze slozky webserveru
 	std::string file;
-	// zjisteni
-	parseHttpRequest(request, &file);
+	// vyparsovani souboru
+	parseHttpRequest(requestBuffer, &file);
 
 	// nacteni celeho souboru
-	//bool loadFile(std::string filePath, std::string content) {
 	std::string fileContent;
 	bool status = loadFile(file, &fileContent);
 	
 	std::string response = buildResponse(status, fileContent);
-	sendResponse(connected, response);
+	sendResponse(request->connected, response);
+	
+	close(request->connected);
+	
+	return 0;
 }
 
 

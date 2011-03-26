@@ -8,10 +8,10 @@
  */
 
 #include "openmpi.h"
-
+#include "request.h"
 #include <stdio.h>
 
-void parse_request_openmpi() {
+void parse_request_openmpi(reqInfo) {
 	
 	printf("parsuju open mpi");
 	return;

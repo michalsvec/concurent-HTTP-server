@@ -7,4 +7,17 @@
  *
  */
 
-void parse_request_fork();
+
+#ifndef __FORK_H__
+#define __FORK_H__
+
+
+#include <dispatch/dispatch.h>
+#include <netinet/in.h>
+
+#include "request.h"
+
+void parse_request_fork(reqInfo);
+
+
+#endif

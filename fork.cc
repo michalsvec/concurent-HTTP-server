@@ -8,11 +8,21 @@
  */
 
 #include "fork.h"
+#include "request.h"
 
+#include <unistd.h>
 #include <stdio.h>
+#include <errno.h>
+#include <signal.h>
 
-void parse_request_fork() {
+void parse_request_fork(reqInfo request) {
+	printf("Fork\n");
 	
-	printf("parsuju fork");
+	int child=fork();
+
+	// zpracovani
+	if(child == 0) {
+		processHttpRequest((void *) &request);
+	}
 	return;
 }

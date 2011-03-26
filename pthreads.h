@@ -7,4 +7,11 @@
  *
  */
 
-void parse_request_pthreads();
+#ifndef __PTHREADS_H__
+#define __PTHREADS_H__
+
+#include "request.h"
+
+void parse_request_pthreads(reqInfo);
+
+#endif

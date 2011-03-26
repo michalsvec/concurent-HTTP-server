@@ -7,9 +7,16 @@
  *
  */
 
+#ifndef __GCD_H__
+#define __GCD_H__
+
+
 #include <dispatch/dispatch.h>
 #include <netinet/in.h>
-
+#include "request.h"
 
 // zpracovani pozadavku pomoci GCD 
-void parse_request_gcd(int connected, struct sockaddr_in *client_addr, socklen_t *sin_size);
+void parse_request_gcd(reqInfo);
+
+
+#endif
