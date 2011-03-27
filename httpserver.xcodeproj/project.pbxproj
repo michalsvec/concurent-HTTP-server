@@ -33,6 +33,7 @@
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = main.cc; sourceTree = "<group>"; };
 		4580A044133E7C2B00EEABB8 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
+		45B090EC133F46120085B21B /* test.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = test.rb; sourceTree = "<group>"; };
 		45DC085D1312BD5A00515ED9 /* gcd.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = gcd.h; sourceTree = "<group>"; };
 		45DC085E1312BD5A00515ED9 /* gcd.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = gcd.cc; sourceTree = "<group>"; };
 		45DC086F1312BE0700515ED9 /* pthreads.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = pthreads.h; sourceTree = "<group>"; };
@@ -77,6 +78,7 @@
 				08FB7796FE84155DC02AAC07 /* main.cc */,
 				45E853CB13262A3B00D77C4A /* request.h */,
 				45E853CC13262A3B00D77C4A /* request.cc */,
+				45B090EC133F46120085B21B /* test.rb */,
 			);
 			name = Source;
 			sourceTree = "<group>";

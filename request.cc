@@ -189,6 +189,8 @@ void * processHttpRequest(void * req) {
 	
 	std::string response = buildResponse(status, fileContent);
 	sendResponse(request->connected, response);
+
+	printf("-----------------\n\n");
 	
 	close(request->connected);
 	

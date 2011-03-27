@@ -22,8 +22,6 @@ void parse_request_gcd(reqInfo request) {
 	
 	// ziskani identifikatoru gloablni konkurentni fronty stredni priority
 	dqueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-
-
 	
 	dispatch_async(
 				   dqueue, ^{ 

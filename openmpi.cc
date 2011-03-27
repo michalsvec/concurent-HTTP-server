@@ -12,7 +12,10 @@
 #include <stdio.h>
 
 void parse_request_openmpi(reqInfo) {
+	printf("OpenMPI");
+
 	
-	printf("parsuju open mpi");
+	
+	
 	return;
 }
