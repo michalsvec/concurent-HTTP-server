@@ -19,10 +19,10 @@ void parse_request_pthreads(reqInfo request) {
 	
 	pthread_t thread;
 
-	int result = pthread_create(&thread, NULL, processHttpRequest, NULL);
+	int result = pthread_create(&thread, NULL, processHttpRequest, &request);
 	
-	if(result == 0)
-		fprintf(stderr, "Thread creating error.");
+	if(result != 0)
+		fprintf(stderr, "Thread creating error. Error number: %i\n", result);
 	
 	return;
 }

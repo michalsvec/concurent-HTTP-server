@@ -22,6 +22,9 @@
 #include "request.h"
 
 
+using namespace std;
+
+
 /**
  * Prijeti spojeni a naplneni vstupniho bufferu
  *
@@ -38,7 +41,7 @@ int acceptAndLoadBuffer(int connected, struct sockaddr_in *client_addr, socklen_
 }
 
 
-std::string buildResponse(int status, std::string content) {
+string buildResponse(int status, string content) {
 /*
 	// stara verze
 	sprintf(resp,"%s\n%s\n%s\n%s\n%s\n\n%s\n", 
@@ -51,14 +54,14 @@ std::string buildResponse(int status, std::string content) {
 */
 
 	// delka souboru
-	std::ostringstream str;
+	ostringstream str;
 	str << content.length();
 	
 	// cas
 	time_t rawtime;
 	struct tm * timeinfo;
 	timeinfo = localtime ( &rawtime );
-	std::string response;
+	string response;
 	
 	// typ odpovedi
 	if(status)
@@ -90,8 +93,8 @@ std::string buildResponse(int status, std::string content) {
 
 
 
-void sendResponse(int connected, std::string response) {
-	std::cout << "odeslani:" << response << std:: endl;
+void sendResponse(int connected, string response) {
+	cout << "odeslani:" << response <<  endl;
 	int written = write(connected, (void *) response.c_str(), response.length());
 	printf("zapsano: %d\n", written);
 }
@@ -100,7 +103,7 @@ void sendResponse(int connected, std::string response) {
 
 /**
  * Parsovani HTTP pozadavku a navraceni odpovedi
- * @return std::string dokument, ktery se ma nacist
+ * @return string dokument, ktery se ma nacist
  
  GET /file.html HTTP/1.1
  Host: localhost:5000
@@ -113,13 +116,13 @@ void sendResponse(int connected, std::string response) {
  Accept-Charset: windows-1250,utf-8;q=0.7,*;q=0.3
  Cookie: ...nejake cookie data...
  */
-void parseHttpRequest(std::string request, std::string *file) {
+void parseHttpRequest(string request, string *file) {
 	file->assign(request.substr(5, request.find("HTTP")-6));
 	
 	if(*file == "")
 		file->assign("index.html");
 	
-	std::cout << "file: " << *file << std::endl;
+	cout << "file: " << *file << endl;
 }
 
 
@@ -130,14 +133,14 @@ void parseHttpRequest(std::string request, std::string *file) {
  * @param name of a file
  * @param buffer for content
  */
-bool loadFile(std::string fileName, std::string *content) {
+bool loadFile(string fileName, string *content) {
 	
-	std::string line;
-	std::string filePath = ROOT_DIR+fileName;
+	string line;
+	string filePath = ROOT_DIR+fileName;
 	
-	std::cout << "path:" << filePath << std::endl;
+	cout << "path:" << filePath << endl;
 	
-	std::ifstream file (filePath.c_str());
+	ifstream file (filePath.c_str());
 	
 //  cwd detecting	
 //	char path1[1000];
@@ -145,7 +148,7 @@ bool loadFile(std::string fileName, std::string *content) {
 	
 	
 	if(file) {
-		while(std::getline(file,line))
+		while(getline(file,line))
 			*content += line;
 		
 		return true;
@@ -159,7 +162,7 @@ bool loadFile(std::string fileName, std::string *content) {
  * Celkove spolecne zpracovani HTTP pozadavku pro vsechny metody
  */
 void * processHttpRequest(void * req) {
-	
+	cout << "processHttpReq()\n";
 	reqInfo * request = (reqInfo *) req;
 
 
@@ -177,17 +180,17 @@ void * processHttpRequest(void * req) {
 	}
 
 	// String z bufferu
-	std::string requestBuffer ((char *)buffer);
+	string requestBuffer ((char *)buffer);
 	// String - dokument, ktery nacist ze slozky webserveru
-	std::string file;
+	string file;
 	// vyparsovani souboru
 	parseHttpRequest(requestBuffer, &file);
 
 	// nacteni celeho souboru
-	std::string fileContent;
+	string fileContent;
 	bool status = loadFile(file, &fileContent);
 	
-	std::string response = buildResponse(status, fileContent);
+	string response = buildResponse(status, fileContent);
 	sendResponse(request->connected, response);
 
 	printf("-----------------\n\n");

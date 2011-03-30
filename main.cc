@@ -59,25 +59,34 @@ void signal_callback_handler(int signum)
 
 
 
-/* parsovani vstupnich argumentu z prikazove radky */
+/**
+ * command line arguments parsing
+ *
+ * @return int result 
+ *		0 - parsing okay
+ *		1 - print help
+ *		2 - invalid mode
+ */
 int parseArguments(int argc, const char * argv[], ModeType *mode) {
 	for (int i=0; i < argc; i++) {
 		if(strcmp(argv[i], "-h") == 0) {
 			print_help();
-			return 0;
+			return 1;
 		}
 		else if(strcmp(argv[i], "-m") == 0) {
 			if(strcmp(argv[i+1], "PTHREADS") == 0)
 				*mode = PTHREADS;
-			else if(strcmp(argv[i+1], "OPENMPI"))
+			else if(strcmp(argv[i+1], "OPENMPI") == 0)
 				*mode = OPENMPI;	
-			else if(strcmp(argv[i+1], "FORK"))
+			else if(strcmp(argv[i+1], "FORK") == 0)
 				*mode = FORK;	
-			else 
+			else if(strcmp(argv[i+1], "GCD") == 0)
 				*mode = GCD;
+			else 
+				return 2;
 		}
 	}
-	return 1;
+	return 0;
 }
 
 
@@ -86,8 +95,11 @@ int main (int argc, const char * argv[]) {
 
 	ModeType mode = GCD;
 	
-	if(parseArguments(argc, argv, &mode) == 0)
-		return 0;
+	int argResult = parseArguments(argc, argv, &mode);
+	if(argResult > 1) {
+		fprintf(stderr, "Invalid parallel mode!");
+		return EXIT_FAILURE;
+	}
 
 	
 	// ukazatel na funkci zpracovavajici pozadavek
