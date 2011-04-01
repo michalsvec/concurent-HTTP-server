@@ -16,7 +16,7 @@
 
 
 void parse_request_gcd(reqInfo request) {
-	printf("GCD parsing\n");
+	//printf("GCD parsing\n");
 	
 	dispatch_queue_t dqueue;	// fronta zpracovavajici pozadavky serveru
 	

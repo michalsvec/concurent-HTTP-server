@@ -11,6 +11,8 @@
 #include "request.h"
 #include <stdio.h>
 
+
+//TODO: implementovat!!!!1
 void parse_request_openmpi(reqInfo) {
 	printf("OpenMPI");
 

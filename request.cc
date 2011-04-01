@@ -24,6 +24,8 @@
 
 using namespace std;
 
+int reqCounter = 0;
+
 
 /**
  * Prijeti spojeni a naplneni vstupniho bufferu
@@ -35,9 +37,19 @@ using namespace std;
  *
  * @return int pocet nactenych bytu
  */
-int acceptAndLoadBuffer(int connected, struct sockaddr_in *client_addr, socklen_t *sin_size, char buffer[]) {
-	int bytes_received = read(connected, (void *) buffer, BUFSIZE);
-    return bytes_received;
+int acceptAndLoadBuffer(int connected, struct sockaddr_in *client_addr, socklen_t *sin_size, string *buffer) {
+	int result = 1;
+	char tmp[BUFSIZE];
+
+	while(result > 0) {
+		result = read(connected, (void *) tmp, BUFSIZE);
+		*buffer += tmp;
+		
+		if(result < BUFSIZE)
+			break;
+	}
+
+	return result;
 }
 
 
@@ -94,9 +106,16 @@ string buildResponse(int status, string content) {
 
 
 void sendResponse(int connected, string response) {
-	cout << "odeslani:" << response <<  endl;
+	//cout << "odeslani:" << response <<  endl;
 	int written = write(connected, (void *) response.c_str(), response.length());
-	printf("zapsano: %d\n", written);
+	
+	if(written < 0) {
+		cout << "chyba write: " << response.length() << endl;
+	}
+	else {
+
+	//	printf("%i - zapsano: %d\n", reqCounter, written);
+	}
 }
 
 
@@ -122,7 +141,7 @@ void parseHttpRequest(string request, string *file) {
 	if(*file == "")
 		file->assign("index.html");
 	
-	cout << "file: " << *file << endl;
+	//cout << "file: " << *file << endl;
 }
 
 
@@ -138,7 +157,7 @@ bool loadFile(string fileName, string *content) {
 	string line;
 	string filePath = ROOT_DIR+fileName;
 	
-	cout << "path:" << filePath << endl;
+//	cout << "path:" << filePath << endl;
 	
 	ifstream file (filePath.c_str());
 	
@@ -162,25 +181,33 @@ bool loadFile(string fileName, string *content) {
  * Celkove spolecne zpracovani HTTP pozadavku pro vsechny metody
  */
 void * processHttpRequest(void * req) {
-	cout << "processHttpReq()\n";
+	int id = reqCounter++;
+//	cout << "processHttpReq()\n";
 	reqInfo * request = (reqInfo *) req;
 
 
-	char buffer[BUFSIZE];
-
+	string buffer;
+	
 	// prijmuti pozadavku a nacteni bufferu
-	int bytes_recvd = acceptAndLoadBuffer(request->connected, request->client_addr, request->sin_size, buffer);
+	int bytes_recvd = acceptAndLoadBuffer(request->connected, request->client_addr, request->sin_size, &buffer);
 	
 	if (bytes_recvd < 0) {
 		fprintf(stderr,("recv() error\n"));
 		return 0;
-	} else if (bytes_recvd == 0) {
-		fprintf(stderr,"Client disconnected unexpectedly.\n");
+	}
+	//else if (bytes_recvd == 0) {
+	//	cerr << "Client disconnected unexpectedly:" << buffer << "|bufferend" << endl << endl; 
+	//	return 0;
+	//}
+
+	if(buffer.length() < 1) {
+		cerr << "Empty buffer - terminating" << endl;
 		return 0;
 	}
 
+	
 	// String z bufferu
-	string requestBuffer ((char *)buffer);
+	string requestBuffer = buffer;
 	// String - dokument, ktery nacist ze slozky webserveru
 	string file;
 	// vyparsovani souboru
@@ -190,13 +217,16 @@ void * processHttpRequest(void * req) {
 	string fileContent;
 	bool status = loadFile(file, &fileContent);
 	
+	if(fileContent.length() < 1) {
+		cerr << "unable to load file" << endl;
+		return 0;
+	}
+		
 	string response = buildResponse(status, fileContent);
 	sendResponse(request->connected, response);
 
-	printf("-----------------\n\n");
-	
 	close(request->connected);
-	
+//	cout << "request: " << id << " ends" << endl;
 	return 0;
 }
 

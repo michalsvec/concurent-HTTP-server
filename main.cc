@@ -173,7 +173,7 @@ int main (int argc, const char * argv[]) {
 		int connected = accept(sock, (struct sockaddr *) &client_addr, &sin_size);
 		if (connected == -1) {
 			fprintf(stderr, "Problem s prijetim spojeni");
-			return -1;
+			return EXIT_FAILURE;
 		}
 
 		reqInfo request;
@@ -181,7 +181,7 @@ int main (int argc, const char * argv[]) {
 		request.client_addr = &client_addr;
 		request.sin_size = &sin_size;
 		
-		// int sock, struct sockaddr_in *client_addr, socklen_t *sin_size)
+
 		parse_request(request);
 
 	}

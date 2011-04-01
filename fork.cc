@@ -16,13 +16,15 @@
 #include <signal.h>
 
 void parse_request_fork(reqInfo request) {
-	printf("Fork\n");
+	//printf("Fork'd\n");
 	
 	int child=fork();
 
-	// zpracovani
+	// zpracovani v nove procesu
 	if(child == 0) {
 		processHttpRequest((void *) &request);
 	}
+
+
 	return;
 }

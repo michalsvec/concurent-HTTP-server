@@ -32,7 +32,7 @@ typedef struct requestInfo {
 
 void parseRequest(int);
 
-int acceptAndLoadBuffer(int, struct sockaddr_in *client_addr, socklen_t *sin_size, char buffer[]);
+int acceptAndLoadBuffer(int, struct sockaddr_in *client_addr, socklen_t *sin_size, std::string *);
 
 void * processHttpRequest(void *);
 
