@@ -125,25 +125,24 @@ int main (int argc, const char * argv[]) {
 	
 	
 	// nastartovani serveru
-	int trueflag = 1;
 	struct sockaddr_in server_addr, client_addr;
 	socklen_t sin_size;
 	
 	// vytvoreni socketu
-	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+	if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1) {
 		perror("Socket");
 		exit(1);
 	}
 	
 	
-	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &trueflag, sizeof(int)) == -1) {
-		perror("Setsockopt");
-		exit(1);
-	}
+//	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &trueflag, sizeof(int)) == -1) {
+//		perror("Setsockopt");
+//		exit(1);
+//	}
 	
-	server_addr.sin_family = AF_INET;    
-	server_addr.sin_port = htons(PORT_NR);
-	server_addr.sin_addr.s_addr = INADDR_ANY;
+	server_addr.sin_family = AF_INET;    // protocol family
+	server_addr.sin_port = htons(PORT_NR); // port number
+	server_addr.sin_addr.s_addr = INADDR_ANY;	// connection from everywhere
 	bzero(&(server_addr.sin_zero), 8);
 	
 	// nabindovani socketu
@@ -152,8 +151,11 @@ int main (int argc, const char * argv[]) {
 		exit(1);
 	}
 	
-	// zacatek odposlechu
-	if (listen(sock, 5) == -1) {
+	// listening start
+	// 2nd parameter is backlog
+	// If a connection request arrives with the queue full, the client may receive an error with an indication of ECONNREFUSED.
+	// 128 is MAX
+	if (listen(sock, 128) == -1) {
 		perror("Listen");
 		exit(1);
 	}

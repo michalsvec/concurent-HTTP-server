@@ -24,8 +24,6 @@
 
 using namespace std;
 
-int reqCounter = 0;
-
 
 /**
  * Prijeti spojeni a naplneni vstupniho bufferu
@@ -181,28 +179,23 @@ bool loadFile(string fileName, string *content) {
  * Celkove spolecne zpracovani HTTP pozadavku pro vsechny metody
  */
 void * processHttpRequest(void * req) {
-	int id = reqCounter++;
 //	cout << "processHttpReq()\n";
+
 	reqInfo * request = (reqInfo *) req;
-
-
 	string buffer;
+
 	
 	// prijmuti pozadavku a nacteni bufferu
 	int bytes_recvd = acceptAndLoadBuffer(request->connected, request->client_addr, request->sin_size, &buffer);
 	
 	if (bytes_recvd < 0) {
 		fprintf(stderr,("recv() error\n"));
-		return 0;
+		return NULL;
 	}
-	//else if (bytes_recvd == 0) {
-	//	cerr << "Client disconnected unexpectedly:" << buffer << "|bufferend" << endl << endl; 
-	//	return 0;
-	//}
 
 	if(buffer.length() < 1) {
 		cerr << "Empty buffer - terminating" << endl;
-		return 0;
+		return NULL;
 	}
 
 	
@@ -219,15 +212,14 @@ void * processHttpRequest(void * req) {
 	
 	if(fileContent.length() < 1) {
 		cerr << "unable to load file" << endl;
-		return 0;
+		return NULL;
 	}
 		
 	string response = buildResponse(status, fileContent);
 	sendResponse(request->connected, response);
 
 	close(request->connected);
-//	cout << "request: " << id << " ends" << endl;
-	return 0;
+	return NULL;
 }
 
 

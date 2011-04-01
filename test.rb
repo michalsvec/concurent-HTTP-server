@@ -35,13 +35,7 @@ class Worker
 		end
 		
 		# No exception
-		if(Net::HTTPSuccess || Net::HTTPRedirection)
-			if(res.body.length > 0)
-				puts index.to_s+" Successfull"
-			else
-				puts index.to_s+" successfull"
-			end
-		else
+		if(!Net::HTTPSuccess && !Net::HTTPRedirection)
 			puts index.to_s+" UNsuccessfull"
 		end
 	end
