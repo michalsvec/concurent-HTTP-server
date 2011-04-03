@@ -28,7 +28,7 @@ using namespace std;
 /**
  * Prijeti spojeni a naplneni vstupniho bufferu
  *
- * @param int cislo socketu
+ * @param int socket number
  * @param struct sockaddr_in
  * @param sin_size 
  * @param char[] buffer
@@ -51,51 +51,50 @@ int acceptAndLoadBuffer(int connected, struct sockaddr_in *client_addr, socklen_
 }
 
 
-string buildResponse(int status, string content) {
-/*
-	// stara verze
-	sprintf(resp,"%s\n%s\n%s\n%s\n%s\n\n%s\n", 
-			"HTTP/1.0 200 OK",
-			"Date: Sat, 15 Jan 2000 14:37:12 GMT",
-			"Server: Apache/2.2.3",
-			"Content-Type: text/html",
-			"Content-Length: 130",
-			"<html><body>ahoj</body></html>");
-*/
 
-	// delka souboru
+/**
+ * HTTP response builder
+ *
+ * @param status true if file was loaded or false on 404
+ * @param content file content
+ */
+string buildResponse(bool status, string content) {
+
+	// delka souboru je int - pro prekonvertovani na string pouzit ostringstream
 	ostringstream str;
 	str << content.length();
 	
-	// cas
+	// response time
 	time_t rawtime;
 	struct tm * timeinfo;
+	time ( &rawtime );
 	timeinfo = localtime ( &rawtime );
-	string response;
-	
-	// typ odpovedi
-	if(status)
-		response = "HTTP/1.0 200 OK\n";
-	else
-		response = "HTTP/1.0 404 Not Found\n";
-	
-	// datum a cas
-	// HTTP protokol umoz uje vlozit asctime format
-	// viz http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html 3.3.1 Full Date
-//	response += "Date: ";
-//	response += asctime (timeinfo);
-	//response += "\n";
-	
-	// typ obsahu
-	response += "Content-Type: text/html\n";
-	response += "Host: google.com\n";
 
-	// delka obsahu
+	string response = "HTTP/1.0 200 OK\n";
+	
+	// 404, in case of missing file
+	if(!status) {
+		response = "HTTP/1.0 404 Not Found\n";
+		return response;
+	}
+	
+	// HTTP protokol umoznuje vlozit asctime format
+	// viz http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html 3.3.1 Full Date
+	response += "Date: ";
+	response += asctime (timeinfo);
+	
+	// server info and content type
+	// TODO: content type detection
+	response += "Content-Type: text/html\n";
+	response += "Server: GCDForkThreadServer\n";
+	response += "Host: michalsvec.cz\n";
+
+	// content length
 	response += "Content-Length: ";
 	response += str.str();
 	response += "\n\n";
 	
-	// obsah souboru
+	// file content
 	response += content;
 	
 	return response;
@@ -104,16 +103,10 @@ string buildResponse(int status, string content) {
 
 
 void sendResponse(int connected, string response) {
-	//cout << "odeslani:" << response <<  endl;
 	int written = write(connected, (void *) response.c_str(), response.length());
 	
-	if(written < 0) {
-		cout << "chyba write: " << response.length() << endl;
-	}
-	else {
-
-	//	printf("%i - zapsano: %d\n", reqCounter, written);
-	}
+	if(written < 0)
+		cout << "Error sending response. Response length: " << response.length() << endl;
 }
 
 
@@ -126,7 +119,7 @@ void sendResponse(int connected, string response) {
  Host: localhost:5000
  Connection: keep-alive
  Cache-Control: max-age=0
- User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.133 Safari/534.16
+ User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; en-US) .....
  Accept: application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,* / *;q=0.5
  Accept-Encoding: gzip,deflate,sdch
  Accept-Language: cs-CZ,cs;q=0.8
@@ -154,38 +147,35 @@ bool loadFile(string fileName, string *content) {
 	
 	string line;
 	string filePath = ROOT_DIR+fileName;
-	
-//	cout << "path:" << filePath << endl;
-	
 	ifstream file (filePath.c_str());
 	
 //  cwd detecting	
 //	char path1[1000];
 //	getcwd(path1, 1000);
 	
-	
 	if(file) {
 		while(getline(file,line))
 			*content += line;
-		
 		return true;
-	} else 
+	} 
+	else	// file does not exists
 		return false;
 }
 
 
 
 /**
- * Celkove spolecne zpracovani HTTP pozadavku pro vsechny metody
+ * Main method for HTTP request processing
+ *
+ * @param void * reqInfo structure wotj request information - (void *) because pthreads needs this type as a parameter 
  */
 void * processHttpRequest(void * req) {
-//	cout << "processHttpReq()\n";
 
 	reqInfo * request = (reqInfo *) req;
 	string buffer;
-
+	string fileContent;
 	
-	// prijmuti pozadavku a nacteni bufferu
+	
 	int bytes_recvd = acceptAndLoadBuffer(request->connected, request->client_addr, request->sin_size, &buffer);
 	
 	if (bytes_recvd < 0) {
@@ -199,25 +189,20 @@ void * processHttpRequest(void * req) {
 	}
 
 	
-	// String z bufferu
-	string requestBuffer = buffer;
 	// String - dokument, ktery nacist ze slozky webserveru
 	string file;
-	// vyparsovani souboru
-	parseHttpRequest(requestBuffer, &file);
+	// get the file name
+	parseHttpRequest(buffer, &file);
 
-	// nacteni celeho souboru
-	string fileContent;
 	bool status = loadFile(file, &fileContent);
 	
-	if(fileContent.length() < 1) {
-		cerr << "unable to load file" << endl;
-		return NULL;
-	}
-		
+	if(fileContent.length() < 1)
+		cerr << "unable to load file " << file << " => 404" << endl;
+
 	string response = buildResponse(status, fileContent);
 	sendResponse(request->connected, response);
 
+	// closing socket
 	close(request->connected);
 	return NULL;
 }

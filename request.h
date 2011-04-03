@@ -1,12 +1,3 @@
-/*
- *  request.h
- *  httpserver
- *
- *  Created by Michal Svec on 8.3.11.
- *  Copyright 2011 __MyCompanyName__. All rights reserved.
- *
- */
-
 #ifndef __REQUEST_H__
 #define __REQUEST_H__
 
@@ -14,20 +5,19 @@
 #include <string>
 
 #define BUFSIZE	1023
-// TODO: make better!
+// TODO:something better!
 #define ROOT_DIR "/Users/misa/School/DIP/httpserver/public/"
 
 
 /**
  * Structure with request info
- *
- * int socket number
  */
 typedef struct requestInfo {
 	int connected;
 	struct sockaddr_in *client_addr;
 	socklen_t *sin_size;
 } reqInfo;
+
 
 
 void parseRequest(int);

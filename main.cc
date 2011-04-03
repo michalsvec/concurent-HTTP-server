@@ -127,6 +127,7 @@ int main (int argc, const char * argv[]) {
 	// nastartovani serveru
 	struct sockaddr_in server_addr, client_addr;
 	socklen_t sin_size;
+	int trueflag;
 	
 	// vytvoreni socketu
 	if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1) {
@@ -135,10 +136,10 @@ int main (int argc, const char * argv[]) {
 	}
 	
 	
-//	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &trueflag, sizeof(int)) == -1) {
-//		perror("Setsockopt");
-//		exit(1);
-//	}
+	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &trueflag, sizeof(int)) == -1) {
+		perror("Setsockopt");
+		exit(1);
+	}
 	
 	server_addr.sin_family = AF_INET;    // protocol family
 	server_addr.sin_port = htons(PORT_NR); // port number
