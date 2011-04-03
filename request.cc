@@ -143,7 +143,7 @@ void parseHttpRequest(string request, string *file) {
  * @param name of a file
  * @param buffer for content
  */
-bool loadFile(string fileName, string *content) {
+bool loadFile(string fileName, string &content) {
 	
 	string line;
 	string filePath = ROOT_DIR+fileName;
@@ -155,7 +155,7 @@ bool loadFile(string fileName, string *content) {
 	
 	if(file) {
 		while(getline(file,line))
-			*content += line;
+			content += line;
 		return true;
 	} 
 	else	// file does not exists
@@ -194,7 +194,7 @@ void * processHttpRequest(void * req) {
 	// get the file name
 	parseHttpRequest(buffer, &file);
 
-	bool status = loadFile(file, &fileContent);
+	bool status = loadFile(file, fileContent);
 	
 	if(fileContent.length() < 1)
 		cerr << "unable to load file " << file << " => 404" << endl;
