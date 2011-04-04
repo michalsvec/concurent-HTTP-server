@@ -18,11 +18,11 @@ typedef struct requestInfo {
 	socklen_t *sin_size;
 } reqInfo;
 
-
+extern bool showDebug;
 
 void parseRequest(int);
 
-int acceptAndLoadBuffer(int, struct sockaddr_in *client_addr, socklen_t *sin_size, std::string *);
+int acceptAndLoadBuffer(reqInfo, std::string *);
 
 void * processHttpRequest(void *);
 

@@ -20,12 +20,8 @@ class Worker
 	def run(index)
 		#puts "Starting worker: "+index.to_s
 		
-		# http://ruby-doc.org/stdlib/libdoc/net/http/rdoc/classes/Net/HTTP.html
-		#url = URI.parse('http://localhost:5000/index.html')
-		
-		
 		begin
-			res = Net::HTTP.start("localhost", 5000) {|http|
+			res = Net::HTTP.start("localhost", 35123) {|http|
 				http.get('/index.html')
 			}
 			
@@ -62,7 +58,7 @@ methods.each { |method|
 
 	threads = Array.new
 	
-	#	puts "spawning clients"
+	# puts "spawning clients"
 	time_start = Time.now
 
 	# spawning many clients and measuring time of their join
@@ -72,10 +68,9 @@ methods.each { |method|
 		end
 	end
 
-	#wait for all threads
+	# wait for all threads
 	1.upto(CLIENTS_CNT) do |i|
 		threads[i].join
-		#puts "--- "+i.to_s+" joined"
 	end
 	
 	# save time of execution

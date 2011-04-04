@@ -35,18 +35,25 @@ using namespace std;
  *
  * @return int pocet nactenych bytu
  */
-int acceptAndLoadBuffer(int connected, struct sockaddr_in *client_addr, socklen_t *sin_size, string *buffer) {
+int acceptAndLoadBuffer(reqInfo request, string *buffer) {
 	int result = 1;
-	char tmp[BUFSIZE];
+	char tmp[BUFSIZE];	
+	
+	
+//	cout << "reading from: " << request.connected << endl;
 
+	// if there's anything to load - load it
 	while(result > 0) {
-		result = read(connected, (void *) tmp, BUFSIZE);
+		result = read(request.connected, (void *) tmp, BUFSIZE);
 		*buffer += tmp;
 		
+		// if result is smaller than BUFSIZE - whole message was loaded
+		// else result == BUFSIZE or result == 0
 		if(result < BUFSIZE)
 			break;
 	}
-
+	
+//	cout << result << endl;
 	return result;
 }
 
@@ -171,15 +178,24 @@ bool loadFile(string fileName, string &content) {
  */
 void * processHttpRequest(void * req) {
 
-	reqInfo * request = (reqInfo *) req;
+	// Need local copy because of problems with pthreads - which tooks pointer 
+	reqInfo data;
+	data.connected = ((reqInfo *) req)->connected;
+	data.client_addr = ((reqInfo *) req)->client_addr;
+	data.sin_size = ((reqInfo *) req)->sin_size;
+
+	
 	string buffer;
 	string fileContent;
 	
 	
-	int bytes_recvd = acceptAndLoadBuffer(request->connected, request->client_addr, request->sin_size, &buffer);
+	if(showDebug)
+		printf("Request: %i\n", data.connected);
+	
+	int bytes_recvd = acceptAndLoadBuffer(data, &buffer);
 	
 	if (bytes_recvd < 0) {
-		fprintf(stderr,("recv() error\n"));
+		fprintf(stderr,("read() error\n"));
 		return NULL;
 	}
 
@@ -187,7 +203,6 @@ void * processHttpRequest(void * req) {
 		cerr << "Empty buffer - terminating" << endl;
 		return NULL;
 	}
-
 	
 	// String - dokument, ktery nacist ze slozky webserveru
 	string file;
@@ -200,14 +215,12 @@ void * processHttpRequest(void * req) {
 		cerr << "unable to load file " << file << " => 404" << endl;
 
 	string response = buildResponse(status, fileContent);
-	sendResponse(request->connected, response);
+	sendResponse(data.connected, response);
 
 	// closing socket
-	close(request->connected);
+	close(data.connected);
+//	cout << "closing: " << data.connected << endl;
 	return NULL;
 }
-
-
-
 
 

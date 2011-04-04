@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <string.h>
 #include <sys/types.h> 
 #include <sys/socket.h>
@@ -14,10 +15,11 @@
 #include "fork.h"
 
 
-#define PORT_NR 5000
+#define PORT_NR 35123
 
 // globalni socket
 int sock;
+bool showDebug = false;	// turn off debug mode by default
 
 typedef enum mode {
 	GCD,
@@ -27,6 +29,10 @@ typedef enum mode {
 } ModeType;
 
 
+void deb(char * msg) {
+	if(showDebug)
+		printf("%s\n", msg);
+}
 
 
 
@@ -69,9 +75,13 @@ void signal_callback_handler(int signum)
  */
 int parseArguments(int argc, const char * argv[], ModeType *mode) {
 	for (int i=0; i < argc; i++) {
+
 		if(strcmp(argv[i], "-h") == 0) {
 			print_help();
 			return 1;
+		}
+		else if(strcmp(argv[i], "-d") == 0) {
+			showDebug = true;
 		}
 		else if(strcmp(argv[i], "-m") == 0) {
 			if(strcmp(argv[i+1], "PTHREADS") == 0)
@@ -84,6 +94,7 @@ int parseArguments(int argc, const char * argv[], ModeType *mode) {
 				*mode = GCD;
 			else 
 				return 2;
+			i++;
 		}
 	}
 	return 0;
@@ -94,6 +105,7 @@ int parseArguments(int argc, const char * argv[], ModeType *mode) {
 int main (int argc, const char * argv[]) {
 
 	ModeType mode = GCD;
+	
 	
 	int argResult = parseArguments(argc, argv, &mode);
 	if(argResult > 1) {
@@ -114,6 +126,8 @@ int main (int argc, const char * argv[]) {
 			parse_request = parse_request_pthreads;
 			break;
 		case FORK:
+			// avoiding zombies, when using fork()
+			signal(SIGCHLD, SIG_IGN);
 			parse_request = parse_request_fork;
 			break;
 		case GCD:

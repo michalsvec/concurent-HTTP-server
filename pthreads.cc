@@ -1,12 +1,3 @@
-/*
- *  pthreads.c
- *  httpserver
- *
- *  Created by Michal Svec on 21.2.11.
- *  Copyright 2011 __MyCompanyName__. All rights reserved.
- *
- */
-
 #include "pthreads.h"
 #include "request.h"
 
@@ -15,14 +6,15 @@
 
 
 void parse_request_pthreads(reqInfo request) {
-	printf("pthreads");
 	
 	pthread_t thread;
 
-	int result = pthread_create(&thread, NULL, processHttpRequest, &request);
+	int result = pthread_create(&thread, NULL, processHttpRequest, (void *) &request);
 	
 	if(result != 0)
 		fprintf(stderr, "Thread creating error. Error number: %i\n", result);
+	
+	pthread_detach(thread);
 	
 	return;
 }
