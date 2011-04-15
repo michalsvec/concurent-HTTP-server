@@ -1,5 +1,5 @@
 /**
- *	Version with infinite loop to process requests
+ *	Version with event handlers to process requests
  *
  */
 #include <stdio.h>
@@ -10,6 +10,7 @@
 #include <sys/types.h> 
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <dispatch/dispatch.h>
 
 #include "request.h"
 
@@ -41,7 +42,7 @@ void deb(char * msg) {
 
 
 void print_help() {
-
+	
 	printf("Benchmarking paralelnich  metod s knihovnou GCD\n");
 	printf("\t-h - zobrazeni napovedy\n");
 	printf("\t-m <mode> - vyber metody zpracovani paralelnich pozadavku PTHREADS,OPENMPI,GCD,FORK\n");
@@ -79,7 +80,7 @@ void signal_callback_handler(int signum)
  */
 int parseArguments(int argc, const char * argv[], ModeType *mode) {
 	for (int i=0; i < argc; i++) {
-
+		
 		if(strcmp(argv[i], "-h") == 0) {
 			print_help();
 			return 1;
@@ -107,7 +108,7 @@ int parseArguments(int argc, const char * argv[], ModeType *mode) {
 
 
 int main (int argc, const char * argv[]) {
-
+	
 	ModeType mode = GCD;
 	
 	
@@ -116,7 +117,7 @@ int main (int argc, const char * argv[]) {
 		fprintf(stderr, "Invalid parallel mode!");
 		return EXIT_FAILURE;
 	}
-
+	
 	
 	// ukazatel na funkci zpracovavajici pozadavek
 	void (*parse_request)(reqInfo);
@@ -139,7 +140,7 @@ int main (int argc, const char * argv[]) {
 			parse_request = parse_request_gcd;
 			break;
 	}
-
+	
 	
 	
 	// nastartovani serveru
@@ -183,29 +184,42 @@ int main (int argc, const char * argv[]) {
 	fflush(stdout);	
 	
 	sin_size = sizeof(struct sockaddr_in);
-
+	
 	// handler na ukonceni po stisku ctrl+c
 	signal(SIGINT, signal_callback_handler);
-
 	
-	while(1) {
+	
+	dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+	dispatch_source_t readSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, sock, 0, queue);
 
-		// prijmuti pripojeni
-		int connected = accept(sock, (struct sockaddr *) &client_addr, (socklen_t *) &sin_size);
+	if (!readSource) {
+		close(sock);
+		return NULL;
+	}
+	
+	sigset_t sigs;
+    sigemptyset(&sigs);
+    sigaddset(&sigs, SIGINFO);
+    sigaddset(&sigs, SIGPIPE);
+	
+	dispatch_source_set_event_handler(readSource, ^{
+		
+		int connected = accept(sock, (struct sockaddr *) &client_addr, (socklen_t *)&sin_size);
 		if (connected == -1) {
 			fprintf(stderr, "Problem s prijetim spojeni");
-			return EXIT_FAILURE;
 		}
-
+		
 		reqInfo request;
 		request.connected = connected;
-		request.client_addr = &client_addr;
-		request.sin_size = &sin_size;
+		request.client_addr = (sockaddr_in *) &client_addr;
+		request.sin_size = (socklen_t *) &sin_size;
 		
-
 		parse_request(request);
-
-	}
-
+	});
+	
+	// Call the dispatch_resume function to start processing events
+    dispatch_resume(readSource);
+	dispatch_main();	
+	
     return 0;
 }

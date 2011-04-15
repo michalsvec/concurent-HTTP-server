@@ -12,19 +12,32 @@
 		45DC08711312BE0700515ED9 /* pthreads.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08701312BE0700515ED9 /* pthreads.cc */; };
 		45DC08891312BEBE00515ED9 /* openmpi.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08881312BEBE00515ED9 /* openmpi.cc */; };
 		45DC08A51312C1EB00515ED9 /* fork.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08A41312C1EB00515ED9 /* fork.cc */; };
+		45E78A80134F028B0035AC29 /* main_events.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45E78A7E134F028B0035AC29 /* main_events.cc */; };
+		45E78A81134F04A40035AC29 /* gcd.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC085E1312BD5A00515ED9 /* gcd.cc */; };
+		45E78A82134F04A40035AC29 /* pthreads.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08701312BE0700515ED9 /* pthreads.cc */; };
+		45E78A83134F04A40035AC29 /* openmpi.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08881312BEBE00515ED9 /* openmpi.cc */; };
+		45E78A84134F04A40035AC29 /* fork.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08A41312C1EB00515ED9 /* fork.cc */; };
+		45E78A85134F04A40035AC29 /* request.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45E853CC13262A3B00D77C4A /* request.cc */; };
 		45E853CD13262A3B00D77C4A /* request.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45E853CC13262A3B00D77C4A /* request.cc */; };
 		8DD76FAC0486AB0100D96B5E /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cc */; settings = {ATTRIBUTES = (); }; };
-		8DD76FB00486AB0100D96B5E /* httpserver.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6A0FF2C0290799A04C91782 /* httpserver.1 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		45E78A73134F02630035AC29 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		8DD76FAF0486AB0100D96B5E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				8DD76FB00486AB0100D96B5E /* httpserver.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -42,13 +55,21 @@
 		45DC08881312BEBE00515ED9 /* openmpi.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = openmpi.cc; sourceTree = "<group>"; };
 		45DC08A31312C1EB00515ED9 /* fork.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = fork.h; sourceTree = "<group>"; };
 		45DC08A41312C1EB00515ED9 /* fork.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = fork.cc; sourceTree = "<group>"; };
+		45E78A75134F02630035AC29 /* httpserver_gcd_event */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = httpserver_gcd_event; sourceTree = BUILT_PRODUCTS_DIR; };
+		45E78A7E134F028B0035AC29 /* main_events.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main_events.cc; sourceTree = "<group>"; };
 		45E853CB13262A3B00D77C4A /* request.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = request.h; sourceTree = "<group>"; };
 		45E853CC13262A3B00D77C4A /* request.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = request.cc; sourceTree = "<group>"; };
 		8DD76FB20486AB0100D96B5E /* httpserver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = httpserver; sourceTree = BUILT_PRODUCTS_DIR; };
-		C6A0FF2C0290799A04C91782 /* httpserver.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = httpserver.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		45E78A72134F02630035AC29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DD76FAD0486AB0100D96B5E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -64,7 +85,6 @@
 			isa = PBXGroup;
 			children = (
 				08FB7795FE84155DC02AAC07 /* Source */,
-				C6A0FF2B0290797F04C91782 /* Documentation */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
 			name = httpserver;
@@ -76,6 +96,7 @@
 				4580A044133E7C2B00EEABB8 /* libpthread.dylib */,
 				45DC08721312BE2D00515ED9 /* implementations */,
 				08FB7796FE84155DC02AAC07 /* main.cc */,
+				45E78A7E134F028B0035AC29 /* main_events.cc */,
 				45E853CB13262A3B00D77C4A /* request.h */,
 				45E853CC13262A3B00D77C4A /* request.cc */,
 				45B090EC133F46120085B21B /* test.rb */,
@@ -87,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				8DD76FB20486AB0100D96B5E /* httpserver */,
+				45E78A75134F02630035AC29 /* httpserver_gcd_event */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -106,17 +128,26 @@
 			name = implementations;
 			sourceTree = "<group>";
 		};
-		C6A0FF2B0290797F04C91782 /* Documentation */ = {
-			isa = PBXGroup;
-			children = (
-				C6A0FF2C0290799A04C91782 /* httpserver.1 */,
-			);
-			name = Documentation;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		45E78A74134F02630035AC29 /* httpserver_gcd_event */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 45E78A7B134F02630035AC29 /* Build configuration list for PBXNativeTarget "httpserver_gcd_event" */;
+			buildPhases = (
+				45E78A71134F02630035AC29 /* Sources */,
+				45E78A72134F02630035AC29 /* Frameworks */,
+				45E78A73134F02630035AC29 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = httpserver_gcd_event;
+			productName = httpserver_gcd_event;
+			productReference = 45E78A75134F02630035AC29 /* httpserver_gcd_event */;
+			productType = "com.apple.product-type.tool";
+		};
 		8DD76FA90486AB0100D96B5E /* httpserver */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "httpserver" */;
@@ -152,11 +183,25 @@
 			projectRoot = "";
 			targets = (
 				8DD76FA90486AB0100D96B5E /* httpserver */,
+				45E78A74134F02630035AC29 /* httpserver_gcd_event */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		45E78A71134F02630035AC29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45E78A81134F04A40035AC29 /* gcd.cc in Sources */,
+				45E78A82134F04A40035AC29 /* pthreads.cc in Sources */,
+				45E78A83134F04A40035AC29 /* openmpi.cc in Sources */,
+				45E78A84134F04A40035AC29 /* fork.cc in Sources */,
+				45E78A85134F04A40035AC29 /* request.cc in Sources */,
+				45E78A80134F028B0035AC29 /* main_events.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DD76FAB0486AB0100D96B5E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -226,6 +271,36 @@
 			};
 			name = Release;
 		};
+		45E78A7C134F02630035AC29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		45E78A7D134F02630035AC29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -243,6 +318,15 @@
 			buildConfigurations = (
 				1DEB928A08733DD80010E9CD /* Debug */,
 				1DEB928B08733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		45E78A7B134F02630035AC29 /* Build configuration list for PBXNativeTarget "httpserver_gcd_event" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45E78A7C134F02630035AC29 /* Debug */,
+				45E78A7D134F02630035AC29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

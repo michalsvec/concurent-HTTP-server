@@ -1,12 +1,10 @@
-#! /bin/ruby
+#! /usr/bin/ruby
 
 require 'net/http'
 require 'uri'
 
-require 'rubygems'
-require 'ap'
-
-
+# pocet testovacich pokusu
+TEST_CNT = 50
 
 
 if(ARGV.length > 0)
@@ -39,47 +37,61 @@ end
 
 
 
-
-# calling killall to running webservers to kill server running from xcode
-#kill = %x(killall httpserver)
-
 #methods = ['PTHREADS', 'GCD', 'FORK']
 methods = ['GCD']
 
 methods.each { |method| 
 
+=begin
 	# spawning thread for webserver
-	#	thread_main = Thread.new {
-	#	#start server
-	#	cmd = "build/Debug/httpserver -m "+method
-	#	puts cmd
-	#	%x(#{cmd})
-	#}
+	thread_main = Thread.new {
+		#start server
+		cmd = "./build/Release/httpserver -m "+method
+		puts cmd
+		%x(#{cmd})
 
-	threads = Array.new
-	
-	# puts "spawning clients"
-	time_start = Time.now
+		puts "konec serveru"
+	}
+=end
+  
+	# jednotlive vysledky mereni
+	results = Array.new
+	puts "Klientu: "+CLIENTS_CNT.to_s
+	0.upto(TEST_CNT) do |iteration|
+		threads = Array.new
 
-	# spawning many clients and measuring time of their join
-	1.upto(CLIENTS_CNT) do |i|
-		threads[i] = Thread.new(i) do
-			Worker.new.run i
+		# puts "spawning clients"
+		time_start = Time.now
+
+		# spawning many clients and measuring time of their join
+		1.upto(CLIENTS_CNT) do |i|
+			threads[i] = Thread.new(i) do
+			  Worker.new.run i
+			end
 		end
-	end
 
-	# wait for all threads
-	1.upto(CLIENTS_CNT) do |i|
-		threads[i].join
-	end
+		# wait for all threads
+		1.upto(CLIENTS_CNT) do |i|
+			threads[i].join
+		end
 	
-	# save time of execution
-	time_end = Time.now
+		# save time of execution
+		time_end = Time.now
 	
-	# kill it
+		delta = time_end-time_start
+		#puts "iterace: "+iteration.to_s+" cas: "+delta.to_s
+		results << delta
+		
+		sleep(0.2)
+  end
+
+	# kill server
 	#%x(killall httpserver)
-	
-	time_total = time_end - time_start
-	puts "cas vykonavani: "+time_total.to_f.to_s
+  
+	# jako vysledek se pouzije nejmensi hodnota
+	min = results.inject(0) {|index, num| num < results[index] ? results.find_index(num) : index }
+	total = results.inject() {|result, elem| result + elem }
+
+	puts "cas vykonavani pro "+(CLIENTS_CNT.to_s)+": \n\tprumer: "+(total/TEST_CNT).to_f.to_s+"\n\tminimum: "+results[min].to_s+"\n\n"
 }
 

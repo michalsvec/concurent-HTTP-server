@@ -14,7 +14,7 @@
  */
 typedef struct requestInfo {
 	int connected;
-	struct sockaddr_in *client_addr;
+	sockaddr_in *client_addr;
 	socklen_t *sin_size;
 } reqInfo;
 
