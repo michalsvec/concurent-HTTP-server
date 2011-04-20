@@ -23,12 +23,26 @@
 int sock;
 bool showDebug = false;	// turn off debug mode by default
 
-typedef enum mode {
+
+/**
+ * Method of parallel processing
+ */
+typedef enum {
 	GCD,
 	PTHREADS,
 	OPENMPI,
 	FORK
 } ModeType;
+
+
+
+/**
+ * Method of waiting for requests requests
+ */
+typedef enum {
+	WHILE,
+	SOURCE
+} RequestType;
 
 
 
@@ -40,11 +54,11 @@ void deb(char * msg) {
 
 
 void print_help() {
-	printf("Benchmarking paralelnich  metod s knihovnou GCD\n");
-	printf("\t-h - zobrazeni napovedy\n");
-	printf("\t-m <mode> - vyber metody zpracovani paralelnich pozadavku PTHREADS,OPENMPI,GCD,FORK\n");
+printf("Benchmarking paralelnich metod s knihovnou GCD\n \
+\t-h - zobrazeni napovedy\n	\
+\t-m <mode> - vyber metody zpracovani paralelnich pozadavku PTHREADS,OPENMPI,GCD,FORK\n \
+\t-p <mode> - vyber metody cekani na pozadavky WHILE,SOURCE\n");
 }
-
 
 
 
@@ -70,7 +84,7 @@ void signal_callback_handler(int signum)
  *		1 - print help
  *		2 - invalid mode
  */
-int parseArguments(int argc, const char * argv[], ModeType *mode) {
+int parseArguments(int argc, const char * argv[], ModeType *pMode, RequestType * rMode) {
 	for (int i=0; i < argc; i++) {
 
 		if(strcmp(argv[i], "-h") == 0) {
@@ -82,16 +96,24 @@ int parseArguments(int argc, const char * argv[], ModeType *mode) {
 		}
 		else if(strcmp(argv[i], "-m") == 0) {
 			if(strcmp(argv[i+1], "PTHREADS") == 0)
-				*mode = PTHREADS;
+				*pMode = PTHREADS;
 			else if(strcmp(argv[i+1], "OPENMPI") == 0)
-				*mode = OPENMPI;	
+				*pMode = OPENMPI;	
 			else if(strcmp(argv[i+1], "FORK") == 0)
-				*mode = FORK;	
+				*pMode = FORK;	
 			else if(strcmp(argv[i+1], "GCD") == 0)
-				*mode = GCD;
+				*pMode = GCD;
 			else 
 				return 2;
 			i++;
+		}
+		else if(strcmp(argv[i], "-p") == 0) {
+			if(strcmp(argv[i+1], "WHILE") == 0)
+				*rMode = WHILE;
+			else if(strcmp(argv[i+1], "SOURCE") == 0)
+				*rMode = SOURCE;
+			else
+				return 3;
 		}
 	}
 	return 0;
@@ -101,21 +123,27 @@ int parseArguments(int argc, const char * argv[], ModeType *mode) {
 
 int main (int argc, const char * argv[]) {
 
-	ModeType mode = GCD;
+	ModeType parallelMode = GCD;
+	RequestType requestProcess = WHILE;
+
 	
-	
-	int argResult = parseArguments(argc, argv, &mode);
-	if(argResult > 1) {
-		fprintf(stderr, "Invalid parallel mode!");
+	int argResult = parseArguments(argc, argv, &parallelMode, &requestProcess);
+	if(argResult == 2) {
+		printError("Invalid parallel mode!");
+		return EXIT_FAILURE;
+	}
+	if(argResult == 3) {
+		printError("Invalid waiting mode!");
 		return EXIT_FAILURE;
 	}
 
+	
 	
 	// ukazatel na funkci zpracovavajici pozadavek
 	void (*parse_request)(reqInfo);
 	
 	// naplneni ukazatele
-	switch (mode) {
+	switch (parallelMode) {
 		case OPENMPI:
 			parse_request = parse_request_openmpi;
 			break;
@@ -181,8 +209,10 @@ int main (int argc, const char * argv[]) {
 	signal(SIGINT, signal_callback_handler);
 
 
-	serverMainLoop(sock, (void *) parse_request);
-	//serverMainSources(sock, (void *) parse_request);
+	if(requestProcess == WHILE)
+		serverMainLoop(sock, (void *) parse_request);
+	if(requestProcess == SOURCE)
+		serverMainSources(sock, (void *) parse_request);
 	
 	
     return 0;
