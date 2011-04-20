@@ -110,7 +110,7 @@ string buildResponse(bool status, string content) {
 
 
 void sendResponse(int connected, string response) {
-	int written = write(connected, (void *) response.c_str(), response.length());
+	int written = write(connected, (void *) response.c_str(), (size_t) response.length());
 	
 	if(written < 0)
 		cout << "Error sending response. Response length: " << response.length() << endl;

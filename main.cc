@@ -6,11 +6,12 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
-#include <string.h>
+
 #include <sys/types.h> 
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#include "common.h"
 #include "request.h"
 
 #include "gcd.h"
@@ -19,9 +20,6 @@
 #include "fork.h"
 
 
-#define PORT_NR 35123
-
-// globalni socket
 int sock;
 bool showDebug = false;	// turn off debug mode by default
 
@@ -33,6 +31,7 @@ typedef enum mode {
 } ModeType;
 
 
+
 void deb(char * msg) {
 	if(showDebug)
 		printf("%s\n", msg);
@@ -41,17 +40,11 @@ void deb(char * msg) {
 
 
 void print_help() {
-
 	printf("Benchmarking paralelnich  metod s knihovnou GCD\n");
 	printf("\t-h - zobrazeni napovedy\n");
 	printf("\t-m <mode> - vyber metody zpracovani paralelnich pozadavku PTHREADS,OPENMPI,GCD,FORK\n");
 }
 
-
-
-void print_error(char * err) {
-	fprintf(stderr, "ERROR: %s", err);
-}
 
 
 
@@ -143,7 +136,7 @@ int main (int argc, const char * argv[]) {
 	
 	
 	// nastartovani serveru
-	struct sockaddr_in server_addr, client_addr;
+	struct sockaddr_in server_addr;
 	socklen_t sin_size;
 	int trueflag;
 	
@@ -187,25 +180,10 @@ int main (int argc, const char * argv[]) {
 	// handler na ukonceni po stisku ctrl+c
 	signal(SIGINT, signal_callback_handler);
 
+
+	serverMainLoop(sock, (void *) parse_request);
+	//serverMainSources(sock, (void *) parse_request);
 	
-	while(1) {
-
-		// prijmuti pripojeni
-		int connected = accept(sock, (struct sockaddr *) &client_addr, (socklen_t *) &sin_size);
-		if (connected == -1) {
-			fprintf(stderr, "Problem s prijetim spojeni");
-			return EXIT_FAILURE;
-		}
-
-		reqInfo request;
-		request.connected = connected;
-		request.client_addr = &client_addr;
-		request.sin_size = &sin_size;
-		
-
-		parse_request(request);
-
-	}
-
+	
     return 0;
 }

@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		452644CF135E1731003F1933 /* common.cc in Sources */ = {isa = PBXBuildFile; fileRef = 452644CD135E1731003F1933 /* common.cc */; };
+		452644D0135E1731003F1933 /* common.cc in Sources */ = {isa = PBXBuildFile; fileRef = 452644CD135E1731003F1933 /* common.cc */; };
 		4580A045133E7C2B00EEABB8 /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4580A044133E7C2B00EEABB8 /* libpthread.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		45DC085F1312BD5A00515ED9 /* gcd.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC085E1312BD5A00515ED9 /* gcd.cc */; };
 		45DC08711312BE0700515ED9 /* pthreads.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08701312BE0700515ED9 /* pthreads.cc */; };
 		45DC08891312BEBE00515ED9 /* openmpi.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08881312BEBE00515ED9 /* openmpi.cc */; };
 		45DC08A51312C1EB00515ED9 /* fork.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08A41312C1EB00515ED9 /* fork.cc */; };
-		45E78A80134F028B0035AC29 /* main_events.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45E78A7E134F028B0035AC29 /* main_events.cc */; };
 		45E78A81134F04A40035AC29 /* gcd.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC085E1312BD5A00515ED9 /* gcd.cc */; };
 		45E78A82134F04A40035AC29 /* pthreads.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08701312BE0700515ED9 /* pthreads.cc */; };
 		45E78A83134F04A40035AC29 /* openmpi.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08881312BEBE00515ED9 /* openmpi.cc */; };
@@ -45,6 +46,8 @@
 
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = main.cc; sourceTree = "<group>"; };
+		452644CD135E1731003F1933 /* common.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cc; sourceTree = "<group>"; };
+		452644CE135E1731003F1933 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		4580A044133E7C2B00EEABB8 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
 		45B090EC133F46120085B21B /* test.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = test.rb; sourceTree = "<group>"; };
 		45DC085D1312BD5A00515ED9 /* gcd.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = gcd.h; sourceTree = "<group>"; };
@@ -56,7 +59,6 @@
 		45DC08A31312C1EB00515ED9 /* fork.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = fork.h; sourceTree = "<group>"; };
 		45DC08A41312C1EB00515ED9 /* fork.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = fork.cc; sourceTree = "<group>"; };
 		45E78A75134F02630035AC29 /* httpserver_gcd_event */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = httpserver_gcd_event; sourceTree = BUILT_PRODUCTS_DIR; };
-		45E78A7E134F028B0035AC29 /* main_events.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main_events.cc; sourceTree = "<group>"; };
 		45E853CB13262A3B00D77C4A /* request.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = request.h; sourceTree = "<group>"; };
 		45E853CC13262A3B00D77C4A /* request.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = request.cc; sourceTree = "<group>"; };
 		8DD76FB20486AB0100D96B5E /* httpserver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = httpserver; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,7 +98,8 @@
 				4580A044133E7C2B00EEABB8 /* libpthread.dylib */,
 				45DC08721312BE2D00515ED9 /* implementations */,
 				08FB7796FE84155DC02AAC07 /* main.cc */,
-				45E78A7E134F028B0035AC29 /* main_events.cc */,
+				452644CD135E1731003F1933 /* common.cc */,
+				452644CE135E1731003F1933 /* common.h */,
 				45E853CB13262A3B00D77C4A /* request.h */,
 				45E853CC13262A3B00D77C4A /* request.cc */,
 				45B090EC133F46120085B21B /* test.rb */,
@@ -198,7 +201,7 @@
 				45E78A83134F04A40035AC29 /* openmpi.cc in Sources */,
 				45E78A84134F04A40035AC29 /* fork.cc in Sources */,
 				45E78A85134F04A40035AC29 /* request.cc in Sources */,
-				45E78A80134F028B0035AC29 /* main_events.cc in Sources */,
+				452644D0135E1731003F1933 /* common.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,6 +215,7 @@
 				45DC08891312BEBE00515ED9 /* openmpi.cc in Sources */,
 				45DC08A51312C1EB00515ED9 /* fork.cc in Sources */,
 				45E853CD13262A3B00D77C4A /* request.cc in Sources */,
+				452644CF135E1731003F1933 /* common.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
