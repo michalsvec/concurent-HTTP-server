@@ -5,8 +5,14 @@
 #include <string>
 
 #define BUFSIZE	1023
-// TODO:something better!
-#define ROOT_DIR "/Users/misa/School/DIP/httpserver/public/"
+
+
+
+/**
+ * Directory with files served by webserver
+ */
+extern std::string documentRoot;
+
 
 
 /**

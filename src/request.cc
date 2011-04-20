@@ -20,6 +20,7 @@
 #include <sstream>
 
 #include "request.h"
+#include "common.h"
 
 
 using namespace std;
@@ -151,11 +152,11 @@ void parseHttpRequest(string request, string *file) {
  * @param buffer for content
  */
 bool loadFile(string fileName, string &content) {
-	
+
 	string line;
-	string filePath = ROOT_DIR+fileName;
+	string filePath = config.documentRoot + fileName;
 	ifstream file (filePath.c_str());
-	
+
 //  cwd detecting	
 //	char path1[1000];
 //	getcwd(path1, 1000);

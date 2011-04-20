@@ -13,6 +13,7 @@
 
 #include "common.h"
 #include "request.h"
+#include "configfile.h"
 
 #include "gcd.h"
 #include "pthreads.h"
@@ -20,8 +21,11 @@
 #include "fork.h"
 
 
+
 int sock;
 bool showDebug = false;	// turn off debug mode by default
+std::string documentRoot = "";
+ConfigVals config;
 
 
 /**
@@ -53,7 +57,7 @@ void deb(char * msg) {
 
 
 
-void print_help() {
+void printHelp() {
 printf("Benchmarking paralelnich metod s knihovnou GCD\n \
 \t-h - zobrazeni napovedy\n	\
 \t-m <mode> - vyber metody zpracovani paralelnich pozadavku PTHREADS,OPENMPI,GCD,FORK\n \
@@ -66,8 +70,7 @@ printf("Benchmarking paralelnich metod s knihovnou GCD\n \
  * handler na obsluhu ctrl+c
  * @param int signum
  */
-void signal_callback_handler(int signum)
-{
+void signalCallbackHandler(int signum) {
 	printf("Terminating on signal: %d\n", signum);
 	
 	close(sock);
@@ -88,7 +91,7 @@ int parseArguments(int argc, const char * argv[], ModeType *pMode, RequestType *
 	for (int i=0; i < argc; i++) {
 
 		if(strcmp(argv[i], "-h") == 0) {
-			print_help();
+			printHelp();
 			return 1;
 		}
 		else if(strcmp(argv[i], "-d") == 0) {
@@ -121,11 +124,22 @@ int parseArguments(int argc, const char * argv[], ModeType *pMode, RequestType *
 
 
 
+/**
+ * Load config file
+ */
+void loadConfig() {
+	ConfigFile cfg("config.cfg");
+
+	config.documentRoot = cfg.getvalue<std::string>("document_root");
+	config.portNr = cfg.getvalue<int>("port");
+}
+
+
+
 int main (int argc, const char * argv[]) {
 
 	ModeType parallelMode = GCD;
-	RequestType requestProcess = WHILE;
-
+	RequestType requestProcess = WHILE;	
 	
 	int argResult = parseArguments(argc, argv, &parallelMode, &requestProcess);
 	if(argResult == 2) {
@@ -137,7 +151,8 @@ int main (int argc, const char * argv[]) {
 		return EXIT_FAILURE;
 	}
 
-	
+
+	loadConfig();
 	
 	// ukazatel na funkci zpracovavajici pozadavek
 	void (*parse_request)(reqInfo);
@@ -181,7 +196,7 @@ int main (int argc, const char * argv[]) {
 	}
 	
 	server_addr.sin_family = AF_INET;    // protocol family
-	server_addr.sin_port = htons(PORT_NR); // port number
+	server_addr.sin_port = htons(config.portNr); // port number
 	server_addr.sin_addr.s_addr = INADDR_ANY;	// connection from everywhere
 	bzero(&(server_addr.sin_zero), 8);
 	
@@ -200,13 +215,13 @@ int main (int argc, const char * argv[]) {
 		exit(1);
 	}
 	
-	printf("\nTCPServer started on port %i\n", PORT_NR);
+	printf("\nTCPServer started on port %i\n", config.portNr);
 	fflush(stdout);	
 	
 	sin_size = sizeof(struct sockaddr_in);
 
 	// handler na ukonceni po stisku ctrl+c
-	signal(SIGINT, signal_callback_handler);
+	signal(SIGINT, signalCallbackHandler);
 
 
 	if(requestProcess == WHILE)

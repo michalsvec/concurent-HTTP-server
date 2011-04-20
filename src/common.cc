@@ -29,7 +29,7 @@ void serverMainLoop(int sock, void * function) {
 	while(1) {
 		reqInfo request;
 		acceptRequest(sock, &request);
-		
+
 		if(showDebug) {
 			printf("serverMainLoop - reqInfo: %i\n", request.connected);
 		}

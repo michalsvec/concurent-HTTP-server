@@ -7,32 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		452644CF135E1731003F1933 /* common.cc in Sources */ = {isa = PBXBuildFile; fileRef = 452644CD135E1731003F1933 /* common.cc */; };
-		452644D0135E1731003F1933 /* common.cc in Sources */ = {isa = PBXBuildFile; fileRef = 452644CD135E1731003F1933 /* common.cc */; };
 		4580A045133E7C2B00EEABB8 /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4580A044133E7C2B00EEABB8 /* libpthread.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
-		45DC085F1312BD5A00515ED9 /* gcd.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC085E1312BD5A00515ED9 /* gcd.cc */; };
-		45DC08711312BE0700515ED9 /* pthreads.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08701312BE0700515ED9 /* pthreads.cc */; };
-		45DC08891312BEBE00515ED9 /* openmpi.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08881312BEBE00515ED9 /* openmpi.cc */; };
-		45DC08A51312C1EB00515ED9 /* fork.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08A41312C1EB00515ED9 /* fork.cc */; };
-		45E78A81134F04A40035AC29 /* gcd.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC085E1312BD5A00515ED9 /* gcd.cc */; };
-		45E78A82134F04A40035AC29 /* pthreads.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08701312BE0700515ED9 /* pthreads.cc */; };
-		45E78A83134F04A40035AC29 /* openmpi.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08881312BEBE00515ED9 /* openmpi.cc */; };
-		45E78A84134F04A40035AC29 /* fork.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45DC08A41312C1EB00515ED9 /* fork.cc */; };
-		45E78A85134F04A40035AC29 /* request.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45E853CC13262A3B00D77C4A /* request.cc */; };
-		45E853CD13262A3B00D77C4A /* request.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45E853CC13262A3B00D77C4A /* request.cc */; };
-		8DD76FAC0486AB0100D96B5E /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cc */; settings = {ATTRIBUTES = (); }; };
+		45BB317A135EDC2300601783 /* common.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB316D135EDC2300601783 /* common.cc */; };
+		45BB317B135EDC2300601783 /* fork.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB316F135EDC2300601783 /* fork.cc */; };
+		45BB317C135EDC2300601783 /* gcd.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3171135EDC2300601783 /* gcd.cc */; };
+		45BB317D135EDC2300601783 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3173135EDC2300601783 /* main.cc */; };
+		45BB317E135EDC2300601783 /* openmpi.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3174135EDC2300601783 /* openmpi.cc */; };
+		45BB317F135EDC2300601783 /* pthreads.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3176135EDC2300601783 /* pthreads.cc */; };
+		45BB3180135EDC2300601783 /* request.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3178135EDC2300601783 /* request.cc */; };
+		45BB3198135EE2E200601783 /* configfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3196135EE2E200601783 /* configfile.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		45E78A73134F02630035AC29 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		8DD76FAF0486AB0100D96B5E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
@@ -45,33 +31,28 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		08FB7796FE84155DC02AAC07 /* main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = main.cc; sourceTree = "<group>"; };
-		452644CD135E1731003F1933 /* common.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cc; sourceTree = "<group>"; };
-		452644CE135E1731003F1933 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		4580A044133E7C2B00EEABB8 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
 		45B090EC133F46120085B21B /* test.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = test.rb; sourceTree = "<group>"; };
-		45DC085D1312BD5A00515ED9 /* gcd.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = gcd.h; sourceTree = "<group>"; };
-		45DC085E1312BD5A00515ED9 /* gcd.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = gcd.cc; sourceTree = "<group>"; };
-		45DC086F1312BE0700515ED9 /* pthreads.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = pthreads.h; sourceTree = "<group>"; };
-		45DC08701312BE0700515ED9 /* pthreads.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = pthreads.cc; sourceTree = "<group>"; };
-		45DC08871312BEBE00515ED9 /* openmpi.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = openmpi.h; sourceTree = "<group>"; };
-		45DC08881312BEBE00515ED9 /* openmpi.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = openmpi.cc; sourceTree = "<group>"; };
-		45DC08A31312C1EB00515ED9 /* fork.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = fork.h; sourceTree = "<group>"; };
-		45DC08A41312C1EB00515ED9 /* fork.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = fork.cc; sourceTree = "<group>"; };
-		45E78A75134F02630035AC29 /* httpserver_gcd_event */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = httpserver_gcd_event; sourceTree = BUILT_PRODUCTS_DIR; };
-		45E853CB13262A3B00D77C4A /* request.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = request.h; sourceTree = "<group>"; };
-		45E853CC13262A3B00D77C4A /* request.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = request.cc; sourceTree = "<group>"; };
+		45BB316D135EDC2300601783 /* common.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = common.cc; path = src/common.cc; sourceTree = "<group>"; };
+		45BB316E135EDC2300601783 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = common.h; path = src/common.h; sourceTree = "<group>"; };
+		45BB316F135EDC2300601783 /* fork.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fork.cc; path = src/fork.cc; sourceTree = "<group>"; };
+		45BB3170135EDC2300601783 /* fork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fork.h; path = src/fork.h; sourceTree = "<group>"; };
+		45BB3171135EDC2300601783 /* gcd.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gcd.cc; path = src/gcd.cc; sourceTree = "<group>"; };
+		45BB3172135EDC2300601783 /* gcd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gcd.h; path = src/gcd.h; sourceTree = "<group>"; };
+		45BB3173135EDC2300601783 /* main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cc; path = src/main.cc; sourceTree = "<group>"; };
+		45BB3174135EDC2300601783 /* openmpi.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = openmpi.cc; path = src/openmpi.cc; sourceTree = "<group>"; };
+		45BB3175135EDC2300601783 /* openmpi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = openmpi.h; path = src/openmpi.h; sourceTree = "<group>"; };
+		45BB3176135EDC2300601783 /* pthreads.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pthreads.cc; path = src/pthreads.cc; sourceTree = "<group>"; };
+		45BB3177135EDC2300601783 /* pthreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pthreads.h; path = src/pthreads.h; sourceTree = "<group>"; };
+		45BB3178135EDC2300601783 /* request.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = request.cc; path = src/request.cc; sourceTree = "<group>"; };
+		45BB3179135EDC2300601783 /* request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = request.h; path = src/request.h; sourceTree = "<group>"; };
+		45BB3196135EE2E200601783 /* configfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = configfile.cpp; path = lib/configfile/configfile.cpp; sourceTree = "<group>"; };
+		45BB3197135EE2E200601783 /* configfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = configfile.h; path = lib/configfile/configfile.h; sourceTree = "<group>"; };
+		45BB319A135EE40E00601783 /* config.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.cfg; sourceTree = "<group>"; };
 		8DD76FB20486AB0100D96B5E /* httpserver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = httpserver; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		45E78A72134F02630035AC29 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8DD76FAD0486AB0100D96B5E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -96,13 +77,15 @@
 			isa = PBXGroup;
 			children = (
 				4580A044133E7C2B00EEABB8 /* libpthread.dylib */,
+				45BB3199135EE2E900601783 /* config */,
 				45DC08721312BE2D00515ED9 /* implementations */,
-				08FB7796FE84155DC02AAC07 /* main.cc */,
-				452644CD135E1731003F1933 /* common.cc */,
-				452644CE135E1731003F1933 /* common.h */,
-				45E853CB13262A3B00D77C4A /* request.h */,
-				45E853CC13262A3B00D77C4A /* request.cc */,
+				45BB316D135EDC2300601783 /* common.cc */,
+				45BB316E135EDC2300601783 /* common.h */,
+				45BB3173135EDC2300601783 /* main.cc */,
+				45BB3178135EDC2300601783 /* request.cc */,
+				45BB3179135EDC2300601783 /* request.h */,
 				45B090EC133F46120085B21B /* test.rb */,
+				45BB319A135EE40E00601783 /* config.cfg */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -111,22 +94,30 @@
 			isa = PBXGroup;
 			children = (
 				8DD76FB20486AB0100D96B5E /* httpserver */,
-				45E78A75134F02630035AC29 /* httpserver_gcd_event */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		45BB3199135EE2E900601783 /* config */ = {
+			isa = PBXGroup;
+			children = (
+				45BB3196135EE2E200601783 /* configfile.cpp */,
+				45BB3197135EE2E200601783 /* configfile.h */,
+			);
+			name = config;
 			sourceTree = "<group>";
 		};
 		45DC08721312BE2D00515ED9 /* implementations */ = {
 			isa = PBXGroup;
 			children = (
-				45DC085D1312BD5A00515ED9 /* gcd.h */,
-				45DC085E1312BD5A00515ED9 /* gcd.cc */,
-				45DC086F1312BE0700515ED9 /* pthreads.h */,
-				45DC08701312BE0700515ED9 /* pthreads.cc */,
-				45DC08871312BEBE00515ED9 /* openmpi.h */,
-				45DC08881312BEBE00515ED9 /* openmpi.cc */,
-				45DC08A31312C1EB00515ED9 /* fork.h */,
-				45DC08A41312C1EB00515ED9 /* fork.cc */,
+				45BB316F135EDC2300601783 /* fork.cc */,
+				45BB3170135EDC2300601783 /* fork.h */,
+				45BB3171135EDC2300601783 /* gcd.cc */,
+				45BB3172135EDC2300601783 /* gcd.h */,
+				45BB3174135EDC2300601783 /* openmpi.cc */,
+				45BB3175135EDC2300601783 /* openmpi.h */,
+				45BB3176135EDC2300601783 /* pthreads.cc */,
+				45BB3177135EDC2300601783 /* pthreads.h */,
 			);
 			name = implementations;
 			sourceTree = "<group>";
@@ -134,23 +125,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		45E78A74134F02630035AC29 /* httpserver_gcd_event */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 45E78A7B134F02630035AC29 /* Build configuration list for PBXNativeTarget "httpserver_gcd_event" */;
-			buildPhases = (
-				45E78A71134F02630035AC29 /* Sources */,
-				45E78A72134F02630035AC29 /* Frameworks */,
-				45E78A73134F02630035AC29 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = httpserver_gcd_event;
-			productName = httpserver_gcd_event;
-			productReference = 45E78A75134F02630035AC29 /* httpserver_gcd_event */;
-			productType = "com.apple.product-type.tool";
-		};
 		8DD76FA90486AB0100D96B5E /* httpserver */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "httpserver" */;
@@ -186,36 +160,23 @@
 			projectRoot = "";
 			targets = (
 				8DD76FA90486AB0100D96B5E /* httpserver */,
-				45E78A74134F02630035AC29 /* httpserver_gcd_event */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		45E78A71134F02630035AC29 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				45E78A81134F04A40035AC29 /* gcd.cc in Sources */,
-				45E78A82134F04A40035AC29 /* pthreads.cc in Sources */,
-				45E78A83134F04A40035AC29 /* openmpi.cc in Sources */,
-				45E78A84134F04A40035AC29 /* fork.cc in Sources */,
-				45E78A85134F04A40035AC29 /* request.cc in Sources */,
-				452644D0135E1731003F1933 /* common.cc in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8DD76FAB0486AB0100D96B5E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DD76FAC0486AB0100D96B5E /* main.cc in Sources */,
-				45DC085F1312BD5A00515ED9 /* gcd.cc in Sources */,
-				45DC08711312BE0700515ED9 /* pthreads.cc in Sources */,
-				45DC08891312BEBE00515ED9 /* openmpi.cc in Sources */,
-				45DC08A51312C1EB00515ED9 /* fork.cc in Sources */,
-				45E853CD13262A3B00D77C4A /* request.cc in Sources */,
-				452644CF135E1731003F1933 /* common.cc in Sources */,
+				45BB317A135EDC2300601783 /* common.cc in Sources */,
+				45BB317B135EDC2300601783 /* fork.cc in Sources */,
+				45BB317C135EDC2300601783 /* gcd.cc in Sources */,
+				45BB317D135EDC2300601783 /* main.cc in Sources */,
+				45BB317E135EDC2300601783 /* openmpi.cc in Sources */,
+				45BB317F135EDC2300601783 /* pthreads.cc in Sources */,
+				45BB3180135EDC2300601783 /* request.cc in Sources */,
+				45BB3198135EE2E200601783 /* configfile.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,36 +236,6 @@
 			};
 			name = Release;
 		};
-		45E78A7C134F02630035AC29 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Debug;
-		};
-		45E78A7D134F02630035AC29 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -322,15 +253,6 @@
 			buildConfigurations = (
 				1DEB928A08733DD80010E9CD /* Debug */,
 				1DEB928B08733DD80010E9CD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		45E78A7B134F02630035AC29 /* Build configuration list for PBXNativeTarget "httpserver_gcd_event" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				45E78A7C134F02630035AC29 /* Debug */,
-				45E78A7D134F02630035AC29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

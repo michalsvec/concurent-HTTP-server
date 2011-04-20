@@ -5,8 +5,18 @@
 #include <string>
 #include "request.h"
 
-#define PORT_NR 35123
 
+
+/**
+ * Structure with values from configuration file
+ */
+typedef struct config {
+	std::string documentRoot;
+	int portNr;
+} ConfigVals;
+
+
+extern ConfigVals config;
 
 
 void printError(std::string);
