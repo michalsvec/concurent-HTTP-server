@@ -53,6 +53,12 @@ void serverMainSources(int sock, void * function) {
 		return;
 	}
 	
+	
+	dispatch_source_set_cancel_handler(readSource, ^{
+		close(sock); 
+	});
+	
+	
 	dispatch_source_set_event_handler(readSource, ^{
 		reqInfo request;
 		acceptRequest(sock, &request);
