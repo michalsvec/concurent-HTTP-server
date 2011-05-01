@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		453CC91C136D6168001BA734 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 453CC91B136D6168001BA734 /* CoreFoundation.framework */; };
+		453CC943136D6E46001BA734 /* configfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453CC941136D6E46001BA734 /* configfile.cpp */; };
 		4580A045133E7C2B00EEABB8 /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4580A044133E7C2B00EEABB8 /* libpthread.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		45BB317A135EDC2300601783 /* common.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB316D135EDC2300601783 /* common.cc */; };
 		45BB317B135EDC2300601783 /* fork.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB316F135EDC2300601783 /* fork.cc */; };
@@ -15,7 +17,6 @@
 		45BB317E135EDC2300601783 /* openmpi.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3174135EDC2300601783 /* openmpi.cc */; };
 		45BB317F135EDC2300601783 /* pthreads.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3176135EDC2300601783 /* pthreads.cc */; };
 		45BB3180135EDC2300601783 /* request.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3178135EDC2300601783 /* request.cc */; };
-		45BB3198135EE2E200601783 /* configfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3196135EE2E200601783 /* configfile.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		453CC91B136D6168001BA734 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		453CC924136D68BF001BA734 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		453CC926136D68BF001BA734 /* httpserver_mpi.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = httpserver_mpi.1; sourceTree = "<group>"; };
+		453CC941136D6E46001BA734 /* configfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = configfile.cpp; path = src/lib/configfile/configfile.cpp; sourceTree = "<group>"; };
+		453CC942136D6E46001BA734 /* configfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = configfile.h; path = src/lib/configfile/configfile.h; sourceTree = "<group>"; };
 		4580A044133E7C2B00EEABB8 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
 		45B090EC133F46120085B21B /* test.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = test.rb; sourceTree = "<group>"; };
 		45BB316D135EDC2300601783 /* common.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = common.cc; path = src/common.cc; sourceTree = "<group>"; };
@@ -46,9 +52,7 @@
 		45BB3177135EDC2300601783 /* pthreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pthreads.h; path = src/pthreads.h; sourceTree = "<group>"; };
 		45BB3178135EDC2300601783 /* request.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = request.cc; path = src/request.cc; sourceTree = "<group>"; };
 		45BB3179135EDC2300601783 /* request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = request.h; path = src/request.h; sourceTree = "<group>"; };
-		45BB3196135EE2E200601783 /* configfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = configfile.cpp; path = lib/configfile/configfile.cpp; sourceTree = "<group>"; };
-		45BB3197135EE2E200601783 /* configfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = configfile.h; path = lib/configfile/configfile.h; sourceTree = "<group>"; };
-		45BB319A135EE40E00601783 /* config.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.cfg; sourceTree = "<group>"; };
+		45BB319A135EE40E00601783 /* config_sample.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config_sample.cfg; sourceTree = "<group>"; };
 		8DD76FB20486AB0100D96B5E /* httpserver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = httpserver; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -57,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				453CC91C136D6168001BA734 /* CoreFoundation.framework in Frameworks */,
 				4580A045133E7C2B00EEABB8 /* libpthread.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,7 +72,9 @@
 		08FB7794FE84155DC02AAC07 /* httpserver */ = {
 			isa = PBXGroup;
 			children = (
+				453CC91B136D6168001BA734 /* CoreFoundation.framework */,
 				08FB7795FE84155DC02AAC07 /* Source */,
+				453CC923136D68BF001BA734 /* httpserver-mpi */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
 			name = httpserver;
@@ -85,7 +92,7 @@
 				45BB3178135EDC2300601783 /* request.cc */,
 				45BB3179135EDC2300601783 /* request.h */,
 				45B090EC133F46120085B21B /* test.rb */,
-				45BB319A135EE40E00601783 /* config.cfg */,
+				45BB319A135EE40E00601783 /* config_sample.cfg */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -98,11 +105,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		453CC923136D68BF001BA734 /* httpserver-mpi */ = {
+			isa = PBXGroup;
+			children = (
+				453CC924136D68BF001BA734 /* main.cpp */,
+				453CC926136D68BF001BA734 /* httpserver_mpi.1 */,
+			);
+			path = "httpserver-mpi";
+			sourceTree = "<group>";
+		};
 		45BB3199135EE2E900601783 /* config */ = {
 			isa = PBXGroup;
 			children = (
-				45BB3196135EE2E200601783 /* configfile.cpp */,
-				45BB3197135EE2E200601783 /* configfile.h */,
+				453CC941136D6E46001BA734 /* configfile.cpp */,
+				453CC942136D6E46001BA734 /* configfile.h */,
 			);
 			name = config;
 			sourceTree = "<group>";
@@ -176,7 +192,7 @@
 				45BB317E135EDC2300601783 /* openmpi.cc in Sources */,
 				45BB317F135EDC2300601783 /* pthreads.cc in Sources */,
 				45BB3180135EDC2300601783 /* request.cc in Sources */,
-				45BB3198135EE2E200601783 /* configfile.cpp in Sources */,
+				453CC943136D6E46001BA734 /* configfile.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
