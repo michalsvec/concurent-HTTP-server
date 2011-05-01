@@ -11,12 +11,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-
-// OpenMPI is compiled separately with makefile
-#ifdef MPI
-#include <mpi.h>
-#endif
-
 #include "common.h"
 #include "request.h"
 
@@ -67,7 +61,7 @@ void deb(char * msg) {
 void printHelp() {
 printf("Benchmarking paralelnich metod s knihovnou GCD\n \
 \t-h - zobrazeni napovedy\n	\
-\t-m <mode> - vyber metody zpracovani paralelnich pozadavku PTHREADS,OPENMPI,GCD,FORK\n \
+\t-m <mode> - vyber metody zpracovani paralelnich pozadavku PTHREADS,GCD,FORK\n \
 \t-p <mode> - vyber metody cekani na pozadavky WHILE,SOURCE\n");
 }
 
@@ -107,8 +101,6 @@ int parseArguments(int argc, const char * argv[], ModeType *pMode, RequestType *
 		else if(strcmp(argv[i], "-m") == 0) {
 			if(strcmp(argv[i+1], "PTHREADS") == 0)
 				*pMode = PTHREADS;
-			else if(strcmp(argv[i+1], "OPENMPI") == 0)
-				*pMode = OPENMPI;	
 			else if(strcmp(argv[i+1], "FORK") == 0)
 				*pMode = FORK;	
 			else if(strcmp(argv[i+1], "GCD") == 0)
@@ -165,14 +157,6 @@ int main (int argc, const char * argv[]) {
 	
 	// naplneni ukazatele
 	switch (parallelMode) {
-		case OPENMPI:
-			parse_request = parse_request_openmpi;
-// OpenMPI is compiled separately with makefile			
-#ifdef MPI
-			MPI_Init(&argc, &argv);
-#endif
-			printf("mode: OPENMPI");
-			break;
 		case PTHREADS:
 			parse_request = parse_request_pthreads;
 			printf("mode: PTHREADS");

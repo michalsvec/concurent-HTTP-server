@@ -14,7 +14,6 @@
 		45BB317B135EDC2300601783 /* fork.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB316F135EDC2300601783 /* fork.cc */; };
 		45BB317C135EDC2300601783 /* gcd.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3171135EDC2300601783 /* gcd.cc */; };
 		45BB317D135EDC2300601783 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3173135EDC2300601783 /* main.cc */; };
-		45BB317E135EDC2300601783 /* openmpi.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3174135EDC2300601783 /* openmpi.cc */; };
 		45BB317F135EDC2300601783 /* pthreads.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3176135EDC2300601783 /* pthreads.cc */; };
 		45BB3180135EDC2300601783 /* request.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB3178135EDC2300601783 /* request.cc */; };
 /* End PBXBuildFile section */
@@ -46,8 +45,6 @@
 		45BB3171135EDC2300601783 /* gcd.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gcd.cc; path = src/gcd.cc; sourceTree = "<group>"; };
 		45BB3172135EDC2300601783 /* gcd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gcd.h; path = src/gcd.h; sourceTree = "<group>"; };
 		45BB3173135EDC2300601783 /* main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cc; path = src/main.cc; sourceTree = "<group>"; };
-		45BB3174135EDC2300601783 /* openmpi.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = openmpi.cc; path = src/openmpi.cc; sourceTree = "<group>"; };
-		45BB3175135EDC2300601783 /* openmpi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = openmpi.h; path = src/openmpi.h; sourceTree = "<group>"; };
 		45BB3176135EDC2300601783 /* pthreads.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pthreads.cc; path = src/pthreads.cc; sourceTree = "<group>"; };
 		45BB3177135EDC2300601783 /* pthreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pthreads.h; path = src/pthreads.h; sourceTree = "<group>"; };
 		45BB3178135EDC2300601783 /* request.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = request.cc; path = src/request.cc; sourceTree = "<group>"; };
@@ -130,8 +127,6 @@
 				45BB3170135EDC2300601783 /* fork.h */,
 				45BB3171135EDC2300601783 /* gcd.cc */,
 				45BB3172135EDC2300601783 /* gcd.h */,
-				45BB3174135EDC2300601783 /* openmpi.cc */,
-				45BB3175135EDC2300601783 /* openmpi.h */,
 				45BB3176135EDC2300601783 /* pthreads.cc */,
 				45BB3177135EDC2300601783 /* pthreads.h */,
 			);
@@ -189,7 +184,6 @@
 				45BB317B135EDC2300601783 /* fork.cc in Sources */,
 				45BB317C135EDC2300601783 /* gcd.cc in Sources */,
 				45BB317D135EDC2300601783 /* main.cc in Sources */,
-				45BB317E135EDC2300601783 /* openmpi.cc in Sources */,
 				45BB317F135EDC2300601783 /* pthreads.cc in Sources */,
 				45BB3180135EDC2300601783 /* request.cc in Sources */,
 				453CC943136D6E46001BA734 /* configfile.cpp in Sources */,
