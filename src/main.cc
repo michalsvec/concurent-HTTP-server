@@ -11,9 +11,16 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+
+// OpenMPI is compiled separately with makefile
+#ifdef MPI
+#include <mpi.h>
+#endif
+
 #include "common.h"
 #include "request.h"
-#include "configfile.h"
+
+#include "lib/configfile/configfile.h"
 
 #include "gcd.h"
 #include "pthreads.h"
@@ -151,7 +158,6 @@ int main (int argc, const char * argv[]) {
 		return EXIT_FAILURE;
 	}
 
-
 	loadConfig();
 	
 	// ukazatel na funkci zpracovavajici pozadavek
@@ -161,18 +167,26 @@ int main (int argc, const char * argv[]) {
 	switch (parallelMode) {
 		case OPENMPI:
 			parse_request = parse_request_openmpi;
+// OpenMPI is compiled separately with makefile			
+#ifdef MPI
+			MPI_Init(&argc, &argv);
+#endif
+			printf("mode: OPENMPI");
 			break;
 		case PTHREADS:
 			parse_request = parse_request_pthreads;
+			printf("mode: PTHREADS");
 			break;
 		case FORK:
 			// avoiding zombies, when using fork()
 			signal(SIGCHLD, SIG_IGN);
 			parse_request = parse_request_fork;
+			printf("mode: FORK");
 			break;
 		case GCD:
 		default:
 			parse_request = parse_request_gcd;
+			printf("mode: GCD");
 			break;
 	}
 

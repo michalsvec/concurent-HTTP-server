@@ -4,7 +4,7 @@ require 'net/http'
 require 'uri'
 
 # pocet testovacich pokusu
-TEST_CNT = 50
+TEST_CNT = 5
 
 
 if(ARGV.length > 0)
@@ -12,6 +12,7 @@ if(ARGV.length > 0)
 else 
 	CLIENTS_CNT = 10
 end
+
 
 
 class Worker
@@ -79,7 +80,7 @@ methods.each { |method|
 		time_end = Time.now
 	
 		delta = time_end-time_start
-		#puts "iterace: "+iteration.to_s+" cas: "+delta.to_s
+		puts "iterace: "+iteration.to_s+" cas: "+delta.to_s
 		results << delta
 		
 		sleep(0.2)

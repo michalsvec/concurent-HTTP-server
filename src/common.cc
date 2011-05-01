@@ -3,6 +3,8 @@
 
 #include "request.h"
 #include "common.h"
+#include <sys/time.h>
+#include <time.h>
 
 
 
@@ -26,7 +28,14 @@ void acceptRequest(int sock, reqInfo * req){
 void serverMainLoop(int sock, void * function) {
 	void (*parse_request)(reqInfo) = (void (*)(reqInfo))function;
 
+	timeval time;
+//	gettimeofday(&time, NULL);
+//	double microtime = time.tv_sec+(time.tv_usec/1000000.0);
+	double start, end;
+	
 	while(1) {
+		gettimeofday(&time, NULL);
+		start = time.tv_sec+(time.tv_usec/1000000.0);
 		reqInfo request;
 		acceptRequest(sock, &request);
 
@@ -35,6 +44,12 @@ void serverMainLoop(int sock, void * function) {
 		}
 
 		parse_request(request);
+		
+		gettimeofday(&time, NULL);
+		end = time.tv_sec+(time.tv_usec/1000000.0);
+		//printf("interval: %f\n          %f\n          %f\n", start, end, end-start);
+		if(showDebug)
+		printf("delta: %f\n", end-start);
 	}
 }
 
