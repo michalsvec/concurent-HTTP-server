@@ -1,6 +1,7 @@
 #! /usr/bin/ruby
 
 require 'net/http'
+require 'semaphore.rb'
 require 'uri'
 
 # pocet testovacich pokusu
@@ -13,6 +14,8 @@ else
 	CLIENTS_CNT = 10
 end
 
+# mutex seto to 256 because of open files limit in OS
+$mutex = Semaphore.new(256)
 
 
 class Worker
@@ -20,9 +23,11 @@ class Worker
 		#puts "Starting worker: "+index.to_s
 		
 		begin
+			$mutex.wait 
 			res = Net::HTTP.start("localhost", 35123) {|http|
 				http.get('/index.html')
 			}
+			$mutex.signal
 			
 		rescue TimeoutError
 			puts index.to_s+" TimeoutExcetion"
@@ -43,17 +48,6 @@ methods = ['GCD']
 
 methods.each { |method| 
 
-=begin
-	# spawning thread for webserver
-	thread_main = Thread.new {
-		#start server
-		cmd = "./build/Release/httpserver -m "+method
-		puts cmd
-		%x(#{cmd})
-
-		puts "konec serveru"
-	}
-=end
   
 	# jednotlive vysledky mereni
 	results = Array.new
@@ -86,8 +80,6 @@ methods.each { |method|
 		sleep(0.2)
   end
 
-	# kill server
-	#%x(killall httpserver)
   
 	# jako vysledek se pouzije nejmensi hodnota
 	min = results.inject(0) {|index, num| num < results[index] ? results.find_index(num) : index }

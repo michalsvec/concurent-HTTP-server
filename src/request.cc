@@ -135,6 +135,12 @@ void sendResponse(int connected, string response) {
  Cookie: ...nejake cookie data...
  */
 void parseHttpRequest(string request, string *file) {
+	
+	int offset = request.find("HTTP");
+	if(offset < 5) {
+		return;
+	}	
+
 	file->assign(request.substr(5, request.find("HTTP")-6));
 	
 	if(*file == "")
@@ -206,21 +212,31 @@ void * processHttpRequest(void * req) {
 	}
 	
 	// String - dokument, ktery nacist ze slozky webserveru
-	string file;
+	string file = "";
 	// get the file name
 	parseHttpRequest(buffer, &file);
 
+	if(file == "") {
+		printError("Wrong offset - can't parse file name.");
+		return NULL;
+	}
+	
 	bool status = loadFile(file, fileContent);
 	
-	if(fileContent.length() < 1)
-		cerr << "unable to load file " << file << " => 404" << endl;
+	if(!status) {
+		string errMsg = "unable to load file '";
+		errMsg += file += "' => 404";
+		printError(errMsg);
+	}
+	else
+		dispatchIncreaseResponded();
 
 	string response = buildResponse(status, fileContent);
 	sendResponse(data.connected, response);
 
 	// closing socket
 	close(data.connected);
-//	cout << "closing: " << data.connected << endl;
+
 	return NULL;
 }
 

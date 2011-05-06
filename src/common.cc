@@ -1,15 +1,53 @@
 
 #include <dispatch/dispatch.h>
+#include <sys/time.h>
+#include <time.h>
+#include <string>
+#include <sstream>
 
 #include "request.h"
 #include "common.h"
-#include <sys/time.h>
-#include <time.h>
 
 
 
 void printError(std::string err) {
-	fprintf(stderr, "ERROR: %s\n", err.c_str());
+	dispatch_async(commonQ, ^{ 
+		fprintf(stderr, "ERROR: %s\n", err.c_str());
+	});
+}
+
+
+
+void dispatchPrint(std::string msg) {
+	dispatch_async(commonQ, ^{
+		printf("%s\n", msg.c_str());
+	});
+}
+
+
+
+void dispatchIncreaseAccepted() {
+	dispatch_async(requestCountQ, ^{ requestsAccepted++; });
+}
+
+
+
+void dispatchIncreaseResponded() {
+	dispatch_async(requestCountQ, ^{ requestsResponded++; });
+}
+
+
+
+void dispatchPrintStatus(void * param) {
+
+	std::ostringstream output;
+	
+	output << "accepted:  " << requestsAccepted << "\n";
+	output << "responded: " << requestsResponded << "\n";
+	
+	dispatchPrint(output.str());
+	
+	return;
 }
 
 
@@ -19,8 +57,10 @@ void acceptRequest(int sock, reqInfo * req){
 	// accept connection
 	req->connected = accept(sock, (struct sockaddr *) &req->client_addr, (socklen_t *) &req->sin_size);
 	if (req->connected == -1) {
-		printError("Problem s prijetim spojeni");
+		printError("Connection accept problem.");
 	}
+	
+	dispatchIncreaseAccepted();
 }
 
 
@@ -34,10 +74,11 @@ void serverMainLoop(int sock, void * function) {
 	double start, end;
 	
 	while(1) {
-		gettimeofday(&time, NULL);
-		start = time.tv_sec+(time.tv_usec/1000000.0);
 		reqInfo request;
 		acceptRequest(sock, &request);
+
+		gettimeofday(&time, NULL);
+		start = time.tv_sec+(time.tv_usec/1000000.0);
 
 		if(showDebug) {
 			printf("serverMainLoop - reqInfo: %i\n", request.connected);

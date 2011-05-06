@@ -3,6 +3,8 @@
 
 
 #include <string>
+#include <dispatch/dispatch.h>
+
 #include "request.h"
 
 
@@ -18,10 +20,27 @@ typedef struct config {
 
 extern ConfigVals config;
 
+/**
+ * queues for global operations
+ *
+ * writing to stdout and writing requests count
+ * incrementing accepted and answered requests counter
+ * timerf for firing events 
+ */
+extern dispatch_queue_t commonQ;
+extern dispatch_queue_t requestCountQ;
+extern dispatch_source_t timer;
+
+extern int requestsAccepted;
+extern int requestsResponded;
+
 
 void printError(std::string);
 
-
+void dispatchPrint(std::string);
+void dispatchIncreaseAccepted();
+void dispatchIncreaseResponded();
+void dispatchPrintStatus(void *);
 
 /**
  * Accept connection and fill reqInfo structure

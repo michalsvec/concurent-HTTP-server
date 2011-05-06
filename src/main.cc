@@ -11,14 +11,16 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#include <dispatch/dispatch.h>
+#include <dispatch/source.h>
+
 #include "common.h"
 #include "request.h"
 
 #include "lib/configfile/configfile.h"
 
 #include "gcd.h"
-#include "pthreads.h"
-#include "openmpi.h"
+#include "pthreads.h"	
 #include "fork.h"
 
 
@@ -26,7 +28,17 @@
 int sock;
 bool showDebug = false;	// turn off debug mode by default
 std::string documentRoot = "";
+
 ConfigVals config;
+
+dispatch_queue_t commonQ;
+dispatch_queue_t requestCountQ;
+
+dispatch_source_t timer;
+
+
+int requestsAccepted = 0;
+int requestsResponded = 0;
 
 
 /**
@@ -221,7 +233,17 @@ int main (int argc, const char * argv[]) {
 	// handler na ukonceni po stisku ctrl+c
 	signal(SIGINT, signalCallbackHandler);
 
+	
+	commonQ = dispatch_queue_create("cz.vutbr.fit.xsvecm07.common", NULL);
+	requestCountQ = dispatch_queue_create("cz.vutbr.fit.xsvecm07.count", NULL);
 
+	// timer which will write requests number to stdout
+	timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, commonQ);
+	dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), 5*NSEC_PER_SEC, 0);
+	dispatch_source_set_event_handler_f(timer, dispatchPrintStatus);
+	dispatch_resume(timer);
+	
+	
 	if(requestProcess == WHILE)
 		serverMainLoop(sock, (void *) parse_request);
 	if(requestProcess == SOURCE)
