@@ -16,6 +16,9 @@
 #include <dispatch/dispatch.h>
 #include <dispatch/source.h>
 
+#include <sys/shm.h>
+#include <sys/stat.h>
+
 #include "common.h"
 #include "request.h"
 
@@ -35,34 +38,14 @@ ConfigVals config;
 
 dispatch_queue_t commonQ;
 dispatch_queue_t requestCountQ;
-
 dispatch_source_t timer;
-
 
 int requestsAccepted = 1;
 int requestsResponded = 1;
 
-
-/**
- * Method of parallel processing
- */
-typedef enum {
-	GCD,
-	GCD_OWN,
-	PTHREADS,
-	OPENMPI,
-	FORK
-} ModeType;
+ModeType parallelMode = GCD;
 
 
-
-/**
- * Method of waiting for requests requests
- */
-typedef enum {
-	WHILE,
-	SOURCE
-} RequestType;
 
 
 
@@ -155,7 +138,6 @@ void loadConfig() {
 
 int main (int argc, const char * argv[]) {
 
-	ModeType parallelMode = GCD;
 	RequestType requestProcess = WHILE;	
 	
 	int argResult = parseArguments(argc, argv, &parallelMode, &requestProcess);

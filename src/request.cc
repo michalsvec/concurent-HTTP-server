@@ -23,6 +23,11 @@
 #include "common.h"
 
 
+#include "gcd.h"
+#include "pthreads.h"	
+#include "fork.h"
+
+
 using namespace std;
 
 
@@ -41,8 +46,6 @@ int acceptAndLoadBuffer(reqInfo request, string *buffer) {
 	char tmp[BUFSIZE];	
 	
 	
-//	cout << "reading from: " << request.connected << endl;
-
 	// if there's anything to load - load it
 	while(result > 0) {
 		result = read(request.connected, (void *) tmp, BUFSIZE);
@@ -54,7 +57,6 @@ int acceptAndLoadBuffer(reqInfo request, string *buffer) {
 			break;
 	}
 	
-//	cout << result << endl;
 	return result;
 }
 
@@ -69,8 +71,7 @@ int acceptAndLoadBuffer(reqInfo request, string *buffer) {
 string buildResponse(bool status, string content) {
 
 	// delka souboru je int - pro prekonvertovani na string pouzit ostringstream
-	ostringstream str;
-	str << content.length();
+	ostringstream contentLength;
 	
 	// response time
 	time_t rawtime;
@@ -83,7 +84,7 @@ string buildResponse(bool status, string content) {
 	// 404, in case of missing file
 	if(!status) {
 		response = "HTTP/1.0 404 Not Found\n";
-		return response;
+		content = "<h1>404 not found :(</h1> <br />Please try another document.";
 	}
 	
 	// HTTP protokol umoznuje vlozit asctime format
@@ -98,12 +99,14 @@ string buildResponse(bool status, string content) {
 	response += "Host: michalsvec.cz\n";
 
 	// content length
+	contentLength << content.length();
 	response += "Content-Length: ";
-	response += str.str();
+	response += contentLength.str();
 	response += "\n\n";
 	
 	// file content
 	response += content;
+	response += "\n";
 	
 	return response;
 }
@@ -115,6 +118,8 @@ void sendResponse(int connected, string response) {
 	
 	if(written < 0)
 		cout << "Error sending response. Response length: " << response.length() << endl;
+	else if(showDebug)
+		printf("written: %i to %i\n", written, connected);
 }
 
 
@@ -145,8 +150,6 @@ void parseHttpRequest(string request, string *file) {
 	
 	if(*file == "")
 		file->assign("index.html");
-	
-	//cout << "file: " << *file << endl;
 }
 
 
@@ -189,6 +192,7 @@ void getRequestInfo(void * req, reqInfo * data) {
 }
 
 
+
 /**
  * Main method for HTTP request processing
  *
@@ -196,19 +200,28 @@ void getRequestInfo(void * req, reqInfo * data) {
  */
 void * processHttpRequest(void * req) {
 
-	// Need local copy because of problem with pthreads - which tooks pointer 
 	reqInfo data;
+	bool status;
+	int bytes_recvd;
+	// String - document to read from webserver public folder
+	string response, file = "";
+
+
+	
+	// Need local copy because of problem with pthreads - which tooks pointer 
 	getRequestInfo(req, &data);
+	
+	commonQ = *(data.commonQ);
 	
 	string buffer;
 	string fileContent;
 	
-	
+
 	if(showDebug)
 		printf("Request: %i\n", data.connected);
 	
-	int bytes_recvd = acceptAndLoadBuffer(data, &buffer);
 	
+	bytes_recvd = acceptAndLoadBuffer(data, &buffer);
 	if (bytes_recvd < 0) {
 		fprintf(stderr,("read() error\n"));
 		return NULL;
@@ -219,34 +232,31 @@ void * processHttpRequest(void * req) {
 		return NULL;
 	}
 	
-	// String - dokument, ktery nacist ze slozky webserveru
-	string file = "";
-	// get the file name
 	parseHttpRequest(buffer, &file);
 
 	if(file == "") {
 		printError("Wrong offset - can't parse file name.");
 		return NULL;
 	}
+
 	
-	bool status = loadFile(file, fileContent);
-	
+	status = loadFile(file, fileContent);
 	if(!status) {
 		string errMsg = "unable to load file '";
 		errMsg += file += "' => 404";
 		printError(errMsg);
 	}
-	else		// magic :O
+	else if(isDispatchSuitable())	
 		dispatchIncreaseResponded(*(data.requestCountQ), data.requestsResponded);
 
 
-	string response = buildResponse(status, fileContent);
+	response = buildResponse(status, fileContent);	
 	sendResponse(data.connected, response);
 
 	// closing socket
 	close(data.connected);
+	if(showDebug)
+		printf("closed socket: %i\n", data.connected);
 
 	return NULL;
 }
-
-

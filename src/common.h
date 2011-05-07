@@ -10,6 +10,27 @@
 
 
 /**
+ * Method of parallel processing
+ */
+typedef enum {
+	GCD,
+	GCD_OWN,
+	PTHREADS,
+	OPENMPI,
+	FORK
+} ModeType;
+
+
+/**
+ * Method of waiting for requests requests
+ */
+typedef enum {
+	WHILE,
+	SOURCE
+} RequestType;
+
+
+/**
  * Structure with values from configuration file
  */
 typedef struct config {
@@ -35,6 +56,8 @@ extern dispatch_source_t timer;
 extern int requestsAccepted;
 extern int requestsResponded;
 
+extern ModeType parallelMode;
+
 
 void printError(std::string);
 
@@ -42,6 +65,10 @@ void dispatchPrint(std::string);
 void dispatchIncreaseAccepted();
 void dispatchIncreaseResponded(dispatch_queue_t, int*);
 void dispatchPrintStatus(void *);
+
+
+int isDispatchSuitable();
+
 
 /**
  * Accept connection and fill reqInfo structure
