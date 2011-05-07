@@ -15,6 +15,7 @@
 typedef struct config {
 	std::string documentRoot;
 	int portNr;
+	int reqInfoInterval;
 } ConfigVals;
 
 

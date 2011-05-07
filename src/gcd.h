@@ -17,6 +17,6 @@
 
 // zpracovani pozadavku pomoci GCD 
 void parse_request_gcd(reqInfo);
-
+void parse_request_gcd_own_queue(reqInfo);
 
 #endif

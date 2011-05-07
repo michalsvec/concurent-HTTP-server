@@ -46,6 +46,7 @@ int requestsResponded = 0;
  */
 typedef enum {
 	GCD,
+	GCD_OWN,
 	PTHREADS,
 	OPENMPI,
 	FORK
@@ -73,8 +74,8 @@ void deb(char * msg) {
 void printHelp() {
 printf("Benchmarking paralelnich metod s knihovnou GCD\n \
 \t-h - zobrazeni napovedy\n	\
-\t-m <mode> - vyber metody zpracovani paralelnich pozadavku PTHREADS,GCD,FORK\n \
-\t-p <mode> - vyber metody cekani na pozadavky WHILE,SOURCE\n");
+\t-m <mode> - vyber metody zpracovani paralelnich pozadavku PTHREADS, GCD, FORK, GCD_OWN\n \
+\t-p <mode> - vyber metody cekani na pozadavky WHILE, SOURCE\n");
 }
 
 
@@ -117,6 +118,8 @@ int parseArguments(int argc, const char * argv[], ModeType *pMode, RequestType *
 				*pMode = FORK;	
 			else if(strcmp(argv[i+1], "GCD") == 0)
 				*pMode = GCD;
+			else if(strcmp(argv[i+1], "GCD_OWN") == 0)
+				*pMode = GCD_OWN;
 			else 
 				return 2;
 			i++;
@@ -143,6 +146,7 @@ void loadConfig() {
 
 	config.documentRoot = cfg.getvalue<std::string>("document_root");
 	config.portNr = cfg.getvalue<int>("port");
+	config.reqInfoInterval = cfg.getvalue<int>("reqInfoInterval");
 }
 
 
@@ -178,6 +182,10 @@ int main (int argc, const char * argv[]) {
 			signal(SIGCHLD, SIG_IGN);
 			parse_request = parse_request_fork;
 			printf("mode: FORK");
+			break;
+		case GCD_OWN:
+			parse_request = parse_request_gcd_own_queue;
+			printf("mode: GCD_OWN");
 			break;
 		case GCD:
 		default:
@@ -239,7 +247,7 @@ int main (int argc, const char * argv[]) {
 
 	// timer which will write requests number to stdout
 	timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, commonQ);
-	dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), 5*NSEC_PER_SEC, 0);
+	dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), config.reqInfoInterval*NSEC_PER_SEC, 0);
 	dispatch_source_set_event_handler_f(timer, dispatchPrintStatus);
 	dispatch_resume(timer);
 	
