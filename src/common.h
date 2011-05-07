@@ -40,7 +40,7 @@ void printError(std::string);
 
 void dispatchPrint(std::string);
 void dispatchIncreaseAccepted();
-void dispatchIncreaseResponded();
+void dispatchIncreaseResponded(dispatch_queue_t, int*);
 void dispatchPrintStatus(void *);
 
 /**

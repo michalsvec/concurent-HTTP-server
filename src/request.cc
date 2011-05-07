@@ -178,6 +178,17 @@ bool loadFile(string fileName, string &content) {
 
 
 
+void getRequestInfo(void * req, reqInfo * data) {
+	data->connected = ((reqInfo *) req)->connected;
+	data->client_addr = ((reqInfo *) req)->client_addr;
+	data->sin_size = ((reqInfo *) req)->sin_size;
+	data->commonQ = ((reqInfo *) req)->commonQ;
+	data->requestCountQ = ((reqInfo *) req)->requestCountQ;
+	data->requestsAccepted = ((reqInfo *) req)->requestsAccepted;
+	data->requestsResponded = ((reqInfo *) req)->requestsResponded;
+}
+
+
 /**
  * Main method for HTTP request processing
  *
@@ -185,12 +196,9 @@ bool loadFile(string fileName, string &content) {
  */
 void * processHttpRequest(void * req) {
 
-	// Need local copy because of problems with pthreads - which tooks pointer 
+	// Need local copy because of problem with pthreads - which tooks pointer 
 	reqInfo data;
-	data.connected = ((reqInfo *) req)->connected;
-	data.client_addr = ((reqInfo *) req)->client_addr;
-	data.sin_size = ((reqInfo *) req)->sin_size;
-
+	getRequestInfo(req, &data);
 	
 	string buffer;
 	string fileContent;
@@ -228,8 +236,9 @@ void * processHttpRequest(void * req) {
 		errMsg += file += "' => 404";
 		printError(errMsg);
 	}
-	else
-		dispatchIncreaseResponded();
+	else		// magic :O
+		dispatchIncreaseResponded(*(data.requestCountQ), data.requestsResponded);
+
 
 	string response = buildResponse(status, fileContent);
 	sendResponse(data.connected, response);

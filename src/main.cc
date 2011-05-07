@@ -11,6 +11,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#include <iostream>
+
 #include <dispatch/dispatch.h>
 #include <dispatch/source.h>
 
@@ -37,8 +39,8 @@ dispatch_queue_t requestCountQ;
 dispatch_source_t timer;
 
 
-int requestsAccepted = 0;
-int requestsResponded = 0;
+int requestsAccepted = 1;
+int requestsResponded = 1;
 
 
 /**
@@ -85,7 +87,7 @@ printf("Benchmarking paralelnich metod s knihovnou GCD\n \
  * @param int signum
  */
 void signalCallbackHandler(int signum) {
-	printf("Terminating on signal: %d\n", signum);
+	printf("Terminating on signal: %d, closing socket:%d\n", signum, sock);
 	
 	close(sock);
 	exit(signum);
@@ -146,7 +148,7 @@ void loadConfig() {
 
 	config.documentRoot = cfg.getvalue<std::string>("document_root");
 	config.portNr = cfg.getvalue<int>("port");
-	config.reqInfoInterval = cfg.getvalue<int>("reqInfoInterval");
+	config.reqInfoInterval = cfg.getvalue<int>("info_interval");
 }
 
 
@@ -199,7 +201,7 @@ int main (int argc, const char * argv[]) {
 	// nastartovani serveru
 	struct sockaddr_in server_addr;
 	socklen_t sin_size;
-	int trueflag;
+	int trueflag = 1;
 	
 	// vytvoreni socketu
 	if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1) {

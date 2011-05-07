@@ -1,10 +1,12 @@
 #include "fork.h"
 #include "request.h"
+#include "common.h"
 
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
 #include <signal.h>
+#include <iostream>
 
 void parse_request_fork(reqInfo request) {
 	

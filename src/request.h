@@ -2,6 +2,7 @@
 #define __REQUEST_H__
 
 #include <netinet/in.h>
+#include <dispatch/dispatch.h>
 #include <string>
 
 #define BUFSIZE	1023
@@ -22,6 +23,10 @@ typedef struct requestInfo {
 	int connected;
 	sockaddr_in *client_addr;
 	socklen_t *sin_size;
+	dispatch_queue_t * commonQ;
+	dispatch_queue_t * requestCountQ;
+	int * requestsAccepted;
+	int * requestsResponded;
 } reqInfo;
 
 extern bool showDebug;
