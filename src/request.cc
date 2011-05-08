@@ -94,10 +94,6 @@ void getRequestInfo(void * req, reqInfo * data) {
 	data->connected = ((reqInfo *) req)->connected;
 	data->client_addr = ((reqInfo *) req)->client_addr;
 	data->sin_size = ((reqInfo *) req)->sin_size;
-	data->commonQ = ((reqInfo *) req)->commonQ;
-	data->requestCountQ = ((reqInfo *) req)->requestCountQ;
-	data->requestsAccepted = ((reqInfo *) req)->requestsAccepted;
-	data->requestsResponded = ((reqInfo *) req)->requestsResponded;
 }
 
 
@@ -117,7 +113,6 @@ void * processHttpRequest(void * req) {
 
 	// Need local copy because of problem with pthreads - which tooks pointer 
 	getRequestInfo(req, &data);
-	commonQ = *(data.commonQ);
 	HTTPHelper* http = new HTTPHelper(data.connected);
 
 	string buffer;
@@ -149,7 +144,7 @@ void * processHttpRequest(void * req) {
 		printError(errMsg);
 	}
 	else if(isDispatchSuitable())	
-		dispatchIncreaseResponded(*(data.requestCountQ), data.requestsResponded);
+		dispatchIncreaseResponded();
 
 
 	http->buildResponse(status, fileContent);	

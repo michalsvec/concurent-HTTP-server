@@ -33,8 +33,6 @@
 
 /* Begin PBXFileReference section */
 		453CC91B136D6168001BA734 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		453CC924136D68BF001BA734 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		453CC926136D68BF001BA734 /* httpserver_mpi.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = httpserver_mpi.1; sourceTree = "<group>"; };
 		453CC941136D6E46001BA734 /* configfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = configfile.cpp; path = src/lib/configfile/configfile.cpp; sourceTree = "<group>"; };
 		453CC942136D6E46001BA734 /* configfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = configfile.h; path = src/lib/configfile/configfile.h; sourceTree = "<group>"; };
 		4580A044133E7C2B00EEABB8 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
@@ -75,7 +73,6 @@
 			children = (
 				453CC91B136D6168001BA734 /* CoreFoundation.framework */,
 				08FB7795FE84155DC02AAC07 /* Source */,
-				453CC923136D68BF001BA734 /* httpserver-mpi */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
 			name = httpserver;
@@ -105,15 +102,6 @@
 				8DD76FB20486AB0100D96B5E /* httpserver */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		453CC923136D68BF001BA734 /* httpserver-mpi */ = {
-			isa = PBXGroup;
-			children = (
-				453CC924136D68BF001BA734 /* main.cpp */,
-				453CC926136D68BF001BA734 /* httpserver_mpi.1 */,
-			);
-			path = "httpserver-mpi";
 			sourceTree = "<group>";
 		};
 		45BB3199135EE2E900601783 /* classes */ = {

@@ -54,9 +54,9 @@ void dispatchIncreaseAccepted() {
 /**
  * Increase global variable in serial queue
  */
-void dispatchIncreaseResponded(dispatch_queue_t queue, int * requestsResponded) {
-	__block int * tmp = requestsResponded;
-	dispatch_async(queue, ^{ 
+void dispatchIncreaseResponded() {
+	__block int * tmp = &requestsResponded;
+	dispatch_async(requestCountQ, ^{ 
 		(*tmp)++; 
 	});
 }
@@ -97,20 +97,6 @@ void acceptRequest(int sock, reqInfo * req){
 
 
 
-/**
- * Fill the structure with pointers pointing to global variables from main process
- */
-void copyRequestInfo(reqInfo *req) {
-	// we need to pass the parameter to parse_request function 
-	// we can then avoid shared memory
-	req->commonQ = & commonQ;
-	req->requestCountQ = & requestCountQ;
-	req->requestsAccepted = & requestsAccepted;
-	req->requestsResponded = & requestsResponded;
-}
-
-
-
 void serverMainLoop(int sock, void * function) {
 	void (*parse_request)(reqInfo) = (void (*)(reqInfo))function;
 
@@ -121,7 +107,6 @@ void serverMainLoop(int sock, void * function) {
 	while(1) {
 		reqInfo request;
 		acceptRequest(sock, &request);
-		copyRequestInfo(&request);
 
 		gettimeofday(&time, NULL);
 		start = time.tv_sec+(time.tv_usec/1000000.0);
@@ -169,7 +154,6 @@ void serverMainSources(int sock, void * function) {
 	dispatch_source_set_event_handler(readSource, ^{
 		reqInfo request;
 		acceptRequest(sock, &request);
-		copyRequestInfo(&request);
 
 		parse_request(request);
 	});

@@ -52,7 +52,7 @@ methods.each { |method|
 	# jednotlive vysledky mereni
 	results = Array.new
 	puts "Klientu: "+CLIENTS_CNT.to_s
-	0.upto(TEST_CNT) do |iteration|
+	1.upto(TEST_CNT) do |iteration|
 		threads = Array.new
 
 		# puts "spawning clients"
