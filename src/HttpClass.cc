@@ -92,7 +92,7 @@ string HTTPHelper::getFileExtension(string filename) {
  * @param status true if file was loaded or false on 404
  * @param content file content
  */
-void HTTPHelper::buildResponse(bool status,string filename, string content) {
+void HTTPHelper::buildResponse(bool status, string filename, string content) {
 	
 	// delka souboru je int - pro prekonvertovani na string pouzit ostringstream
 	ostringstream output;
