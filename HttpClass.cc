@@ -46,6 +46,18 @@ void HTTPHelper::parseHttpRequest(string request, string *file) {
 
 
 
+// HTTP enables asctime format in response
+//  http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html 3.3.1 Full Date
+char * HTTPHelper::getActualtime() {
+	time_t rawtime;
+	struct tm * timeinfo;
+	time ( &rawtime );
+	timeinfo = localtime ( &rawtime );
+
+	return asctime (timeinfo);
+}	
+	
+
 
 /**
  * HTTP response builder
@@ -56,42 +68,32 @@ void HTTPHelper::parseHttpRequest(string request, string *file) {
 void HTTPHelper::buildResponse(bool status, string content) {
 	
 	// delka souboru je int - pro prekonvertovani na string pouzit ostringstream
-	ostringstream contentLength;
-	
-	// response time
-	time_t rawtime;
-	struct tm * timeinfo;
-	time ( &rawtime );
-	timeinfo = localtime ( &rawtime );
-	
-	response = "HTTP/1.0 200 OK\n";
+	ostringstream output;
 	
 	// 404, in case of missing file
 	if(!status) {
-		response = "HTTP/1.0 404 Not Found\n";
+		output << "HTTP/1.0 404 Not Found\n";
 		content = "<h1>404 not found :(</h1> <br />Please try another document.";
 	}
+	else {
+		output << "HTTP/1.0 200 OK\n";
+	}
 	
-	// HTTP protokol umoznuje vlozit asctime format
-	// viz http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html 3.3.1 Full Date
-	response += "Date: ";
-	response += asctime (timeinfo);
+	output << "Date: " << this->getActualtime();
 	
 	// server info and content type
 	// TODO: content type detection
-	response += "Content-Type: text/html\n";
-	response += "Server: GCDForkThreadServer\n";
-	response += "Host: michalsvec.cz\n";
+	output << "Content-Type: text/html\n";
+	output << "Server: GCDForkThreadServer\n";
+	output << "Host: michalsvec.cz\n";
 	
 	// content length
-	contentLength << content.length();
-	response += "Content-Length: ";
-	response += contentLength.str();
-	response += "\n\n";
+	output << "Content-Length: " << content.length() << "\n\n";
 	
 	// file content
-	response += content;
-	response += "\n";
+	output << content;
+	
+	response = output.str();
 }
 
 

@@ -20,4 +20,5 @@ public:
 	void parseHttpRequest(string, string *);
 	void buildResponse(bool, string);
 	void sendResponse();
+	char * getActualtime();
 };
