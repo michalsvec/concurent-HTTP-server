@@ -59,13 +59,40 @@ char * HTTPHelper::getActualtime() {
 	
 
 
+string HTTPHelper::getContentType(string e) {
+	if(e == "html" || e == "htm")
+		return "text/html";
+	if(e == "css")
+		return "text/css";
+	if(e == "jpg" || e == "jpeg")
+		return "image/jpeg";
+	if(e == "js")
+		return "application/x-javascript";
+	if(e == "txt")
+		return "text/plain";
+	if(e == "png")
+		return "image/png";
+	if(e == "ico")
+		return "image/x-icon";
+	
+	return "text/plain";
+}
+
+
+
+string HTTPHelper::getFileExtension(string filename) {
+	return filename.substr(filename.find_last_of(".") + 1);
+}
+
+
+
 /**
  * HTTP response builder
  *
  * @param status true if file was loaded or false on 404
  * @param content file content
  */
-void HTTPHelper::buildResponse(bool status, string content) {
+void HTTPHelper::buildResponse(bool status,string filename, string content) {
 	
 	// delka souboru je int - pro prekonvertovani na string pouzit ostringstream
 	ostringstream output;
@@ -83,7 +110,10 @@ void HTTPHelper::buildResponse(bool status, string content) {
 	
 	// server info and content type
 	// TODO: content type detection
-	output << "Content-Type: text/html\n";
+	
+	cout << this->getFileExtension(filename) << endl;
+	
+	output << "Content-Type: " << this->getContentType(this->getFileExtension(filename)) << "\n";
 	output << "Server: GCDForkThreadServer\n";
 	output << "Host: michalsvec.cz\n";
 	
@@ -95,8 +125,6 @@ void HTTPHelper::buildResponse(bool status, string content) {
 	
 	response = output.str();
 }
-
-
 
 
 

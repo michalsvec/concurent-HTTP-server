@@ -80,8 +80,10 @@ bool loadFile(string fileName, string &content) {
 //	getcwd(path1, 1000);
 	
 	if(file) {
-		while(getline(file,line))
+		while(getline(file,line)) {
 			content += line;
+			content += "\r\n";
+		}
 		return true;
 	} 
 	else	// file does not exists
@@ -140,14 +142,15 @@ void * processHttpRequest(void * req) {
 	status = loadFile(file, fileContent);
 	if(!status) {
 		string errMsg = "unable to load file '";
-		errMsg += file += "' => 404";
+		errMsg += file;
+		errMsg += "' => 404";
 		printError(errMsg);
 	}
 	else if(isDispatchSuitable())	
 		dispatchIncreaseResponded();
 
 
-	http->buildResponse(status, fileContent);	
+	http->buildResponse(status, file, fileContent);	
 	http->sendResponse();
 
 	// closing socket

@@ -18,7 +18,9 @@ public:
 	
 public:
 	void parseHttpRequest(string, string *);
-	void buildResponse(bool, string);
+	void buildResponse(bool, string, string);
 	void sendResponse();
 	char * getActualtime();
+	string getContentType(string);
+	string getFileExtension(string);
 };
