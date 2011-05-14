@@ -15,8 +15,6 @@ class HTTPHelper {
 public:
 	HTTPHelper(int);
 	
-	
-public:
 	void parseHttpRequest(string, string *);
 	void buildResponse(bool, string, string);
 	void sendResponse();

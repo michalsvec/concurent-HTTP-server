@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		453CC91C136D6168001BA734 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 453CC91B136D6168001BA734 /* CoreFoundation.framework */; };
 		453CC943136D6E46001BA734 /* configfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453CC941136D6E46001BA734 /* configfile.cpp */; };
-		453DB4D513770D3C009D22D3 /* HttpClass.cc in Sources */ = {isa = PBXBuildFile; fileRef = 453DB4D313770D3C009D22D3 /* HttpClass.cc */; };
+		453DB4D513770D3C009D22D3 /* HttpHelper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 453DB4D313770D3C009D22D3 /* HttpHelper.cc */; };
+		4568FDFD137F2D42000B483F /* TCPHelper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4568FDFB137F2D42000B483F /* TCPHelper.cc */; };
 		4580A045133E7C2B00EEABB8 /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4580A044133E7C2B00EEABB8 /* libpthread.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		45BB317A135EDC2300601783 /* common.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB316D135EDC2300601783 /* common.cc */; };
 		45BB317B135EDC2300601783 /* fork.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB316F135EDC2300601783 /* fork.cc */; };
@@ -35,8 +36,10 @@
 		453CC91B136D6168001BA734 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		453CC941136D6E46001BA734 /* configfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = configfile.cpp; path = src/lib/configfile/configfile.cpp; sourceTree = "<group>"; };
 		453CC942136D6E46001BA734 /* configfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = configfile.h; path = src/lib/configfile/configfile.h; sourceTree = "<group>"; };
-		453DB4D313770D3C009D22D3 /* HttpClass.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HttpClass.cc; path = src/HttpClass.cc; sourceTree = "<group>"; };
-		453DB4D413770D3C009D22D3 /* HttpClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpClass.h; path = src/HttpClass.h; sourceTree = "<group>"; };
+		453DB4D313770D3C009D22D3 /* HttpHelper.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HttpHelper.cc; path = src/HttpHelper.cc; sourceTree = "<group>"; };
+		453DB4D413770D3C009D22D3 /* HttpHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpHelper.h; path = src/HttpHelper.h; sourceTree = "<group>"; };
+		4568FDFB137F2D42000B483F /* TCPHelper.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCPHelper.cc; sourceTree = "<group>"; };
+		4568FDFC137F2D42000B483F /* TCPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPHelper.h; sourceTree = "<group>"; };
 		4580A044133E7C2B00EEABB8 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
 		45B090EC133F46120085B21B /* test.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = test.rb; sourceTree = "<group>"; };
 		45B13B9C137458430059ED18 /* semaphore.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = semaphore.rb; sourceTree = "<group>"; };
@@ -107,8 +110,10 @@
 		45BB3199135EE2E900601783 /* classes */ = {
 			isa = PBXGroup;
 			children = (
-				453DB4D313770D3C009D22D3 /* HttpClass.cc */,
-				453DB4D413770D3C009D22D3 /* HttpClass.h */,
+				453DB4D313770D3C009D22D3 /* HttpHelper.cc */,
+				453DB4D413770D3C009D22D3 /* HttpHelper.h */,
+				4568FDFB137F2D42000B483F /* TCPHelper.cc */,
+				4568FDFC137F2D42000B483F /* TCPHelper.h */,
 				453CC941136D6E46001BA734 /* configfile.cpp */,
 				453CC942136D6E46001BA734 /* configfile.h */,
 			);
@@ -182,7 +187,8 @@
 				45BB317F135EDC2300601783 /* pthreads.cc in Sources */,
 				45BB3180135EDC2300601783 /* request.cc in Sources */,
 				453CC943136D6E46001BA734 /* configfile.cpp in Sources */,
-				453DB4D513770D3C009D22D3 /* HttpClass.cc in Sources */,
+				453DB4D513770D3C009D22D3 /* HttpHelper.cc in Sources */,
+				4568FDFD137F2D42000B483F /* TCPHelper.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

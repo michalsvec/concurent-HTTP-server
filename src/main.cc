@@ -21,6 +21,7 @@
 
 #include "common.h"
 #include "request.h"
+#include "TCPHelper.h"
 
 #include "lib/configfile/configfile.h"
 
@@ -139,6 +140,7 @@ void loadConfig() {
 int main (int argc, const char * argv[]) {
 
 	RequestType requestProcess = WHILE;	
+	TCPHelper * tcp = new TCPHelper(std::string(""), 0);
 	
 	int argResult = parseArguments(argc, argv, &parallelMode, &requestProcess);
 	if(argResult == 2) {
@@ -179,48 +181,12 @@ int main (int argc, const char * argv[]) {
 	}
 
 	
-	
-	// nastartovani serveru
-	struct sockaddr_in server_addr;
-	socklen_t sin_size;
-	int trueflag = 1;
-	
-	// vytvoreni socketu
-	if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1) {
-		perror("Socket");
-		exit(1);
-	}
-	
-	
-	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &trueflag, sizeof(int)) == -1) {
-		perror("Setsockopt");
-		exit(1);
-	}
-	
-	server_addr.sin_family = AF_INET;    // protocol family
-	server_addr.sin_port = htons(config.portNr); // port number
-	server_addr.sin_addr.s_addr = INADDR_ANY;	// connection from everywhere
-	bzero(&(server_addr.sin_zero), 8);
-	
-	// nabindovani socketu
-	if (bind(sock, (struct sockaddr *) &server_addr, sizeof(struct sockaddr)) == -1) {
-		perror("Unable to bind");
-		exit(1);
-	}
-	
-	// listening start
-	// 2nd parameter is backlog
-	// If a connection request arrives with the queue full, the client may receive an error with an indication of ECONNREFUSED.
-	// 128 is MAX
-	if (listen(sock, 128) == -1) {
-		perror("Listen");
-		exit(1);
-	}
+	sock = tcp->startServer(config.portNr);
+
 	
 	printf("\nTCPServer started on port %i\n", config.portNr);
 	fflush(stdout);	
 	
-	sin_size = sizeof(struct sockaddr_in);
 
 	// handler na ukonceni po stisku ctrl+c
 	signal(SIGINT, signalCallbackHandler);

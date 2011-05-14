@@ -22,8 +22,7 @@
 #include "request.h"
 #include "common.h"
 
-
-#include "HttpClass.h"
+#include "HttpHelper.h"
 
 #include "gcd.h"
 #include "pthreads.h"	

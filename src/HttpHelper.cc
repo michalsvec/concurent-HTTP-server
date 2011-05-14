@@ -3,7 +3,7 @@
 #include <sstream>
 
 #include "common.h"
-#include "HttpClass.h"
+#include "HttpHelper.h"
 
 using namespace std;
 
