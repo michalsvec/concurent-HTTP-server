@@ -1,0 +1,3 @@
+[submodule "configfile"]
+        path = src/lib/configfile
+        url = git://github.com/benreh/configfile.git
