@@ -16,6 +16,7 @@ extern std::string documentRoot;
 
 
 
+
 /**
  * Structure with request info
  */

@@ -1,16 +1,16 @@
-//
-//  AvgHelper.h
-//  httpserver
-//
-//  Created by Michal Svec on 15.5.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+#ifndef __AVGHELPER_H__
+#define __AVGHELPER_H__
+#include <string>
+#include "TCPHelper.h"
 
-
-
-class AVGHelper {
+class AVGHelper: public TCPHelper  {
 	
 	
-	
+public:
+	AVGHelper(char *, int);
+	int checkFile(std::string);
 	
 };
+
+
+#endif

@@ -137,6 +137,12 @@ void * processHttpRequest(void * req) {
 		return NULL;
 	}
 
+	
+	// check file with AVG antivirus
+	if(config.useAVG) {
+		avg->checkFile(file);
+	}
+	
 
 	status = loadFile(file, fileContent);
 	if(!status) {

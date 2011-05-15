@@ -7,5 +7,17 @@
 //
 
 #include "AvgHelper.h"
+#include "TCPHelper.h"
 
 
+
+// use in server apps
+AVGHelper::AVGHelper(char * h, int p) : TCPHelper(h,p) {
+
+}
+
+
+int AVGHelper::checkFile(std::string file) {
+
+	return 1;
+}

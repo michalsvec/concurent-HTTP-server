@@ -22,6 +22,8 @@
 #include "common.h"
 #include "request.h"
 #include "TCPHelper.h"
+#include "AvgHelper.h"
+
 
 #include "lib/configfile/configfile.h"
 
@@ -38,6 +40,7 @@ std::string documentRoot = "";
 ConfigVals config;
 
 int avgSock;
+AVGHelper * avg;
 
 dispatch_queue_t commonQ;
 dispatch_queue_t requestCountQ;
@@ -145,7 +148,7 @@ int main (int argc, const char * argv[]) {
 
 	RequestType requestProcess = WHILE;	
 	TCPHelper * server;
-	TCPHelper * avg;
+
 	
 	int argResult = parseArguments(argc, argv, &parallelMode, &requestProcess);
 	if(argResult == 2) {
@@ -198,7 +201,7 @@ int main (int argc, const char * argv[]) {
 
 	// initialize connection to avg Tcpd daemon
 	if(config.useAVG) {
-		avg = new TCPHelper((char *) config.avgHost.c_str(), config.avgPort);
+		avg = new AVGHelper((char *) config.avgHost.c_str(), config.avgPort);
 		avg->connect();
 		avgSock = avg->socket();
 	}

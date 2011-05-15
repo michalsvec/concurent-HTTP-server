@@ -5,6 +5,7 @@
 
 
 class TCPHelper {
+protected:
 	int socketNr;
 	int port;
 

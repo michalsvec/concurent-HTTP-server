@@ -6,6 +6,7 @@
 #include <dispatch/dispatch.h>
 
 #include "request.h"
+#include "AvgHelper.h"
 
 
 
@@ -46,7 +47,7 @@ typedef struct config {
 
 extern ConfigVals config;
 
-
+extern AVGHelper * avg;
 extern int avgSock;
 
 /**
