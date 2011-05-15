@@ -174,28 +174,28 @@ int main (int argc, const char * argv[]) {
 	switch (parallelMode) {
 		case PTHREADS:
 			parse_request = parse_request_pthreads;
-			printf("mode: PTHREADS");
+			printf("mode: PTHREADS\n");
 			break;
 		case FORK:
 			// avoiding zombies, when using fork()
 			signal(SIGCHLD, SIG_IGN);
 			parse_request = parse_request_fork;
-			printf("mode: FORK");
+			printf("mode: FORK\n");
 			break;
 		case GCD_OWN:
 			parse_request = parse_request_gcd_own_queue;
-			printf("mode: GCD_OWN");
+			printf("mode: GCD_OWN\n");
 			break;
 		case GCD:
 		default:
 			parse_request = parse_request_gcd;
-			printf("mode: GCD");
+			printf("mode: GCD\n");
 			break;
 	}
 
 	server = new TCPHelper();
 	server->setPort(config.portNr);
-	sock = server->startServer();
+	server->startServer();
 
 	
 	printf("\nTCPServer started on port %i\n", config.portNr);
@@ -211,9 +211,10 @@ int main (int argc, const char * argv[]) {
 		avg = new AVGHelper();
 		avg->setPort(config.avgPort);
 		avg->setHost((char *) config.avgHost.c_str());
-		
+
 		try {
 			avg->connect();
+			avg->read();	// read initial messages of AVG Tcpd
 		} catch (char * e) {
 			printf("%s\n", e);
 			return EXIT_FAILURE;
@@ -225,15 +226,15 @@ int main (int argc, const char * argv[]) {
 
 	// timer which will write requests number to stdout
 	timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, commonQ);
-	dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), config.reqInfoInterval*NSEC_PER_SEC, 0);
+	dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), config.reqInfoInterval * NSEC_PER_SEC, 0);
 	dispatch_source_set_event_handler_f(timer, dispatchPrintStatus);
 	dispatch_resume(timer);
 	
 	
 	if(requestProcess == WHILE)
-		serverMainLoop(sock, (void *) parse_request);
+		serverMainLoop(server->socket(), (void *) parse_request);
 	if(requestProcess == SOURCE)
-		serverMainSources(sock, (void *) parse_request);
+		serverMainSources(server->socket(), (void *) parse_request);
 	
 	delete avg;
 	delete server;

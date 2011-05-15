@@ -1,6 +1,7 @@
 
 #include <sstream>
 
+#include "common.h"
 #include "AvgHelper.h"
 #include "HTTPHelper.h"
 
@@ -21,7 +22,7 @@ AVGHelper::AVGHelper(): HTTPHelper() {
 void AVGHelper::buildRequest(std::string method, std::string file) {
 	
 	ostringstream output;		
-	output << method << " " << file;
+	output << method << " " << file << "\n";
 	request = output.str();
 }
 
@@ -33,10 +34,14 @@ void AVGHelper::buildRequest(std::string method, std::string file) {
  */
 bool AVGHelper::checkFile(std::string file) {
 
-	buildRequest("SCAN", file);
+	AVGHelper * request = new AVGHelper();
+	request->setSocket(avg->socket());
+	request->buildRequest("SCAN", file);
+	request->write(request->getRequest());
+
 	
-	
-	
+	request->read();
+//	printf("response: %s\n", request->getResponse().c_str());
 	
 	return true;
 }
@@ -47,12 +52,14 @@ bool AVGHelper::checkFile(std::string file) {
  * loads file from webservers public directory and checks for virus infection
  * in case of some error or infection loads status page from internal folder
  */
-int AVGHelper::getFile(std::string fileName, std::string & fileContent) {
+HTTPHelper::HTTPStatus AVGHelper::getFile(std::string fileName, std::string & fileContent) {
 	
-	bool status = ::loadFile(fileName, fileContent);
+	string filePath = config.documentRoot + fileName;
+	
+	bool status = ::loadFile(filePath, fileContent);
 	
 	if(status) {
-		bool virus = checkFile(fileName);
+		bool virus = checkFile(filePath);
 
 		if(virus) {
 			getStatusFile(HTTP_INFECTED, fileContent);

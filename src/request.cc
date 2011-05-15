@@ -63,9 +63,10 @@ bool loadFile(string filePath, string &content) {
 
 
 void getRequestInfo(void * req, reqInfo * data) {
-	data->connected = ((reqInfo *) req)->connected;
-	data->client_addr = ((reqInfo *) req)->client_addr;
-	data->sin_size = ((reqInfo *) req)->sin_size;
+	data->socket = ((reqInfo *) req)->socket;
+	data->useAVG  = ((reqInfo *) req)->useAVG;
+	data->avgHost = ((reqInfo *) req)->avgHost;
+	data->avgPort = ((reqInfo *) req)->avgPort;
 }
 
 
@@ -85,33 +86,33 @@ void * processHttpRequest(void * req) {
 	// Need local copy because of problem with pthreads - which tooks pointer 
 	getRequestInfo(req, &data);
 
-	HTTPHelper* http;
-
-	if(config.useAVG) {
+	AVGHelper* http;
+	if(data.useAVG) {
 		http = new AVGHelper();
 	}
 	else {
-		http = new HTTPHelper();
+		//http = static_cast<AVGHelper *>(new HTTPHelper());
+		http = (AVGHelper *) new HTTPHelper();
 	}
 
-	http->setSocket(data.connected);
+	http->setSocket(data.socket);
 	
 	string buffer;
 	string fileContent;
 	string errMsg;
 	
-	bytesRecvd = http->read(data, &buffer);
+	bytesRecvd = http->read();
 	if (bytesRecvd < 0) {
 		fprintf(stderr,("read() error\n"));
 		return NULL;
 	}
 
-	if(buffer.length() < 1) {
+	if(http->getResponse().length() < 1) {
 		cerr << "Empty buffer - terminating" << endl;
 		return NULL;
 	}
 
-	http->parseHttpRequest(buffer, &file);
+	http->parseHttpRequest(http->getResponse(), &file);
 	if(file == "") {
 		printError("Wrong offset - can't parse file name.");
 		return NULL;
@@ -139,10 +140,9 @@ void * processHttpRequest(void * req) {
 	if(isDispatchSuitable())	
 		dispatchIncreaseResponded();
 
-
 	http->buildResponse(status, file, fileContent);	
 	try {
-		http->write();
+		http->write(http->getResponse());
 	} catch (char * e) {
 		printError(e);
 	}

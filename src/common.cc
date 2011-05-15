@@ -99,8 +99,8 @@ void acceptRequest(int sock, reqInfo * req){
 	}
 	
 	// accept connection
-	req->connected = accept(sock, (struct sockaddr *) &req->client_addr, (socklen_t *) &req->sin_size);
-	if (req->connected == -1) {
+	req->socket = accept(sock, (struct sockaddr *) &req->client_addr, (socklen_t *) &req->sin_size);
+	if (req->socket == -1) {
 		printError("Connection accept problem.");
 	}
 
@@ -121,12 +121,16 @@ void serverMainLoop(int sock, void * function) {
 		reqInfo request;
 		acceptRequest(sock, &request);
 
+		request.useAVG = config.useAVG;
+		request.avgHost = config.avgHost;
+		request.avgPort = config.avgPort;
+		
 		gettimeofday(&time, NULL);
 		start = time.tv_sec+(time.tv_usec/1000000.0);
 
 		if(showDebug) {
 			std::ostringstream msg;
-			msg << "serverMainLoop - reqInfo.connected: " << request.connected;
+			msg << "serverMainLoop - reqInfo.socket: " << request.socket;
 			dispatchPrint(msg.str());
 		}
 
@@ -175,3 +179,5 @@ void serverMainSources(int sock, void * function) {
     dispatch_resume(readSource);
 	dispatch_main();	
 }
+
+

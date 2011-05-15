@@ -49,6 +49,18 @@ void TCPHelper::setPort(int p) {
 }
 
 
+
+std::string TCPHelper::getResponse() {
+	return response;
+}
+
+std::string TCPHelper::getRequest() {
+	return request;
+}
+
+
+
+
 void TCPHelper::connect() {
 
 	int sockfd;
@@ -83,15 +95,14 @@ int TCPHelper::startServer() {
 	// nastartovani serveru
 	struct sockaddr_in serverAddr;
 	int trueflag = 1;
-	int sock;
 	
 	// vytvoreni socketu
-	if ((sock = callSocket()) == -1) {
+	if (callSocket() == -1) {
 		perror("Socket");
 		exit(1);
 	}
 	
-	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &trueflag, sizeof(int)) == -1) {
+	if (setsockopt(socketNr, SOL_SOCKET, SO_REUSEADDR, &trueflag, sizeof(int)) == -1) {
 		perror("Setsockopt");
 		exit(1);
 	}
@@ -102,7 +113,7 @@ int TCPHelper::startServer() {
 	bzero(&(serverAddr.sin_zero), 8);
 	
 	// nabindovani socketu
-	if (bind(sock, (struct sockaddr *) &serverAddr, sizeof(struct sockaddr)) == -1) {
+	if (bind(socketNr, (struct sockaddr *) &serverAddr, sizeof(struct sockaddr)) == -1) {
 		perror("Unable to bind");
 		exit(1);
 	}
@@ -111,19 +122,22 @@ int TCPHelper::startServer() {
 	// 2nd parameter is backlog
 	// If a connection request arrives with the queue full, the client may receive an error with an indication of ECONNREFUSED.
 	// 128 is MAX
-	if (listen(sock, 128) == -1) {
+	if (listen(socketNr, 128) == -1) {
 		perror("Listen");
 		exit(1);
 	}
-	
-	return sock;
+	printf("server started on socket: %d", socketNr);
+	return socketNr;
 }
 
 
 
-int TCPHelper::write() {
+/**
+ * string is passed in argument. Sometimes we need request, sometimes response
+ */
+int TCPHelper::write(std::string data) {
 
-	int written = ::write(socketNr, (void *) response.c_str(), (size_t) response.length());
+	int written = ::write(socketNr, (void *) data.c_str(), (size_t) data.length());
 
 	if(written < 0)
 		throw "Error sending response.";
@@ -138,20 +152,19 @@ int TCPHelper::write() {
 /**
  * Connection accept and buffer load
  *
- * @param reqInfo informations about request
  * @param string buffer
  *
  * @return int pocet nactenych bytu
  */
-int TCPHelper::read(reqInfo request, std::string *buffer) {
+int TCPHelper::read() {
 	int result = 1;
 	char tmp[BUFSIZE];	
 	
-	
+	response = "";
 	// if there's anything to load - load it
 	while(result > 0) {
-		result = ::read(request.connected, (void *) tmp, BUFSIZE);
-		*buffer += tmp;
+		result = ::read(socketNr, (void *) tmp, BUFSIZE);
+		response += tmp;
 		
 		// if result is smaller than BUFSIZE - whole message was loaded
 		// else result == BUFSIZE or result == 0

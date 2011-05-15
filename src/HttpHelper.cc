@@ -99,8 +99,10 @@ void HTTPHelper::buildResponse(HTTPStatus status, string filename, string conten
 	output << "Date: " << ::getActualtime();
 	
 	// server info and content type
-//	cout << this->getFileExtension(filename) << endl;
-	output << "Content-Type: " << this->getContentType(this->getFileExtension(filename)) << "\n";
+	std::string extension = this->getFileExtension(filename);
+	if(status != HTTP_OK)
+		extension = "html";
+	output << "Content-Type: " << this->getContentType(extension) << "\n";
 	output << "Server: GCDForkThreadServer\n";
 	output << "Host: michalsvec.cz\n";
 	

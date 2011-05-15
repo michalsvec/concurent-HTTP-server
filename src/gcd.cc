@@ -37,7 +37,7 @@ void parse_request_gcd_own_queue(reqInfo request) {
 	dispatch_queue_t dqueue;	// fronta zpracovavajici pozadavky serveru
 
 	char unique[2];
-	unique[0] = '0'+request.connected;
+	unique[0] = '0'+request.socket;
 	
 	std::string queueName = "";
 	queueName += "cz.vutbr.fit.xsvecm07";

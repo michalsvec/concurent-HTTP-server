@@ -16,18 +16,21 @@ extern std::string documentRoot;
 
 
 
-
 /**
  * Structure with request info
  */
 typedef struct requestInfo {
-	int connected;
+	int socket;
 	sockaddr_in *client_addr;
 	socklen_t *sin_size;
 	dispatch_queue_t * commonQ;
 	dispatch_queue_t * requestCountQ;
 	int * requestsAccepted;
 	int * requestsResponded;
+	
+	bool useAVG;
+	std::string avgHost;
+	int avgPort;
 } reqInfo;
 
 extern bool showDebug;

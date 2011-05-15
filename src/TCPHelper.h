@@ -22,13 +22,16 @@ public:
 
 	void setHost(std::string);
 	void setPort(int);
+	std::string getResponse();
+	std::string getRequest();
+	
 	
 	void connect();
 	int callSocket();
 	void setSocket(int);
 	int startServer();
-	int write();
-	int read(reqInfo, std::string *);
+	int write(std::string);
+	int read();
 };
 
 
