@@ -20,9 +20,6 @@ TCPHelper::~TCPHelper() {
 }
 
 
-int TCPHelper::socket() {
-	return socketNr;
-}
 
 
 
@@ -33,16 +30,17 @@ int TCPHelper::callSocket() {
 
 
 
+int TCPHelper::getSocket() {
+	return socketNr;
+}
+
 void TCPHelper::setSocket(int s) {
 	socketNr = s;
 }
 
-
 void TCPHelper::setHost(std::string h) {
 	host = h;
 }
-
-
 
 void TCPHelper::setPort(int p) {
 	port = p;
@@ -60,7 +58,6 @@ std::string TCPHelper::getRequest() {
 
 
 
-
 void TCPHelper::connect() {
 
 	int sockfd;
@@ -73,7 +70,7 @@ void TCPHelper::connect() {
 	
 	server = gethostbyname(host.c_str());
     if (server == NULL)
-		throw "Can't find AVG Tcpd server!\n";
+		throw "Can't find server by name!\n";
 
     
 	bzero((char *) &serv_addr, sizeof(serv_addr));
@@ -82,7 +79,7 @@ void TCPHelper::connect() {
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
 
     if (::connect(socketNr, (struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
-        throw "Error in connecting to AVG Tcpd!\n";
+        throw "Error connecting to server!\n";
 }
 
 

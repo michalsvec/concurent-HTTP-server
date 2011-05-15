@@ -35,7 +35,7 @@ void AVGHelper::buildRequest(std::string method, std::string file) {
 bool AVGHelper::checkFile(std::string file) {
 
 	AVGHelper * request = new AVGHelper();
-	request->setSocket(avg->socket());
+	request->setSocket(avg->getSocket());
 	request->buildRequest("SCAN", file);
 	request->write(request->getRequest());
 

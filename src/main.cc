@@ -232,9 +232,9 @@ int main (int argc, const char * argv[]) {
 	
 	
 	if(requestProcess == WHILE)
-		serverMainLoop(server->socket(), (void *) parse_request);
+		serverMainLoop(server->getSocket(), (void *) parse_request);
 	if(requestProcess == SOURCE)
-		serverMainSources(server->socket(), (void *) parse_request);
+		serverMainSources(server->getSocket(), (void *) parse_request);
 	
 	delete avg;
 	delete server;

@@ -18,7 +18,7 @@ public:
 	TCPHelper();
 	~TCPHelper();
 
-	int socket();
+
 
 	void setHost(std::string);
 	void setPort(int);
@@ -29,6 +29,7 @@ public:
 	void connect();
 	int callSocket();
 	void setSocket(int);
+	int getSocket();
 	int startServer();
 	int write(std::string);
 	int read();
