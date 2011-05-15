@@ -40,6 +40,7 @@
 		453DB4D413770D3C009D22D3 /* HttpHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpHelper.h; path = src/HttpHelper.h; sourceTree = "<group>"; };
 		4568FDFB137F2D42000B483F /* TCPHelper.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCPHelper.cc; sourceTree = "<group>"; };
 		4568FDFC137F2D42000B483F /* TCPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPHelper.h; sourceTree = "<group>"; };
+		4568FE04137F4C56000B483F /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		4580A044133E7C2B00EEABB8 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
 		45B090EC133F46120085B21B /* test.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = test.rb; sourceTree = "<group>"; };
 		45B13B9C137458430059ED18 /* semaphore.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = semaphore.rb; sourceTree = "<group>"; };
@@ -95,6 +96,7 @@
 				45B13B9C137458430059ED18 /* semaphore.rb */,
 				45B090EC133F46120085B21B /* test.rb */,
 				45BB319A135EE40E00601783 /* config_sample.cfg */,
+				4568FE04137F4C56000B483F /* README */,
 			);
 			name = Source;
 			sourceTree = "<group>";
