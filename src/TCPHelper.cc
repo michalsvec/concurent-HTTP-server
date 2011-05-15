@@ -9,18 +9,15 @@
 #include "common.h"
 
 
-// use in server apps
-TCPHelper::TCPHelper(char * h, int p) {
-	port = p;
-	host = h;
-}
-
 
 // for usage in client apps
-TCPHelper::TCPHelper(int p) {
-	port = p;
+TCPHelper::TCPHelper() {
 }
 
+
+TCPHelper::~TCPHelper() {
+	close(socketNr);
+}
 
 
 int TCPHelper::socket() {
@@ -29,11 +26,27 @@ int TCPHelper::socket() {
 
 
 
-int TCPHelper::setSocket() {
+int TCPHelper::callSocket() {
 	socketNr = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	return socketNr;
 }
 
+
+
+void TCPHelper::setSocket(int s) {
+	socketNr = s;
+}
+
+
+void TCPHelper::setHost(std::string h) {
+	host = h;
+}
+
+
+
+void TCPHelper::setPort(int p) {
+	port = p;
+}
 
 
 void TCPHelper::connect() {
@@ -42,24 +55,22 @@ void TCPHelper::connect() {
     struct sockaddr_in serv_addr;
     struct hostent *server;
 	
-	
-	sockfd = setSocket();
+	callSocket();
 	if (sockfd < 0) 
 		throw "Error opening socket!";
 	
 	server = gethostbyname(host.c_str());
-    if (server == NULL) {
-		throw "Can't find server!\n";
-    }
+    if (server == NULL)
+		throw "Can't find AVG Tcpd server!\n";
+
     
 	bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-
+    serv_addr.sin_port = htons(port);
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
-    serv_addr.sin_port = port;
-	
-    if (::connect(sockfd, (struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
-        throw "Chyba pri pripojovani!\n";
+
+    if (::connect(socketNr, (struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
+        throw "Error in connecting to AVG Tcpd!\n";
 }
 
 
@@ -75,7 +86,7 @@ int TCPHelper::startServer() {
 	int sock;
 	
 	// vytvoreni socketu
-	if ((sock = setSocket()) == -1) {
+	if ((sock = callSocket()) == -1) {
 		perror("Socket");
 		exit(1);
 	}
@@ -110,7 +121,7 @@ int TCPHelper::startServer() {
 
 
 
-int TCPHelper::write(std::string response) {
+int TCPHelper::write() {
 
 	int written = ::write(socketNr, (void *) response.c_str(), (size_t) response.length());
 

@@ -91,7 +91,7 @@ void signalCallbackHandler(int signum) {
  *		1 - print help
  *		2 - invalid mode
  */
-int parseArguments(int argc, const char * argv[], ModeType *pMode, RequestType * rMode) {
+int parseArguments(int argc, const char * argv[], RequestType * rMode) {
 	for (int i=0; i < argc; i++) {
 
 		if(strcmp(argv[i], "-h") == 0) {
@@ -103,13 +103,13 @@ int parseArguments(int argc, const char * argv[], ModeType *pMode, RequestType *
 		}
 		else if(strcmp(argv[i], "-m") == 0) {
 			if(strcmp(argv[i+1], "PTHREADS") == 0)
-				*pMode = PTHREADS;
+				parallelMode = PTHREADS;
 			else if(strcmp(argv[i+1], "FORK") == 0)
-				*pMode = FORK;	
+				parallelMode = FORK;	
 			else if(strcmp(argv[i+1], "GCD") == 0)
-				*pMode = GCD;
+				parallelMode = GCD;
 			else if(strcmp(argv[i+1], "GCD_OWN") == 0)
-				*pMode = GCD_OWN;
+				parallelMode = GCD_OWN;
 			else 
 				return 2;
 			i++;
@@ -151,7 +151,11 @@ int main (int argc, const char * argv[]) {
 	TCPHelper * server;
 
 	
-	int argResult = parseArguments(argc, argv, &parallelMode, &requestProcess);
+	commonQ = dispatch_queue_create("cz.vutbr.fit.xsvecm07.common", NULL);
+	requestCountQ = dispatch_queue_create("cz.vutbr.fit.xsvecm07.count", NULL);
+
+	
+	int argResult = parseArguments(argc, argv, &requestProcess);
 	if(argResult == 2) {
 		printError("Invalid parallel mode!");
 		return EXIT_FAILURE;
@@ -189,7 +193,8 @@ int main (int argc, const char * argv[]) {
 			break;
 	}
 
-	server = new TCPHelper(config.portNr);
+	server = new TCPHelper();
+	server->setPort(config.portNr);
 	sock = server->startServer();
 
 	
@@ -200,16 +205,23 @@ int main (int argc, const char * argv[]) {
 	signal(SIGINT, signalCallbackHandler);
 
 
+
 	// initialize connection to avg Tcpd daemon
 	if(config.useAVG) {
-		avg = new AVGHelper((char *) config.avgHost.c_str(), config.avgPort);
-//		avg->connect();
-//		avgSock = avg->socket();
+		avg = new AVGHelper();
+		avg->setPort(config.avgPort);
+		avg->setHost((char *) config.avgHost.c_str());
+		
+		try {
+			avg->connect();
+		} catch (char * e) {
+			printf("%s\n", e);
+			return EXIT_FAILURE;
+		}
+		
+		printf("AVG control active and running\n");
 	}
-	
-	
-	commonQ = dispatch_queue_create("cz.vutbr.fit.xsvecm07.common", NULL);
-	requestCountQ = dispatch_queue_create("cz.vutbr.fit.xsvecm07.count", NULL);
+
 
 	// timer which will write requests number to stdout
 	timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, commonQ);
@@ -224,5 +236,6 @@ int main (int argc, const char * argv[]) {
 		serverMainSources(sock, (void *) parse_request);
 	
 	delete avg;
+	delete server;
     return 0;
 }

@@ -13,10 +13,6 @@ using namespace std;
  */
 class HTTPHelper: public TCPHelper {
 
-protected:
-	string response;
-	string request;
-
 public:	
 	enum HTTPStatus {
 		HTTP_OK = 200,
@@ -25,8 +21,8 @@ public:
 	};
 	
 
-	HTTPHelper(int);
-
+	HTTPHelper();
+	
 	void parseHttpRequest(string, string *);
 	void buildResponse(HTTPStatus, string, string);
 	void buildRequest(string method, string file);

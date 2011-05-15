@@ -5,6 +5,14 @@
 #include "HTTPHelper.h"
 
 
+
+
+AVGHelper::AVGHelper(): HTTPHelper() {
+
+}
+
+
+
 /**
  * Very very very simple request builder
  * for AVG the request is only scan filename

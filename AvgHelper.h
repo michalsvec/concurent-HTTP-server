@@ -8,7 +8,7 @@ class AVGHelper: public HTTPHelper  {
 	
 	
 public:
-	AVGHelper(char *, int);
+	AVGHelper();
 	bool checkFile(std::string);
 	int getFile(std::string, std::string &);
 	void buildRequest(std::string, std::string);

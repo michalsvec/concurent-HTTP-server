@@ -40,10 +40,9 @@ using namespace std;
  * @param name of a file
  * @param buffer for content
  */
-bool loadFile(string fileName, string &content) {
+bool loadFile(string filePath, string &content) {
 
 	string line;
-	string filePath = config.documentRoot + fileName;
 	ifstream file (filePath.c_str());
 
 //  cwd detecting	
@@ -79,26 +78,29 @@ void getRequestInfo(void * req, reqInfo * data) {
 void * processHttpRequest(void * req) {
 
 	reqInfo data;
-	int bytes_recvd;
+	int bytesRecvd;
 	// String - document to read from webserver public folder
 	string file = "";
 
 	// Need local copy because of problem with pthreads - which tooks pointer 
 	getRequestInfo(req, &data);
+
 	HTTPHelper* http;
 	if(config.useAVG) {
 		http = avg;
 	}
 	else {
-	 http = new HTTPHelper(data.connected);
+		http = new HTTPHelper();
 	}
 
+	http->setSocket(data.connected);
+	
 	string buffer;
 	string fileContent;
 	string errMsg;
 	
-	bytes_recvd = acceptAndLoadBuffer(data, &buffer);
-	if (bytes_recvd < 0) {
+	bytesRecvd = http->read(data, &buffer);
+	if (bytesRecvd < 0) {
 		fprintf(stderr,("read() error\n"));
 		return NULL;
 	}
@@ -130,14 +132,20 @@ void * processHttpRequest(void * req) {
 			break;
 	}
 	errMsg += file;
-	printError(errMsg);
+	dispatchPrint(errMsg);
 
+	
 	if(isDispatchSuitable())	
 		dispatchIncreaseResponded();
 
 
 	http->buildResponse(status, file, fileContent);	
-//	http->sendResponse();
+	try {
+		http->write();
+	} catch (char * e) {
+		printError(e);
+	}
+	
 
 	// closing socket
 	close(data.connected);
@@ -147,3 +155,6 @@ void * processHttpRequest(void * req) {
 	http = NULL;
 	return NULL;
 }
+
+
+

@@ -103,7 +103,7 @@ void acceptRequest(int sock, reqInfo * req){
 	if (req->connected == -1) {
 		printError("Connection accept problem.");
 	}
-	
+
 	if(isDispatchSuitable())
 		dispatchIncreaseAccepted();
 }

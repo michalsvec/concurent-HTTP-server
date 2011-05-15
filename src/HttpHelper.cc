@@ -11,9 +11,13 @@ using namespace std;
 
 
 
-HTTPHelper::HTTPHelper(int sock): TCPHelper(sock) {
-	//tcp = new TCPHelper(sock);
+HTTPHelper::HTTPHelper(): TCPHelper() {
+
 }
+
+
+
+
 
 
 
@@ -163,7 +167,9 @@ void HTTPHelper::getStatusFile(HTTPStatus status, std::string & fileContent) {
  */
 HTTPHelper::HTTPStatus HTTPHelper::getFile(std::string fileName, std::string & fileContent) {
 
-	bool status = ::loadFile(fileName, fileContent);
+	string filePath = config.documentRoot + fileName;
+	
+	bool status = ::loadFile(filePath, fileContent);
 
 	if(status)
 		return HTTP_OK;
