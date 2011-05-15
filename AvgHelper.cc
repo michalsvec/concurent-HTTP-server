@@ -80,15 +80,17 @@ HTTPHelper::HTTPStatus AVGHelper::getFile(std::string fileName, std::string & fi
 	
 	string filePath = config.documentRoot + fileName;
 	
-	bool status = ::loadFile(filePath, fileContent);
+	HTTPStatus status = checkFile(filePath);
 	
-	if(status) {
-		if( checkFile(filePath) == HTTP_INFECTED) {
-			getStatusFile(HTTP_INFECTED, fileContent);
-			return HTTP_INFECTED;
-		}
-		else
-			return HTTP_OK;
+	if(status == HTTP_INFECTED) {
+		getStatusFile(HTTP_INFECTED, fileContent);
+		return HTTP_INFECTED;
+	}
+
+	bool fileStatus = ::loadFile(filePath, fileContent);
+
+	if(fileStatus) {
+		return HTTP_OK;
 	}
 	else {
 		getStatusFile(HTTP_NOTFOUND, fileContent);

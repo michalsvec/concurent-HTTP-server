@@ -134,7 +134,7 @@ void HTTPHelper::buildRequest(std::string method, std::string file) {
  * Loads status file. e.g. in case of missing or infected file
  * from webserver internal folder
  */
-void HTTPHelper::getStatusFile(HTTPStatus status, std::string & fileContent) {
+void HTTPHelper::getStatusFile(HTTPStatus status, std::string &fileContent) {
 	bool result;
 	std::string fileName;
 	
