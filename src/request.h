@@ -40,4 +40,6 @@ void * processHttpRequest(void *);
 
 char * getActualtime();
 
+bool loadFile(std::string, std::string &);
+
 #endif

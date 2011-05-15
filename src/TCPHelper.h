@@ -2,7 +2,7 @@
 #define __TCPHELPER_H__
 
 #include <string>
-
+#include "request.h"
 
 class TCPHelper {
 protected:
@@ -21,6 +21,7 @@ public:
 	int setSocket();
 	int startServer();
 	int write(std::string);
+	int read(reqInfo, std::string *);
 };
 
 

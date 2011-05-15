@@ -1,15 +1,17 @@
 #ifndef __AVGHELPER_H__
 #define __AVGHELPER_H__
-#include <string>
-#include "TCPHelper.h"
 
-class AVGHelper: public TCPHelper  {
+#include <string>
+#include "HTTPHelper.h"
+
+class AVGHelper: public HTTPHelper  {
 	
 	
 public:
 	AVGHelper(char *, int);
-	int checkFile(std::string);
-	
+	bool checkFile(std::string);
+	int getFile(std::string, std::string &);
+	void buildRequest(std::string, std::string);
 };
 
 

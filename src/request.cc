@@ -32,34 +32,6 @@
 using namespace std;
 
 
-/**
- * Connection accept and buffer load
- *
- * @param int socket number
- * @param struct sockaddr_in
- * @param sin_size 
- * @param char[] buffer
- *
- * @return int pocet nactenych bytu
- */
-int acceptAndLoadBuffer(reqInfo request, string *buffer) {
-	int result = 1;
-	char tmp[BUFSIZE];	
-	
-	
-	// if there's anything to load - load it
-	while(result > 0) {
-		result = read(request.connected, (void *) tmp, BUFSIZE);
-		*buffer += tmp;
-		
-		// if result is smaller than BUFSIZE - whole message was loaded
-		// else result == BUFSIZE or result == 0
-		if(result < BUFSIZE)
-			break;
-	}
-	
-	return result;
-}
 
 
 
@@ -107,19 +79,24 @@ void getRequestInfo(void * req, reqInfo * data) {
 void * processHttpRequest(void * req) {
 
 	reqInfo data;
-	bool status;
 	int bytes_recvd;
 	// String - document to read from webserver public folder
 	string file = "";
 
 	// Need local copy because of problem with pthreads - which tooks pointer 
 	getRequestInfo(req, &data);
-	HTTPHelper* http = new HTTPHelper(data.connected);
+	HTTPHelper* http;
+	if(config.useAVG) {
+		http = avg;
+	}
+	else {
+	 http = new HTTPHelper(data.connected);
+	}
 
 	string buffer;
 	string fileContent;
-
-
+	string errMsg;
+	
 	bytes_recvd = acceptAndLoadBuffer(data, &buffer);
 	if (bytes_recvd < 0) {
 		fprintf(stderr,("read() error\n"));
@@ -138,29 +115,35 @@ void * processHttpRequest(void * req) {
 	}
 
 	
-	// check file with AVG antivirus
-	if(config.useAVG) {
-		avg->checkFile(file);
-	}
+	HTTPHelper::HTTPStatus status = http->getFile(file, fileContent);
 	
-
-	status = loadFile(file, fileContent);
-	if(!status) {
-		string errMsg = "unable to load file '";
-		errMsg += file;
-		errMsg += "' => 404";
-		printError(errMsg);
+	switch (status) {
+		case HTTPHelper::HTTP_INFECTED:
+			errMsg = "403 ";
+			break;
+		case HTTPHelper::HTTP_NOTFOUND:
+			errMsg = "404 ";
+			break;
+		case HTTPHelper::HTTP_OK:
+		default:
+			errMsg = "200 ";
+			break;
 	}
-	else if(isDispatchSuitable())	
+	errMsg += file;
+	printError(errMsg);
+
+	if(isDispatchSuitable())	
 		dispatchIncreaseResponded();
 
 
 	http->buildResponse(status, file, fileContent);	
-	http->sendResponse();
+//	http->sendResponse();
 
 	// closing socket
 	close(data.connected);
-	delete http;
+	if(!config.useAVG) {
+		delete http;
+	}
 	http = NULL;
 	return NULL;
 }

@@ -36,6 +36,7 @@ typedef enum {
  */
 typedef struct config {
 	std::string documentRoot;
+	std::string internalRoot;
 	int portNr;
 	int reqInfoInterval;
 

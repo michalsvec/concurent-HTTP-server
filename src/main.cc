@@ -135,6 +135,7 @@ void loadConfig() {
 	ConfigFile cfg("config.cfg");
 
 	config.documentRoot = cfg.getvalue<std::string>("document_root");
+	config.internalRoot = cfg.getvalue<std::string>("internal_root");
 	config.portNr = cfg.getvalue<int>("port");
 	config.reqInfoInterval = cfg.getvalue<int>("info_interval");
 	config.useAVG = cfg.getvalue<bool>("avg_check");
@@ -202,8 +203,8 @@ int main (int argc, const char * argv[]) {
 	// initialize connection to avg Tcpd daemon
 	if(config.useAVG) {
 		avg = new AVGHelper((char *) config.avgHost.c_str(), config.avgPort);
-		avg->connect();
-		avgSock = avg->socket();
+//		avg->connect();
+//		avgSock = avg->socket();
 	}
 	
 	

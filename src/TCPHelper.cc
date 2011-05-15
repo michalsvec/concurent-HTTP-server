@@ -121,3 +121,35 @@ int TCPHelper::write(std::string response) {
 
 	return written;
 }
+
+
+
+/**
+ * Connection accept and buffer load
+ *
+ * @param reqInfo informations about request
+ * @param string buffer
+ *
+ * @return int pocet nactenych bytu
+ */
+int TCPHelper::read(reqInfo request, std::string *buffer) {
+	int result = 1;
+	char tmp[BUFSIZE];	
+	
+	
+	// if there's anything to load - load it
+	while(result > 0) {
+		result = ::read(request.connected, (void *) tmp, BUFSIZE);
+		*buffer += tmp;
+		
+		// if result is smaller than BUFSIZE - whole message was loaded
+		// else result == BUFSIZE or result == 0
+		if(result < BUFSIZE)
+			break;
+	}
+	
+	return result;
+}
+
+
+

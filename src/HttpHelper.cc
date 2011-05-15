@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "common.h"
+#include "request.h"
 #include "TCPHelper.h"
 #include "HttpHelper.h"
 
@@ -10,8 +11,8 @@ using namespace std;
 
 
 
-HTTPHelper::HTTPHelper(int sock) {
-	tcp = new TCPHelper(sock);
+HTTPHelper::HTTPHelper(int sock): TCPHelper(sock) {
+	//tcp = new TCPHelper(sock);
 }
 
 
@@ -31,7 +32,7 @@ HTTPHelper::HTTPHelper(int sock) {
  Accept-Language: cs-CZ,cs;q=0.8
  Accept-Charset: windows-1250,utf-8;q=0.7,*;q=0.3
  Cookie: ...nejake cookie data...
- */
+*/
 void HTTPHelper::parseHttpRequest(string request, string *file) {
 	
 	int offset = request.find("HTTP");
@@ -80,25 +81,26 @@ string HTTPHelper::getFileExtension(string filename) {
  * @param status true if file was loaded or false on 404
  * @param content file content
  */
-void HTTPHelper::buildResponse(bool status, string filename, string content) {
+void HTTPHelper::buildResponse(HTTPStatus status, string filename, string content) {
 	
 	// delka souboru je int - pro prekonvertovani na string pouzit ostringstream
 	ostringstream output;
 	
-	// 404, in case of missing file
-	if(!status) {
-		output << "HTTP/1.0 404 Not Found\n";
-		content = "<h1>404 not found :(</h1> <br />Please try another document.";
-	}
-	else {
-		output << "HTTP/1.0 200 OK\n";
+	switch (status) {
+		case HTTP_NOTFOUND:
+			output << "HTTP/1.0 404 Not Found\n";
+			break;
+		case HTTP_INFECTED:
+			output << "HTTP/1.0 123 Infected\n";
+		case HTTP_OK:
+		default:
+			output << "HTTP/1.0 200 OK\n";
+			break;
 	}
 	
 	output << "Date: " << ::getActualtime();
 	
 	// server info and content type
-	// TODO: content type detection
-	
 	cout << this->getFileExtension(filename) << endl;
 	
 	output << "Content-Type: " << this->getContentType(this->getFileExtension(filename)) << "\n";
@@ -116,10 +118,65 @@ void HTTPHelper::buildResponse(bool status, string filename, string content) {
 
 
 
-void HTTPHelper::sendResponse() {
-	
-	
-	
+/**
+ * Very very very simple request builder
+ * in this version only builds header with desired method and filename
+ */
+void HTTPHelper::buildRequest(std::string method, std::string file) {
+
+	ostringstream output;		
+	output << method << " " << file << " HTTP/1.0\n";
+	request = output.str();
 }
+
+
+
+/**
+ * Loads status file. e.g. in case of missing or infected file
+ * from webserver internal folder
+ */
+void HTTPHelper::getStatusFile(HTTPStatus status, std::string & fileContent) {
+	bool result;
+	std::string fileName;
+	
+	fileName = config.internalRoot;
+	
+	switch(status) {
+		case HTTP_INFECTED:
+			fileName += "403.html";
+			result = ::loadFile(fileName, fileContent);			
+			break;
+		case HTTP_NOTFOUND:
+			fileName += "404.html";
+			result = ::loadFile(fileName, fileContent);			
+			break; 
+		case HTTP_OK:
+			break;
+	}
+}
+
+
+
+/**
+ * Loads file from webserver public folder or status file
+ * in case of some error
+ */
+HTTPHelper::HTTPStatus HTTPHelper::getFile(std::string fileName, std::string & fileContent) {
+
+	bool status = ::loadFile(fileName, fileContent);
+
+	if(status)
+		return HTTP_OK;
+	else {
+		getStatusFile(HTTP_NOTFOUND, fileContent);
+		return HTTP_NOTFOUND;
+	}
+}
+
+
+
+
+
+
 
 
