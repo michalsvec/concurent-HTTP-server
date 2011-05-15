@@ -16,12 +16,6 @@ HTTPHelper::HTTPHelper(): TCPHelper() {
 }
 
 
-
-
-
-
-
-
 /**
  * Parsovani HTTP pozadavku a navraceni odpovedi
  * @return string dokument, ktery se ma nacist
@@ -105,8 +99,7 @@ void HTTPHelper::buildResponse(HTTPStatus status, string filename, string conten
 	output << "Date: " << ::getActualtime();
 	
 	// server info and content type
-	cout << this->getFileExtension(filename) << endl;
-	
+//	cout << this->getFileExtension(filename) << endl;
 	output << "Content-Type: " << this->getContentType(this->getFileExtension(filename)) << "\n";
 	output << "Server: GCDForkThreadServer\n";
 	output << "Host: michalsvec.cz\n";
@@ -178,9 +171,6 @@ HTTPHelper::HTTPStatus HTTPHelper::getFile(std::string fileName, std::string & f
 		return HTTP_NOTFOUND;
 	}
 }
-
-
-
 
 
 

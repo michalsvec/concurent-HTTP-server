@@ -86,8 +86,9 @@ void * processHttpRequest(void * req) {
 	getRequestInfo(req, &data);
 
 	HTTPHelper* http;
+
 	if(config.useAVG) {
-		http = avg;
+		http = new AVGHelper();
 	}
 	else {
 		http = new HTTPHelper();
@@ -147,12 +148,8 @@ void * processHttpRequest(void * req) {
 	}
 	
 
-	// closing socket
-	close(data.connected);
-	if(!config.useAVG) {
-		delete http;
-	}
-	http = NULL;
+	delete http; http = NULL;
+
 	return NULL;
 }
 
