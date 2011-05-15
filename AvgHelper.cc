@@ -28,23 +28,47 @@ void AVGHelper::buildRequest(std::string method, std::string file) {
 
 
 
+std::string AVGHelper::getResponseCode() {
+	return response.substr(0,3);
+}
+
+
+
 /**
  * Check file for virus infiltration
  * sends request to avgtcpd and parse the result
  */
-bool AVGHelper::checkFile(std::string file) {
+HTTPHelper::HTTPStatus AVGHelper::checkFile(std::string file) {
 
 	AVGHelper * request = new AVGHelper();
-	request->setSocket(avg->getSocket());
+	
+
+	request->setPort(config.avgPort);
+	request->setHost((char *) config.avgHost.c_str());
+	
+	try {
+		request->connect();
+		request->read();	// read initial messages of AVG Tcpd
+	} catch (char * e) {
+		printf("%s\n", e);
+		return STATUS_UNDEFINED;
+	}
+
 	request->buildRequest("SCAN", file);
 	request->write(request->getRequest());
-
-	
 	request->read();
-//	printf("response: %s\n", request->getResponse().c_str());
-	
-	return true;
+
+	std::string code = request->getResponseCode();
+	delete request;
+
+	if(code == "200")
+		return HTTP_OK;
+	else if(code == "403")
+		return HTTP_INFECTED;
+	else
+		return STATUS_UNDEFINED;
 }
+
 
 
 /**
@@ -59,13 +83,11 @@ HTTPHelper::HTTPStatus AVGHelper::getFile(std::string fileName, std::string & fi
 	bool status = ::loadFile(filePath, fileContent);
 	
 	if(status) {
-		bool virus = checkFile(filePath);
-
-		if(virus) {
+		if( checkFile(filePath) == HTTP_INFECTED) {
 			getStatusFile(HTTP_INFECTED, fileContent);
 			return HTTP_INFECTED;
 		}
-		else 		
+		else
 			return HTTP_OK;
 	}
 	else {

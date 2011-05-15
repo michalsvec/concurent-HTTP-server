@@ -48,9 +48,6 @@ typedef struct config {
 
 extern ConfigVals config;
 
-extern AVGHelper * avg;
-extern int avgSock;
-
 /**
  * queues for global operations
  *

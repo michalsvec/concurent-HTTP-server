@@ -40,7 +40,7 @@ std::string documentRoot = "";
 ConfigVals config;
 
 int avgSock;
-AVGHelper * avg;
+
 
 dispatch_queue_t commonQ;
 dispatch_queue_t requestCountQ;
@@ -205,25 +205,6 @@ int main (int argc, const char * argv[]) {
 	signal(SIGINT, signalCallbackHandler);
 
 
-
-	// initialize connection to avg Tcpd daemon
-	if(config.useAVG) {
-		avg = new AVGHelper();
-		avg->setPort(config.avgPort);
-		avg->setHost((char *) config.avgHost.c_str());
-
-		try {
-			avg->connect();
-			avg->read();	// read initial messages of AVG Tcpd
-		} catch (char * e) {
-			printf("%s\n", e);
-			return EXIT_FAILURE;
-		}
-		
-		printf("AVG control active and running\n");
-	}
-
-
 	// timer which will write requests number to stdout
 	timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, commonQ);
 	dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), config.reqInfoInterval * NSEC_PER_SEC, 0);
@@ -236,7 +217,6 @@ int main (int argc, const char * argv[]) {
 	if(requestProcess == SOURCE)
 		serverMainSources(server->getSocket(), (void *) parse_request);
 	
-	delete avg;
 	delete server;
     return 0;
 }

@@ -9,9 +9,11 @@ class AVGHelper: public HTTPHelper  {
 	
 public:
 	AVGHelper();
-	bool checkFile(std::string);
+	HTTPHelper::HTTPStatus checkFile(std::string);
 	HTTPHelper::HTTPStatus getFile(std::string, std::string &);
 	void buildRequest(std::string, std::string);
+	
+	std::string getResponseCode();
 };
 
 

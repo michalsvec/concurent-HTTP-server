@@ -17,7 +17,8 @@ public:
 	enum HTTPStatus {
 		HTTP_OK = 200,
 		HTTP_NOTFOUND = 404,
-		HTTP_INFECTED = 403
+		HTTP_INFECTED = 403,
+		STATUS_UNDEFINED
 	};
 	
 
