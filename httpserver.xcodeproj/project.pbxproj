@@ -10,7 +10,8 @@
 		453CC91C136D6168001BA734 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 453CC91B136D6168001BA734 /* CoreFoundation.framework */; };
 		453CC943136D6E46001BA734 /* configfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 453CC941136D6E46001BA734 /* configfile.cpp */; };
 		453DB4D513770D3C009D22D3 /* HttpHelper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 453DB4D313770D3C009D22D3 /* HttpHelper.cc */; };
-		4568FDFD137F2D42000B483F /* TCPHelper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4568FDFB137F2D42000B483F /* TCPHelper.cc */; };
+		4568FE07137F5028000B483F /* TCPHelper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4568FE05137F5028000B483F /* TCPHelper.cc */; };
+		4568FE0A137F5A14000B483F /* AvgHelper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4568FE08137F5A14000B483F /* AvgHelper.cc */; };
 		4580A045133E7C2B00EEABB8 /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4580A044133E7C2B00EEABB8 /* libpthread.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		45BB317A135EDC2300601783 /* common.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB316D135EDC2300601783 /* common.cc */; };
 		45BB317B135EDC2300601783 /* fork.cc in Sources */ = {isa = PBXBuildFile; fileRef = 45BB316F135EDC2300601783 /* fork.cc */; };
@@ -38,9 +39,11 @@
 		453CC942136D6E46001BA734 /* configfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = configfile.h; path = src/lib/configfile/configfile.h; sourceTree = "<group>"; };
 		453DB4D313770D3C009D22D3 /* HttpHelper.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HttpHelper.cc; path = src/HttpHelper.cc; sourceTree = "<group>"; };
 		453DB4D413770D3C009D22D3 /* HttpHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpHelper.h; path = src/HttpHelper.h; sourceTree = "<group>"; };
-		4568FDFB137F2D42000B483F /* TCPHelper.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCPHelper.cc; sourceTree = "<group>"; };
-		4568FDFC137F2D42000B483F /* TCPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPHelper.h; sourceTree = "<group>"; };
-		4568FE04137F4C56000B483F /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		4568FE04137F4C56000B483F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		4568FE05137F5028000B483F /* TCPHelper.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPHelper.cc; path = src/TCPHelper.cc; sourceTree = "<group>"; };
+		4568FE06137F5028000B483F /* TCPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCPHelper.h; path = src/TCPHelper.h; sourceTree = "<group>"; };
+		4568FE08137F5A14000B483F /* AvgHelper.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AvgHelper.cc; sourceTree = "<group>"; };
+		4568FE09137F5A14000B483F /* AvgHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvgHelper.h; sourceTree = "<group>"; };
 		4580A044133E7C2B00EEABB8 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
 		45B090EC133F46120085B21B /* test.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = test.rb; sourceTree = "<group>"; };
 		45B13B9C137458430059ED18 /* semaphore.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = semaphore.rb; sourceTree = "<group>"; };
@@ -75,8 +78,10 @@
 		08FB7794FE84155DC02AAC07 /* httpserver */ = {
 			isa = PBXGroup;
 			children = (
-				453CC91B136D6168001BA734 /* CoreFoundation.framework */,
 				08FB7795FE84155DC02AAC07 /* Source */,
+				4568FE0B137F5F00000B483F /* Scripts */,
+				4568FE0C137F5F2E000B483F /* Misc */,
+				4568FE0D137F5F45000B483F /* Libraries */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
 			name = httpserver;
@@ -85,7 +90,6 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				4580A044133E7C2B00EEABB8 /* libpthread.dylib */,
 				45BB3199135EE2E900601783 /* classes */,
 				45DC08721312BE2D00515ED9 /* implementations */,
 				45BB316D135EDC2300601783 /* common.cc */,
@@ -93,10 +97,6 @@
 				45BB3173135EDC2300601783 /* main.cc */,
 				45BB3178135EDC2300601783 /* request.cc */,
 				45BB3179135EDC2300601783 /* request.h */,
-				45B13B9C137458430059ED18 /* semaphore.rb */,
-				45B090EC133F46120085B21B /* test.rb */,
-				45BB319A135EE40E00601783 /* config_sample.cfg */,
-				4568FE04137F4C56000B483F /* README */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -109,13 +109,42 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4568FE0B137F5F00000B483F /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				45B13B9C137458430059ED18 /* semaphore.rb */,
+				45B090EC133F46120085B21B /* test.rb */,
+			);
+			name = Scripts;
+			sourceTree = "<group>";
+		};
+		4568FE0C137F5F2E000B483F /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				45BB319A135EE40E00601783 /* config_sample.cfg */,
+				4568FE04137F4C56000B483F /* README.md */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
+		4568FE0D137F5F45000B483F /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				453CC91B136D6168001BA734 /* CoreFoundation.framework */,
+				4580A044133E7C2B00EEABB8 /* libpthread.dylib */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
 		45BB3199135EE2E900601783 /* classes */ = {
 			isa = PBXGroup;
 			children = (
 				453DB4D313770D3C009D22D3 /* HttpHelper.cc */,
 				453DB4D413770D3C009D22D3 /* HttpHelper.h */,
-				4568FDFB137F2D42000B483F /* TCPHelper.cc */,
-				4568FDFC137F2D42000B483F /* TCPHelper.h */,
+				4568FE05137F5028000B483F /* TCPHelper.cc */,
+				4568FE06137F5028000B483F /* TCPHelper.h */,
+				4568FE08137F5A14000B483F /* AvgHelper.cc */,
+				4568FE09137F5A14000B483F /* AvgHelper.h */,
 				453CC941136D6E46001BA734 /* configfile.cpp */,
 				453CC942136D6E46001BA734 /* configfile.h */,
 			);
@@ -190,7 +219,8 @@
 				45BB3180135EDC2300601783 /* request.cc in Sources */,
 				453CC943136D6E46001BA734 /* configfile.cpp in Sources */,
 				453DB4D513770D3C009D22D3 /* HttpHelper.cc in Sources */,
-				4568FDFD137F2D42000B483F /* TCPHelper.cc in Sources */,
+				4568FE07137F5028000B483F /* TCPHelper.cc in Sources */,
+				4568FE0A137F5A14000B483F /* AvgHelper.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

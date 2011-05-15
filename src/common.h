@@ -37,10 +37,17 @@ typedef struct config {
 	std::string documentRoot;
 	int portNr;
 	int reqInfoInterval;
+
+	bool useAVG;
+	std::string avgHost;
+	int avgPort;
 } ConfigVals;
 
 
 extern ConfigVals config;
+
+
+extern int avgSock;
 
 /**
  * queues for global operations

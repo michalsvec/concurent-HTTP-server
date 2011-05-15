@@ -37,6 +37,8 @@ std::string documentRoot = "";
 
 ConfigVals config;
 
+int avgSock;
+
 dispatch_queue_t commonQ;
 dispatch_queue_t requestCountQ;
 dispatch_source_t timer;
@@ -45,7 +47,6 @@ int requestsAccepted = 1;
 int requestsResponded = 1;
 
 ModeType parallelMode = GCD;
-
 
 
 
@@ -133,6 +134,9 @@ void loadConfig() {
 	config.documentRoot = cfg.getvalue<std::string>("document_root");
 	config.portNr = cfg.getvalue<int>("port");
 	config.reqInfoInterval = cfg.getvalue<int>("info_interval");
+	config.useAVG = cfg.getvalue<bool>("avg_check");
+	config.avgHost = cfg.getvalue<std::string>("avg_host");
+	config.avgPort = cfg.getvalue<int>("avg_port");
 }
 
 
@@ -140,7 +144,8 @@ void loadConfig() {
 int main (int argc, const char * argv[]) {
 
 	RequestType requestProcess = WHILE;	
-	TCPHelper * tcp = new TCPHelper(std::string(""), 0);
+	TCPHelper * server;
+	TCPHelper * avg;
 	
 	int argResult = parseArguments(argc, argv, &parallelMode, &requestProcess);
 	if(argResult == 2) {
@@ -180,17 +185,24 @@ int main (int argc, const char * argv[]) {
 			break;
 	}
 
-	
-	sock = tcp->startServer(config.portNr);
+	server = new TCPHelper(config.portNr);
+	sock = server->startServer();
 
 	
 	printf("\nTCPServer started on port %i\n", config.portNr);
 	fflush(stdout);	
-	
 
-	// handler na ukonceni po stisku ctrl+c
+	// handler to stop the programm on ctrl+c
 	signal(SIGINT, signalCallbackHandler);
 
+
+	// initialize connection to avg Tcpd daemon
+	if(config.useAVG) {
+		avg = new TCPHelper((char *) config.avgHost.c_str(), config.avgPort);
+		avg->connect();
+		avgSock = avg->socket();
+	}
+	
 	
 	commonQ = dispatch_queue_create("cz.vutbr.fit.xsvecm07.common", NULL);
 	requestCountQ = dispatch_queue_create("cz.vutbr.fit.xsvecm07.count", NULL);
@@ -207,6 +219,6 @@ int main (int argc, const char * argv[]) {
 	if(requestProcess == SOURCE)
 		serverMainSources(sock, (void *) parse_request);
 	
-	
+	delete avg;
     return 0;
 }
