@@ -1,17 +1,26 @@
-
+#ifndef __TCPHELPER_H__
+#define __TCPHELPER_H__
 
 #include <string>
 
 
 class TCPHelper {
+	int socketNr;
+	int port;
 
 	std::string host;
-	int port;
+
 public:	
-	TCPHelper(std::string, int);
+	TCPHelper(char *, int);
+	TCPHelper(int);
+
+	int socket();
+
 	void connect();
-	int getSocket();
-	int startServer(int);
-	
-	
+	int setSocket();
+	int startServer();
+	int write(std::string);
 };
+
+
+#endif

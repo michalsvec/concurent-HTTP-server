@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "common.h"
+#include "TCPHelper.h"
 #include "HttpHelper.h"
 
 using namespace std;
@@ -10,7 +11,7 @@ using namespace std;
 
 
 HTTPHelper::HTTPHelper(int sock) {
-	socket = sock;
+	tcp = new TCPHelper(sock);
 }
 
 
@@ -42,19 +43,6 @@ void HTTPHelper::parseHttpRequest(string request, string *file) {
 	
 	if(*file == "")
 		file->assign("index.html");
-}
-
-
-
-// HTTP enables asctime format in response
-//  http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html 3.3.1 Full Date
-char * HTTPHelper::getActualtime() {
-	time_t rawtime;
-	struct tm * timeinfo;
-	time ( &rawtime );
-	timeinfo = localtime ( &rawtime );
-
-	return asctime (timeinfo);
 }	
 	
 
@@ -106,7 +94,7 @@ void HTTPHelper::buildResponse(bool status, string filename, string content) {
 		output << "HTTP/1.0 200 OK\n";
 	}
 	
-	output << "Date: " << this->getActualtime();
+	output << "Date: " << ::getActualtime();
 	
 	// server info and content type
 	// TODO: content type detection
@@ -130,12 +118,8 @@ void HTTPHelper::buildResponse(bool status, string filename, string content) {
 
 void HTTPHelper::sendResponse() {
 	
-	int written = write(socket, (void *) response.c_str(), (size_t) response.length());
 	
-	if(written < 0)
-		cout << "Error sending response. Socket: " << socket << ". Response length: " << response.length() << endl;
-	else if(showDebug)
-		printf("written: %i to %i\n", written, this->socket);
+	
 }
 
 

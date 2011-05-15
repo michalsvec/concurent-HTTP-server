@@ -1,5 +1,6 @@
 #include <string>
 
+#include "TCPHelper.h"
 
 using namespace std;
 
@@ -9,8 +10,8 @@ using namespace std;
  */
 class HTTPHelper {
 	
-	int socket;
 	string response;
+	TCPHelper * tcp;
 
 public:
 	HTTPHelper(int);

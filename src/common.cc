@@ -77,6 +77,19 @@ void dispatchPrintStatus(void * param) {
 
 
 
+// HTTP enables asctime format in response
+//  http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html 3.3.1 Full Date
+char * getActualtime() {
+	time_t rawtime;
+	struct tm * timeinfo;
+	time ( &rawtime );
+	timeinfo = localtime ( &rawtime );
+	
+	return asctime (timeinfo);
+}
+
+
+
 void acceptRequest(int sock, reqInfo * req){
 
 	if(showDebug) { 

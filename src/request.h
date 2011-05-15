@@ -37,4 +37,6 @@ int acceptAndLoadBuffer(reqInfo, std::string *);
 
 void * processHttpRequest(void *);
 
+char * getActualtime();
+
 #endif

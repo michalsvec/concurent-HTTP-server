@@ -6,20 +6,32 @@
 #include <netdb.h>
 
 #include "TCPHelper.h"
+#include "common.h"
 
 
-
-
-TCPHelper::TCPHelper(std::string h, int p) {
+// use in server apps
+TCPHelper::TCPHelper(char * h, int p) {
 	port = p;
 	host = h;
 }
 
 
+// for usage in client apps
+TCPHelper::TCPHelper(int p) {
+	port = p;
+}
 
 
-int TCPHelper::getSocket() {
-	return socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+int TCPHelper::socket() {
+	return socketNr;
+}
+
+
+
+int TCPHelper::setSocket() {
+	socketNr = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	return socketNr;
 }
 
 
@@ -31,14 +43,13 @@ void TCPHelper::connect() {
     struct hostent *server;
 	
 	
-	sockfd = getSocket();
+	sockfd = setSocket();
 	if (sockfd < 0) 
 		throw "Error opening socket!";
 	
 	server = gethostbyname(host.c_str());
     if (server == NULL) {
 		throw "Can't find server!\n";
-		exit(0);
     }
     
 	bzero((char *) &serv_addr, sizeof(serv_addr));
@@ -53,8 +64,10 @@ void TCPHelper::connect() {
 
 
 
-
-int TCPHelper::startServer(int portNr) {
+/**
+ * Binds socket to port number 
+ */
+int TCPHelper::startServer() {
 	
 	// nastartovani serveru
 	struct sockaddr_in serverAddr;
@@ -62,7 +75,7 @@ int TCPHelper::startServer(int portNr) {
 	int sock;
 	
 	// vytvoreni socketu
-	if ((sock = getSocket()) == -1) {
+	if ((sock = setSocket()) == -1) {
 		perror("Socket");
 		exit(1);
 	}
@@ -73,7 +86,7 @@ int TCPHelper::startServer(int portNr) {
 	}
 	
 	serverAddr.sin_family = AF_INET;    // protocol family
-	serverAddr.sin_port = htons(portNr); // port number
+	serverAddr.sin_port = htons(port); // port number
 	serverAddr.sin_addr.s_addr = INADDR_ANY;	// connection from everywhere
 	bzero(&(serverAddr.sin_zero), 8);
 	
@@ -93,4 +106,18 @@ int TCPHelper::startServer(int portNr) {
 	}
 	
 	return sock;
+}
+
+
+
+int TCPHelper::write(std::string response) {
+
+	int written = ::write(socketNr, (void *) response.c_str(), (size_t) response.length());
+
+	if(written < 0)
+		throw "Error sending response.";
+	else if(showDebug)
+		printf("written: %i\n", written);
+
+	return written;
 }
