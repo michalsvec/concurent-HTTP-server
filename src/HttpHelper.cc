@@ -89,7 +89,7 @@ void HTTPHelper::buildResponse(HTTPStatus status, string filename, string conten
 			output << "HTTP/1.0 404 Not Found\n";
 			break;
 		case HTTP_INFECTED:
-			output << "HTTP/1.0 123 Infected\n";
+			output << "HTTP/1.0 403 Forbidden\n";
 		case HTTP_OK:
 		default:
 			output << "HTTP/1.0 200 OK\n";

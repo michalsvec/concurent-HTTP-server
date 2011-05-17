@@ -205,11 +205,13 @@ int main (int argc, const char * argv[]) {
 	signal(SIGINT, signalCallbackHandler);
 
 
-	// timer which will write requests number to stdout
-	timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, commonQ);
-	dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), config.reqInfoInterval * NSEC_PER_SEC, 0);
-	dispatch_source_set_event_handler_f(timer, dispatchPrintStatus);
-	dispatch_resume(timer);
+	if(config.reqInfoInterval > 0) {
+		// timer that will write requests number to stdout
+		timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, commonQ);
+		dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), config.reqInfoInterval * NSEC_PER_SEC, 0);
+		dispatch_source_set_event_handler_f(timer, dispatchPrintStatus);
+		dispatch_resume(timer);
+	}
 	
 	
 	if(requestProcess == WHILE)
