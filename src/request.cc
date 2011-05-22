@@ -86,13 +86,9 @@ void * processHttpRequest(void * req) {
 	// Need local copy because of problem with pthreads - which tooks pointer 
 	getRequestInfo(req, &data);
 
-	AVGHelper* http;
+	AVGHelper* http = new AVGHelper();
 	if(data.useAVG) {
-		http = new AVGHelper();
-	}
-	else {
-		//http = static_cast<AVGHelper *>(new HTTPHelper());
-		http = (AVGHelper *) new HTTPHelper();
+		http->useAVG = true;
 	}
 
 	http->setSocket(data.socket);

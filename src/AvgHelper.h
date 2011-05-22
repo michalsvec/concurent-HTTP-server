@@ -8,6 +8,9 @@ class AVGHelper: public HTTPHelper  {
 	
 	
 public:
+	
+	bool useAVG;
+	
 	AVGHelper();
 	HTTPHelper::HTTPStatus checkFile(std::string);
 	HTTPHelper::HTTPStatus getFile(std::string, std::string &);

@@ -10,6 +10,8 @@
 
 AVGHelper::AVGHelper(): HTTPHelper() {
 
+	useAVG = false;
+	
 }
 
 
@@ -72,12 +74,17 @@ HTTPHelper::HTTPStatus AVGHelper::checkFile(std::string file) {
 
 
 /**
- * Overloaded method from parent TCPHelper
+ * Overloaded method from parent HTTPHelper
  * loads file from webservers public directory and checks for virus infection
  * in case of some error or infection loads status page from internal folder
  */
 HTTPHelper::HTTPStatus AVGHelper::getFile(std::string fileName, std::string & fileContent) {
 	
+	
+	if(!useAVG)
+		return HTTPHelper::getFile(fileName, fileContent);
+	
+
 	string filePath = config.documentRoot + fileName;
 	
 	HTTPStatus status = checkFile(filePath);

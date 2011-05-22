@@ -6,7 +6,7 @@ public/
 
 httpserver.xcodeproj/project.xcworkspace/xcuserdata/misa.xcuserdatad/UserInterfaceState.xcuserstate
 httpserver.xcodeproj/xcuserdata/misa.xcuserdatad/xcdebugger/Breakpoints.xcbkptlist
-httpserver.xcodeproj/project.pbxproj
+#httpserver.xcodeproj/project.pbxproj
 
 .DS_Store
 *.swp

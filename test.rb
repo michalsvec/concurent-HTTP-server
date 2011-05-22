@@ -24,7 +24,7 @@ class Worker
 		
 		begin
 			$mutex.wait 
-			res = Net::HTTP.start("localhost", 35123) {|http|
+			res = Net::HTTP.start("localhost", 33221) {|http|
 				http.get('/index.html')
 			}
 			$mutex.signal
