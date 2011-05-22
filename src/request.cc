@@ -52,7 +52,7 @@ bool loadFile(string filePath, string &content) {
 	if(file) {
 		while(getline(file,line)) {
 			content += line;
-			content += "\r\n";
+			content += "\n";
 		}
 		return true;
 	} 
